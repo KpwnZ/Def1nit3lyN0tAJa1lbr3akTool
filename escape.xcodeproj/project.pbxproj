@@ -31,6 +31,7 @@
 		11AA8B4C2B05CA84002AE1E5 /* krw.m in Sources */ = {isa = PBXBuildFile; fileRef = 11AA8B4B2B05CA84002AE1E5 /* krw.m */; };
 		11AA8B4F2B05CC04002AE1E5 /* ipc.m in Sources */ = {isa = PBXBuildFile; fileRef = 11AA8B4E2B05CC04002AE1E5 /* ipc.m */; };
 		11AA8D1B2B063E0E002AE1E5 /* kpf.m in Sources */ = {isa = PBXBuildFile; fileRef = 11AA8D1A2B063E0D002AE1E5 /* kpf.m */; };
+		11D801CE2B0A665C00F8225B /* com.xia0o0o0o.jailbreakd.plist in Resources */ = {isa = PBXBuildFile; fileRef = 11D801CD2B0A665C00F8225B /* com.xia0o0o0o.jailbreakd.plist */; };
 		11FC3DDF2AFE099300964702 /* post_exp.m in Sources */ = {isa = PBXBuildFile; fileRef = 11FC3DDE2AFE099300964702 /* post_exp.m */; };
 		11FC3DE52AFE0F6E00964702 /* offsets.m in Sources */ = {isa = PBXBuildFile; fileRef = 11FC3DE32AFE0F6E00964702 /* offsets.m */; };
 		11FC3DE72AFE115600964702 /* libkfd.m in Sources */ = {isa = PBXBuildFile; fileRef = 11FC3DE62AFE115600964702 /* libkfd.m */; };
@@ -279,6 +280,7 @@
 		11AA8D192B05CE38002AE1E5 /* IOSerialKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOSerialKeys.h; sourceTree = "<group>"; };
 		11AA8D1A2B063E0D002AE1E5 /* kpf.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = kpf.m; sourceTree = "<group>"; };
 		11AA8D1C2B063E1C002AE1E5 /* kpf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = kpf.h; sourceTree = "<group>"; };
+		11D801CD2B0A665C00F8225B /* com.xia0o0o0o.jailbreakd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = com.xia0o0o0o.jailbreakd.plist; sourceTree = "<group>"; };
 		11FC3DDC2AFE04C300964702 /* objcLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = objcLogger.h; sourceTree = "<group>"; };
 		11FC3DDD2AFE098200964702 /* post_exp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = post_exp.h; sourceTree = "<group>"; };
 		11FC3DDE2AFE099300964702 /* post_exp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = post_exp.m; sourceTree = "<group>"; };
@@ -351,6 +353,7 @@
 			isa = PBXGroup;
 			children = (
 				11FC3DDC2AFE04C300964702 /* objcLogger.h */,
+				11D801CD2B0A665C00F8225B /* com.xia0o0o0o.jailbreakd.plist */,
 				1153AEFC2B089809000F4721 /* iosbinpack */,
 				11AA8C6E2B05CE37002AE1E5 /* IOKit */,
 				116E52802AFDFA6500E79E59 /* post_exploitation */,
@@ -967,6 +970,7 @@
 			files = (
 				1153AF082B089809000F4721 /* tar in Resources */,
 				1153AF072B089809000F4721 /* bootstrap-iphoneos-arm64.tar in Resources */,
+				11D801CE2B0A665C00F8225B /* com.xia0o0o0o.jailbreakd.plist in Resources */,
 				1153AF042B089809000F4721 /* tar.tc in Resources */,
 				1153AF052B089809000F4721 /* binaries.tc in Resources */,
 				1153AF062B089809000F4721 /* iosbinpack.tar in Resources */,

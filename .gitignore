@@ -48,3 +48,5 @@ Carthage/Checkouts
 
 Carthage/Build/
 
+# Ignore basebin binaries
+basebin/binaries
