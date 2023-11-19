@@ -31,9 +31,15 @@
 		11AA8B4C2B05CA84002AE1E5 /* krw.m in Sources */ = {isa = PBXBuildFile; fileRef = 11AA8B4B2B05CA84002AE1E5 /* krw.m */; };
 		11AA8B4F2B05CC04002AE1E5 /* ipc.m in Sources */ = {isa = PBXBuildFile; fileRef = 11AA8B4E2B05CC04002AE1E5 /* ipc.m */; };
 		11AA8D1B2B063E0E002AE1E5 /* kpf.m in Sources */ = {isa = PBXBuildFile; fileRef = 11AA8D1A2B063E0D002AE1E5 /* kpf.m */; };
-		11D801CE2B0A665C00F8225B /* com.xia0o0o0o.jailbreakd.plist in Resources */ = {isa = PBXBuildFile; fileRef = 11D801CD2B0A665C00F8225B /* com.xia0o0o0o.jailbreakd.plist */; };
 		11E67AF02B0A7F7900F1A291 /* jbctl in Resources */ = {isa = PBXBuildFile; fileRef = 11E67AED2B0A7F7900F1A291 /* jbctl */; platformFilter = ios; };
 		11E67AF12B0A7F7900F1A291 /* jailbreakd in Resources */ = {isa = PBXBuildFile; fileRef = 11E67AEE2B0A7F7900F1A291 /* jailbreakd */; platformFilter = ios; };
+		11E67AF52B0A87D000F1A291 /* jbinit in Resources */ = {isa = PBXBuildFile; fileRef = 11E67AF42B0A87D000F1A291 /* jbinit */; platformFilter = ios; };
+		11E67AF92B0A89FE00F1A291 /* opainject in Resources */ = {isa = PBXBuildFile; fileRef = 11E67AF82B0A89FE00F1A291 /* opainject */; platformFilter = ios; };
+		11E67AFE2B0A8AF800F1A291 /* systemhook.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 11E67AFC2B0A8A0600F1A291 /* systemhook.dylib */; };
+		11E67AFF2B0A8AFF00F1A291 /* rootlesshooks.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 11E67AFA2B0A8A0100F1A291 /* rootlesshooks.dylib */; };
+		11E67B002B0A8B0200F1A291 /* launchdhook.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 11E67AF62B0A89FA00F1A291 /* launchdhook.dylib */; };
+		11E67B012B0A8CBC00F1A291 /* jb.tc in Resources */ = {isa = PBXBuildFile; fileRef = 11E67AF32B0A812500F1A291 /* jb.tc */; };
+		11E67B032B0A8F8400F1A291 /* com.xia0o0o0o.jailbreakd.plist in Resources */ = {isa = PBXBuildFile; fileRef = 11E67B022B0A8F8400F1A291 /* com.xia0o0o0o.jailbreakd.plist */; };
 		11FC3DDF2AFE099300964702 /* post_exp.m in Sources */ = {isa = PBXBuildFile; fileRef = 11FC3DDE2AFE099300964702 /* post_exp.m */; };
 		11FC3DE52AFE0F6E00964702 /* offsets.m in Sources */ = {isa = PBXBuildFile; fileRef = 11FC3DE32AFE0F6E00964702 /* offsets.m */; };
 		11FC3DE72AFE115600964702 /* libkfd.m in Sources */ = {isa = PBXBuildFile; fileRef = 11FC3DE62AFE115600964702 /* libkfd.m */; };
@@ -282,10 +288,15 @@
 		11AA8D192B05CE38002AE1E5 /* IOSerialKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOSerialKeys.h; sourceTree = "<group>"; };
 		11AA8D1A2B063E0D002AE1E5 /* kpf.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = kpf.m; sourceTree = "<group>"; };
 		11AA8D1C2B063E1C002AE1E5 /* kpf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = kpf.h; sourceTree = "<group>"; };
-		11D801CD2B0A665C00F8225B /* com.xia0o0o0o.jailbreakd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = com.xia0o0o0o.jailbreakd.plist; sourceTree = "<group>"; };
 		11E67AED2B0A7F7900F1A291 /* jbctl */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = jbctl; sourceTree = "<group>"; };
 		11E67AEE2B0A7F7900F1A291 /* jailbreakd */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = jailbreakd; sourceTree = "<group>"; };
 		11E67AF32B0A812500F1A291 /* jb.tc */ = {isa = PBXFileReference; lastKnownFileType = file; path = jb.tc; sourceTree = "<group>"; };
+		11E67AF42B0A87D000F1A291 /* jbinit */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = jbinit; sourceTree = "<group>"; };
+		11E67AF62B0A89FA00F1A291 /* launchdhook.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = launchdhook.dylib; sourceTree = "<group>"; };
+		11E67AF82B0A89FE00F1A291 /* opainject */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = opainject; sourceTree = "<group>"; };
+		11E67AFA2B0A8A0100F1A291 /* rootlesshooks.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = rootlesshooks.dylib; sourceTree = "<group>"; };
+		11E67AFC2B0A8A0600F1A291 /* systemhook.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = systemhook.dylib; sourceTree = "<group>"; };
+		11E67B022B0A8F8400F1A291 /* com.xia0o0o0o.jailbreakd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = com.xia0o0o0o.jailbreakd.plist; sourceTree = "<group>"; };
 		11FC3DDC2AFE04C300964702 /* objcLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = objcLogger.h; sourceTree = "<group>"; };
 		11FC3DDD2AFE098200964702 /* post_exp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = post_exp.h; sourceTree = "<group>"; };
 		11FC3DDE2AFE099300964702 /* post_exp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = post_exp.m; sourceTree = "<group>"; };
@@ -323,6 +334,7 @@
 		1153AEFC2B089809000F4721 /* iosbinpack */ = {
 			isa = PBXGroup;
 			children = (
+				11E67B022B0A8F8400F1A291 /* com.xia0o0o0o.jailbreakd.plist */,
 				1153AEFD2B089809000F4721 /* iosbinpack.tc */,
 				1153AEFE2B089809000F4721 /* tar.tc */,
 				1153AEFF2B089809000F4721 /* binaries.tc */,
@@ -873,7 +885,11 @@
 		11E67AEC2B0A7F7900F1A291 /* binaries */ = {
 			isa = PBXGroup;
 			children = (
-				11D801CD2B0A665C00F8225B /* com.xia0o0o0o.jailbreakd.plist */,
+				11E67AF62B0A89FA00F1A291 /* launchdhook.dylib */,
+				11E67AFA2B0A8A0100F1A291 /* rootlesshooks.dylib */,
+				11E67AFC2B0A8A0600F1A291 /* systemhook.dylib */,
+				11E67AF82B0A89FE00F1A291 /* opainject */,
+				11E67AF42B0A87D000F1A291 /* jbinit */,
 				11E67AED2B0A7F7900F1A291 /* jbctl */,
 				11E67AF32B0A812500F1A291 /* jb.tc */,
 				11E67AEE2B0A7F7900F1A291 /* jailbreakd */,
@@ -984,14 +1000,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11E67AF52B0A87D000F1A291 /* jbinit in Resources */,
 				11E67AF02B0A7F7900F1A291 /* jbctl in Resources */,
+				11E67AFE2B0A8AF800F1A291 /* systemhook.dylib in Resources */,
+				11E67B002B0A8B0200F1A291 /* launchdhook.dylib in Resources */,
+				11E67B012B0A8CBC00F1A291 /* jb.tc in Resources */,
+				11E67AFF2B0A8AFF00F1A291 /* rootlesshooks.dylib in Resources */,
 				1153AF082B089809000F4721 /* tar in Resources */,
 				1153AF072B089809000F4721 /* bootstrap-iphoneos-arm64.tar in Resources */,
-				11D801CE2B0A665C00F8225B /* com.xia0o0o0o.jailbreakd.plist in Resources */,
 				1153AF042B089809000F4721 /* tar.tc in Resources */,
 				1153AF052B089809000F4721 /* binaries.tc in Resources */,
 				1153AF062B089809000F4721 /* iosbinpack.tar in Resources */,
+				11E67AF92B0A89FE00F1A291 /* opainject in Resources */,
 				11E67AF12B0A7F7900F1A291 /* jailbreakd in Resources */,
+				11E67B032B0A8F8400F1A291 /* com.xia0o0o0o.jailbreakd.plist in Resources */,
 				116E52262AFDD99500E79E59 /* LaunchScreen.storyboard in Resources */,
 				1153AF032B089809000F4721 /* iosbinpack.tc in Resources */,
 				116E52232AFDD99500E79E59 /* Assets.xcassets in Resources */,
@@ -1209,6 +1231,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FC8RH8S2E7;
+				ENABLE_BITCODE = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 				INFOPLIST_FILE = escape/Info.plist;
@@ -1221,6 +1244,10 @@
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/binaries",
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xiao.definitelynotajailbreaktool;
@@ -1238,6 +1265,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FC8RH8S2E7;
+				ENABLE_BITCODE = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 				INFOPLIST_FILE = escape/Info.plist;
@@ -1250,6 +1278,10 @@
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/binaries",
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xiao.definitelynotajailbreaktool;

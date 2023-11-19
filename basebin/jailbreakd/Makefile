@@ -9,8 +9,9 @@ CFLAGS += -DVERSION_COMMIT_COUNT='" "'
 CFLAGS += -DVERSION_COMMIT_SHA='" "'
 
 sign: $(TARGET)
-	@ldid -Sentitlements.plist $<
+	codesign -f -s - --timestamp=none --all-architectures --entitlements ./entitlements.plist --deep $<
 	mv $< ../../binaries
+	rm ../../binaries/jb.tc 
 	trustcache create ../../binaries/jb.tc ../../binaries
 
 $(TARGET): $(wildcard *.mm ./utils/*.mm ./kernel/*.mm)

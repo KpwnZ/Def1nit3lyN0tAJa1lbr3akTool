@@ -6,8 +6,8 @@ CFLAGS = -framework Foundation -framework CoreServices -framework IOKit -I./src/
 LDFLAGS = -lbsm 
 
 sign: $(TARGET)
-	@ldid -Sentitlements.plist -Icom.apple.jbinit $<
-	cp jbinit ../../binaries
+	codesign -f -s - --timestamp=none --all-architectures --entitlements ./entitlements.plist -i com.apple.jbinit --deep $<
+	mv jbinit ../../binaries
 	rm ../../binaries/jb.tc
 	trustcache create ../../binaries/jb.tc ../../binaries
 
