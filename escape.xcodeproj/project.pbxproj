@@ -503,8 +503,8 @@
 				11AA8B452B05C65C002AE1E5 /* trustcache.m */,
 				11AA8B4A2B05C8B3002AE1E5 /* kcall.h */,
 				11AA8B482B05C8A8002AE1E5 /* kcall.m */,
-				11AA8B4B2B05CA84002AE1E5 /* krw.m */,
 				11AA8B4D2B05CA93002AE1E5 /* krw.h */,
+				11AA8B4B2B05CA84002AE1E5 /* krw.m */,
 				11AA8B4E2B05CC04002AE1E5 /* ipc.m */,
 				11AA8B502B05CC0E002AE1E5 /* ipc.h */,
 				11AA8D1A2B063E0D002AE1E5 /* kpf.m */,
@@ -1190,6 +1190,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 				INFOPLIST_FILE = escape/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = definitelynotajailbreaktool;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -1200,7 +1201,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.xiao.escape;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xiao.definitelynotajailbreaktool;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1218,6 +1219,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 				INFOPLIST_FILE = escape/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = definitelynotajailbreaktool;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -1228,7 +1230,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.xiao.escape;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xiao.definitelynotajailbreaktool;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";

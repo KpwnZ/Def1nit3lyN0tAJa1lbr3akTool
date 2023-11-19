@@ -71,6 +71,8 @@
 
 - (void)logButtonTapped {
     [[LogHelper sharedInstance] logMessage:@"[*] start kfd"];
+    self.jailbreakButton.enabled = NO;
+    sleep(5);
     uint64_t kfd = kopen(2048, puaf_smith, kread_IOSurface, kwrite_IOSurface);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         post_exp(kfd);
