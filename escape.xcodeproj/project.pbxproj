@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1153AF032B089809000F4721 /* iosbinpack.tc in Resources */ = {isa = PBXBuildFile; fileRef = 1153AEFD2B089809000F4721 /* iosbinpack.tc */; };
+		1153AF042B089809000F4721 /* tar.tc in Resources */ = {isa = PBXBuildFile; fileRef = 1153AEFE2B089809000F4721 /* tar.tc */; };
+		1153AF052B089809000F4721 /* binaries.tc in Resources */ = {isa = PBXBuildFile; fileRef = 1153AEFF2B089809000F4721 /* binaries.tc */; };
+		1153AF062B089809000F4721 /* iosbinpack.tar in Resources */ = {isa = PBXBuildFile; fileRef = 1153AF002B089809000F4721 /* iosbinpack.tar */; };
+		1153AF072B089809000F4721 /* bootstrap-iphoneos-arm64.tar in Resources */ = {isa = PBXBuildFile; fileRef = 1153AF012B089809000F4721 /* bootstrap-iphoneos-arm64.tar */; };
+		1153AF082B089809000F4721 /* tar in Resources */ = {isa = PBXBuildFile; fileRef = 1153AF022B089809000F4721 /* tar */; platformFilter = ios; };
+		1153AF0A2B0986C9000F4721 /* utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1153AF092B0986C8000F4721 /* utils.m */; };
 		116E52182AFDD99300E79E59 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 116E52172AFDD99300E79E59 /* AppDelegate.m */; };
 		116E521B2AFDD99300E79E59 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 116E521A2AFDD99300E79E59 /* SceneDelegate.m */; };
 		116E521E2AFDD99300E79E59 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 116E521D2AFDD99300E79E59 /* ViewController.m */; };
@@ -47,6 +54,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1153AEFD2B089809000F4721 /* iosbinpack.tc */ = {isa = PBXFileReference; lastKnownFileType = file; path = iosbinpack.tc; sourceTree = "<group>"; };
+		1153AEFE2B089809000F4721 /* tar.tc */ = {isa = PBXFileReference; lastKnownFileType = file; path = tar.tc; sourceTree = "<group>"; };
+		1153AEFF2B089809000F4721 /* binaries.tc */ = {isa = PBXFileReference; lastKnownFileType = file; path = binaries.tc; sourceTree = "<group>"; };
+		1153AF002B089809000F4721 /* iosbinpack.tar */ = {isa = PBXFileReference; lastKnownFileType = archive.tar; path = iosbinpack.tar; sourceTree = "<group>"; };
+		1153AF012B089809000F4721 /* bootstrap-iphoneos-arm64.tar */ = {isa = PBXFileReference; lastKnownFileType = archive.tar; path = "bootstrap-iphoneos-arm64.tar"; sourceTree = "<group>"; };
+		1153AF022B089809000F4721 /* tar */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = tar; sourceTree = "<group>"; };
+		1153AF092B0986C8000F4721 /* utils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = utils.m; sourceTree = "<group>"; };
+		1153AF0B2B098713000F4721 /* utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
 		116E52132AFDD99300E79E59 /* escape.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = escape.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		116E52162AFDD99300E79E59 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		116E52172AFDD99300E79E59 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -298,6 +313,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1153AEFC2B089809000F4721 /* iosbinpack */ = {
+			isa = PBXGroup;
+			children = (
+				1153AEFD2B089809000F4721 /* iosbinpack.tc */,
+				1153AEFE2B089809000F4721 /* tar.tc */,
+				1153AEFF2B089809000F4721 /* binaries.tc */,
+				1153AF002B089809000F4721 /* iosbinpack.tar */,
+				1153AF012B089809000F4721 /* bootstrap-iphoneos-arm64.tar */,
+				1153AF022B089809000F4721 /* tar */,
+			);
+			path = iosbinpack;
+			sourceTree = "<group>";
+		};
 		116E520A2AFDD99300E79E59 = {
 			isa = PBXGroup;
 			children = (
@@ -323,6 +351,7 @@
 			isa = PBXGroup;
 			children = (
 				11FC3DDC2AFE04C300964702 /* objcLogger.h */,
+				1153AEFC2B089809000F4721 /* iosbinpack */,
 				11AA8C6E2B05CE37002AE1E5 /* IOKit */,
 				116E52802AFDFA6500E79E59 /* post_exploitation */,
 				116E52162AFDD99300E79E59 /* AppDelegate.h */,
@@ -480,6 +509,8 @@
 				11AA8B502B05CC0E002AE1E5 /* ipc.h */,
 				11AA8D1A2B063E0D002AE1E5 /* kpf.m */,
 				11AA8D1C2B063E1C002AE1E5 /* kpf.h */,
+				1153AF0B2B098713000F4721 /* utils.h */,
+				1153AF092B0986C8000F4721 /* utils.m */,
 			);
 			path = post_exploitation;
 			sourceTree = "<group>";
@@ -934,7 +965,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1153AF082B089809000F4721 /* tar in Resources */,
+				1153AF072B089809000F4721 /* bootstrap-iphoneos-arm64.tar in Resources */,
+				1153AF042B089809000F4721 /* tar.tc in Resources */,
+				1153AF052B089809000F4721 /* binaries.tc in Resources */,
+				1153AF062B089809000F4721 /* iosbinpack.tar in Resources */,
 				116E52262AFDD99500E79E59 /* LaunchScreen.storyboard in Resources */,
+				1153AF032B089809000F4721 /* iosbinpack.tc in Resources */,
 				116E52232AFDD99500E79E59 /* Assets.xcassets in Resources */,
 				116E52212AFDD99300E79E59 /* Main.storyboard in Resources */,
 			);
@@ -964,6 +1001,7 @@
 				11AA8B4F2B05CC04002AE1E5 /* ipc.m in Sources */,
 				11AA8B4C2B05CA84002AE1E5 /* krw.m in Sources */,
 				116E521E2AFDD99300E79E59 /* ViewController.m in Sources */,
+				1153AF0A2B0986C9000F4721 /* utils.m in Sources */,
 				116E52182AFDD99300E79E59 /* AppDelegate.m in Sources */,
 				116E52292AFDD99500E79E59 /* main.m in Sources */,
 				116E52502AFDDC9E00E79E59 /* LogHelper.m in Sources */,
