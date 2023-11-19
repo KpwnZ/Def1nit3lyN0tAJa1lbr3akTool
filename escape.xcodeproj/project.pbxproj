@@ -32,6 +32,8 @@
 		11AA8B4F2B05CC04002AE1E5 /* ipc.m in Sources */ = {isa = PBXBuildFile; fileRef = 11AA8B4E2B05CC04002AE1E5 /* ipc.m */; };
 		11AA8D1B2B063E0E002AE1E5 /* kpf.m in Sources */ = {isa = PBXBuildFile; fileRef = 11AA8D1A2B063E0D002AE1E5 /* kpf.m */; };
 		11D801CE2B0A665C00F8225B /* com.xia0o0o0o.jailbreakd.plist in Resources */ = {isa = PBXBuildFile; fileRef = 11D801CD2B0A665C00F8225B /* com.xia0o0o0o.jailbreakd.plist */; };
+		11E67AF02B0A7F7900F1A291 /* jbctl in Resources */ = {isa = PBXBuildFile; fileRef = 11E67AED2B0A7F7900F1A291 /* jbctl */; platformFilter = ios; };
+		11E67AF12B0A7F7900F1A291 /* jailbreakd in Resources */ = {isa = PBXBuildFile; fileRef = 11E67AEE2B0A7F7900F1A291 /* jailbreakd */; platformFilter = ios; };
 		11FC3DDF2AFE099300964702 /* post_exp.m in Sources */ = {isa = PBXBuildFile; fileRef = 11FC3DDE2AFE099300964702 /* post_exp.m */; };
 		11FC3DE52AFE0F6E00964702 /* offsets.m in Sources */ = {isa = PBXBuildFile; fileRef = 11FC3DE32AFE0F6E00964702 /* offsets.m */; };
 		11FC3DE72AFE115600964702 /* libkfd.m in Sources */ = {isa = PBXBuildFile; fileRef = 11FC3DE62AFE115600964702 /* libkfd.m */; };
@@ -281,6 +283,9 @@
 		11AA8D1A2B063E0D002AE1E5 /* kpf.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = kpf.m; sourceTree = "<group>"; };
 		11AA8D1C2B063E1C002AE1E5 /* kpf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = kpf.h; sourceTree = "<group>"; };
 		11D801CD2B0A665C00F8225B /* com.xia0o0o0o.jailbreakd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = com.xia0o0o0o.jailbreakd.plist; sourceTree = "<group>"; };
+		11E67AED2B0A7F7900F1A291 /* jbctl */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = jbctl; sourceTree = "<group>"; };
+		11E67AEE2B0A7F7900F1A291 /* jailbreakd */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = jailbreakd; sourceTree = "<group>"; };
+		11E67AF32B0A812500F1A291 /* jb.tc */ = {isa = PBXFileReference; lastKnownFileType = file; path = jb.tc; sourceTree = "<group>"; };
 		11FC3DDC2AFE04C300964702 /* objcLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = objcLogger.h; sourceTree = "<group>"; };
 		11FC3DDD2AFE098200964702 /* post_exp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = post_exp.h; sourceTree = "<group>"; };
 		11FC3DDE2AFE099300964702 /* post_exp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = post_exp.m; sourceTree = "<group>"; };
@@ -353,7 +358,7 @@
 			isa = PBXGroup;
 			children = (
 				11FC3DDC2AFE04C300964702 /* objcLogger.h */,
-				11D801CD2B0A665C00F8225B /* com.xia0o0o0o.jailbreakd.plist */,
+				11E67AEC2B0A7F7900F1A291 /* binaries */,
 				1153AEFC2B089809000F4721 /* iosbinpack */,
 				11AA8C6E2B05CE37002AE1E5 /* IOKit */,
 				116E52802AFDFA6500E79E59 /* post_exploitation */,
@@ -865,6 +870,17 @@
 			path = serial;
 			sourceTree = "<group>";
 		};
+		11E67AEC2B0A7F7900F1A291 /* binaries */ = {
+			isa = PBXGroup;
+			children = (
+				11D801CD2B0A665C00F8225B /* com.xia0o0o0o.jailbreakd.plist */,
+				11E67AED2B0A7F7900F1A291 /* jbctl */,
+				11E67AF32B0A812500F1A291 /* jb.tc */,
+				11E67AEE2B0A7F7900F1A291 /* jailbreakd */,
+			);
+			path = binaries;
+			sourceTree = SOURCE_ROOT;
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -968,12 +984,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11E67AF02B0A7F7900F1A291 /* jbctl in Resources */,
 				1153AF082B089809000F4721 /* tar in Resources */,
 				1153AF072B089809000F4721 /* bootstrap-iphoneos-arm64.tar in Resources */,
 				11D801CE2B0A665C00F8225B /* com.xia0o0o0o.jailbreakd.plist in Resources */,
 				1153AF042B089809000F4721 /* tar.tc in Resources */,
 				1153AF052B089809000F4721 /* binaries.tc in Resources */,
 				1153AF062B089809000F4721 /* iosbinpack.tar in Resources */,
+				11E67AF12B0A7F7900F1A291 /* jailbreakd in Resources */,
 				116E52262AFDD99500E79E59 /* LaunchScreen.storyboard in Resources */,
 				1153AF032B089809000F4721 /* iosbinpack.tc in Resources */,
 				116E52232AFDD99500E79E59 /* Assets.xcassets in Resources */,
