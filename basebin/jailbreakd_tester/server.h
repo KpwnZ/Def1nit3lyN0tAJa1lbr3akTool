@@ -21,7 +21,4 @@ typedef enum {
     JBD_MSG_DEBUG_ME = 15,
     JBD_MSG_PLATFORMIZE = 16,
 
-    JBD_MSG_PING = 0x100,
-    JBD_MSG_SETUP_CLIENT = 0x101,
-
 } JBD_MESSAGE_ID;

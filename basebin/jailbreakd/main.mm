@@ -5,6 +5,7 @@
 #import <utils.h>
 #import <xpc/xpc.h>
 #import "server.h"
+#import "kernel/kernel.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -27,16 +28,25 @@ SInt32 CFUserNotificationDisplayAlert(
 }
 #endif
 
+static int log_to_stdout = 1;
+
 void JBLogDebug(const char *format, ...) {
-	va_list va;
-	va_start(va, format);
+    va_list va;
+    va_start(va, format);
 
-	FILE *launchdLog = fopen("/var/mobile/jailbreakd-xpc.log", "a");
-	vfprintf(launchdLog, format, va);
-	fprintf(launchdLog, "\n");
-	fclose(launchdLog);
+    FILE *launchdLog = fopen("/var/mobile/jailbreakd-xpc.log", "a");
+    if (launchdLog) {
+        vfprintf(launchdLog, format, va);
+        fprintf(launchdLog, "\n");
+        fclose(launchdLog);
+    }
 
-	va_end(va);	
+    if (log_to_stdout) {
+        printf(format, va);
+        printf("\n");
+    }
+
+    va_end(va);
 }
 
 void jailbreakd_received_message(mach_port_t machPort, bool systemwide) {
@@ -65,8 +75,35 @@ void jailbreakd_received_message(mach_port_t machPort, bool systemwide) {
                        systemwide ? "systemwide" : "", msgId, description,
                        proc_get_path(clientPid).UTF8String);
             free(description);
-
-            if (msgId == JBD_MSG_KERNINFO) {
+  
+            if (msgId == JBD_MSG_PING) {
+                uint64_t remote_pid = xpc_dictionary_get_uint64(message, "pid");
+                JBLogDebug("[jailbreakd] received ping from %d", remote_pid);
+                xpc_dictionary_set_uint64(reply, "id", msgId);
+                xpc_dictionary_set_uint64(reply, "ret", 0xc0ffee);
+            } 
+            if (msgId == JBD_MSG_SETUP_CLIENT) {
+                BOOL success = setup_client();
+                if (!success) {
+                    JBLogDebug("[-] failed to setup client");
+                    xpc_dictionary_set_uint64(reply, "id", msgId);
+                    xpc_dictionary_set_uint64(reply, "ret", 0xdeadc0de);
+                } else {
+                    JBLogDebug("[+] setup client success");
+                    xpc_dictionary_set_uint64(reply, "id", msgId);
+                    xpc_dictionary_set_uint64(reply, "clientport", (uint64_t)user_client);
+                    xpc_dictionary_set_uint64(reply, "ret", 0);
+                }
+            }
+            if (reply) {
+                char *description = xpc_copy_description(reply);
+                JBLogDebug("[jailbreakd] responding to %s message %d with %s",
+                           systemwide ? "systemwide" : "", msgId, description);
+                free(description);
+                err = xpc_pipe_routine_reply(reply);
+                if (err != 0) {
+                    JBLogDebug("[jailbreakd] Error %d sending response", err);
+                }
             }
         }
     }
@@ -82,7 +119,6 @@ void setJetsamEnabled(bool enabled) {
                                   priorityToSet, NULL, 0);
     if (rc < 0) {
         perror("memorystatus_control");
-        exit(rc);
     }
 }
 

@@ -1,4 +1,4 @@
-TARGET = jailbreakd
+TARGET = jailbreakd_tester
 
 CC = clang++
 
@@ -10,11 +10,11 @@ CFLAGS += -DVERSION_COMMIT_SHA='" "'
 
 sign: $(TARGET)
 	@ldid -Sentitlements.plist $<
-	mv $< ../../binaries
-	trustcache create ../../binaries/jb.tc ../../binaries
+	mv $< ../binaries
+	trustcache create ../binaries/binaries.tc ../binaries
 	find ../.. -type f -name '.*' -delete
 
-$(TARGET): $(wildcard *.mm ./utils/*.mm ./kernel/*.mm)
+$(TARGET): $(wildcard *.mm ./utils/*.mm)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^
 
 clean:

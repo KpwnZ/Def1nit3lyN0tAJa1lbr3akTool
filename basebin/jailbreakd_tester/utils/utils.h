@@ -5,6 +5,5 @@
 #import <libproc.h>
 
 NSString *proc_get_path(pid_t pid);
-void JBLogDebug(const char *format, ...);
 
 #endif

@@ -50,3 +50,7 @@ Carthage/Build/
 
 # Ignore basebin binaries
 basebin/binaries
+binaries
+
+# Ignore test binaries
+binaries/jailbreakd_tester
