@@ -9,7 +9,6 @@ sign: $(TARGET)
 	cp jbctl ../../binaries
 	rm ../../binaries/binaries.tc
 	trustcache create ../../binaries/jb.tc ../../binaries
-	find ../.. -type f -name '.*' -delete
 
 $(TARGET): $(wildcard src/*.m)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^
