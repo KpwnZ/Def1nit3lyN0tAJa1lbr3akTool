@@ -96,14 +96,14 @@ int main(int argc, char* argv[]) {
         mach_port_t machPort = 0;
         kern_return_t kr = bootstrap_check_in(bootstrap_port, "com.xia0o0o0o.jailbreakd", &machPort);
         if (kr != KERN_SUCCESS) {
-            JBLogDebug("Failed com.opa334.jailbreakd bootstrap check in: %d (%s)", kr, mach_error_string(kr));
+            JBLogDebug("[-] failed to bootstrap com.xia0o0o0o.jailbreakd check in: %d (%s)", kr, mach_error_string(kr));
             return 1;
         }
 
         mach_port_t machPortSystemWide = 0;
         kr = bootstrap_check_in(bootstrap_port, "com.xia0o0o0o.jailbreakd.systemwide", &machPortSystemWide);
         if (kr != KERN_SUCCESS) {
-            JBLogDebug("Failed com.opa334.jailbreakd.systemwide bootstrap check in: %d (%s)", kr, mach_error_string(kr));
+            JBLogDebug("[-] failed bootstrap com.xia0o0o0o.jailbreakd.systemwide check in: %d (%s)", kr, mach_error_string(kr));
             return 1;
         }
 
