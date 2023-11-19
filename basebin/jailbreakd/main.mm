@@ -80,6 +80,7 @@ void jailbreakd_received_message(mach_port_t machPort, bool systemwide) {
                 uint64_t remote_pid = xpc_dictionary_get_uint64(message, "pid");
                 JBLogDebug("[jailbreakd] received ping from %d", remote_pid);
                 xpc_dictionary_set_uint64(reply, "id", msgId);
+                xpc_dictionary_set_uint64(reply, "jbdpid", (uint64_t)getpid());
                 xpc_dictionary_set_uint64(reply, "ret", 0xc0ffee);
             } 
             if (msgId == JBD_MSG_SETUP_CLIENT) {
