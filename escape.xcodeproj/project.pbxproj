@@ -40,8 +40,8 @@
 		11E67B002B0A8B0200F1A291 /* launchdhook.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 11E67AF62B0A89FA00F1A291 /* launchdhook.dylib */; };
 		11E67B012B0A8CBC00F1A291 /* jb.tc in Resources */ = {isa = PBXBuildFile; fileRef = 11E67AF32B0A812500F1A291 /* jb.tc */; };
 		11E67B032B0A8F8400F1A291 /* com.xia0o0o0o.jailbreakd.plist in Resources */ = {isa = PBXBuildFile; fileRef = 11E67B022B0A8F8400F1A291 /* com.xia0o0o0o.jailbreakd.plist */; };
-		11E67B0A2B0AA78F00F1A291 /* jailbreakd.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E67B082B0AA78F00F1A291 /* jailbreakd.m */; };
 		11E67BD92B0AA7A200F1A291 /* XPC.apinotes in Resources */ = {isa = PBXBuildFile; fileRef = 11E67BD12B0AA7A200F1A291 /* XPC.apinotes */; };
+		11E67BDC2B0B4BA900F1A291 /* jailbreakd.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E67BDB2B0B4BA900F1A291 /* jailbreakd.m */; };
 		11FC3DDF2AFE099300964702 /* post_exp.m in Sources */ = {isa = PBXBuildFile; fileRef = 11FC3DDE2AFE099300964702 /* post_exp.m */; };
 		11FC3DE52AFE0F6E00964702 /* offsets.m in Sources */ = {isa = PBXBuildFile; fileRef = 11FC3DE32AFE0F6E00964702 /* offsets.m */; };
 		11FC3DE72AFE115600964702 /* libkfd.m in Sources */ = {isa = PBXBuildFile; fileRef = 11FC3DE62AFE115600964702 /* libkfd.m */; };
@@ -299,8 +299,6 @@
 		11E67AFA2B0A8A0100F1A291 /* rootlesshooks.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = rootlesshooks.dylib; sourceTree = "<group>"; };
 		11E67AFC2B0A8A0600F1A291 /* systemhook.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = systemhook.dylib; sourceTree = "<group>"; };
 		11E67B022B0A8F8400F1A291 /* com.xia0o0o0o.jailbreakd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = com.xia0o0o0o.jailbreakd.plist; sourceTree = "<group>"; };
-		11E67B082B0AA78F00F1A291 /* jailbreakd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = jailbreakd.m; path = basebin/jbctl/src/jailbreakd.m; sourceTree = SOURCE_ROOT; };
-		11E67B092B0AA78F00F1A291 /* jailbreakd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jailbreakd.h; path = basebin/jbctl/src/jailbreakd.h; sourceTree = SOURCE_ROOT; };
 		11E67B0C2B0AA7A200F1A291 /* CoreSymbolication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreSymbolication.h; sourceTree = "<group>"; };
 		11E67B0D2B0AA7A200F1A291 /* libellekit.tbd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.text-based-dylib-definition"; path = libellekit.tbd; sourceTree = "<group>"; };
 		11E67B0F2B0AA7A200F1A291 /* LSApplicationProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LSApplicationProxy.h; sourceTree = "<group>"; };
@@ -477,6 +475,8 @@
 		11E67BD52B0AA7A200F1A291 /* substrate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = substrate.h; sourceTree = "<group>"; };
 		11E67BD62B0AA7A200F1A291 /* sandbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sandbox.h; sourceTree = "<group>"; };
 		11E67BD72B0AA7A200F1A291 /* launch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = launch.h; sourceTree = "<group>"; };
+		11E67BDA2B0B4BA900F1A291 /* jailbreakd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jailbreakd.h; sourceTree = "<group>"; };
+		11E67BDB2B0B4BA900F1A291 /* jailbreakd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = jailbreakd.m; sourceTree = "<group>"; };
 		11FC3DDC2AFE04C300964702 /* objcLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = objcLogger.h; sourceTree = "<group>"; };
 		11FC3DDD2AFE098200964702 /* post_exp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = post_exp.h; sourceTree = "<group>"; };
 		11FC3DDE2AFE099300964702 /* post_exp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = post_exp.m; sourceTree = "<group>"; };
@@ -701,6 +701,8 @@
 				11FC3DE32AFE0F6E00964702 /* offsets.m */,
 				11FC3DDD2AFE098200964702 /* post_exp.h */,
 				11FC3DDE2AFE099300964702 /* post_exp.m */,
+				11E67BDA2B0B4BA900F1A291 /* jailbreakd.h */,
+				11E67BDB2B0B4BA900F1A291 /* jailbreakd.m */,
 				11AA8B472B05C79D002AE1E5 /* trustcache.h */,
 				11AA8B452B05C65C002AE1E5 /* trustcache.m */,
 				11AA8B4A2B05C8B3002AE1E5 /* kcall.h */,
@@ -709,8 +711,6 @@
 				11AA8B4B2B05CA84002AE1E5 /* krw.m */,
 				11AA8B4E2B05CC04002AE1E5 /* ipc.m */,
 				11AA8B502B05CC0E002AE1E5 /* ipc.h */,
-				11E67B092B0AA78F00F1A291 /* jailbreakd.h */,
-				11E67B082B0AA78F00F1A291 /* jailbreakd.m */,
 				11AA8D1A2B063E0D002AE1E5 /* kpf.m */,
 				11AA8D1C2B063E1C002AE1E5 /* kpf.h */,
 				1153AF0B2B098713000F4721 /* utils.h */,
@@ -1642,7 +1642,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11E67B0A2B0AA78F00F1A291 /* jailbreakd.m in Sources */,
+				11E67BDC2B0B4BA900F1A291 /* jailbreakd.m in Sources */,
 				11AA8B4F2B05CC04002AE1E5 /* ipc.m in Sources */,
 				11AA8B4C2B05CA84002AE1E5 /* krw.m in Sources */,
 				116E521E2AFDD99300E79E59 /* ViewController.m in Sources */,
