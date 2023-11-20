@@ -111,6 +111,58 @@ void jailbreakd_received_message(mach_port_t machPort, bool systemwide) {
                 xpc_dictionary_set_uint64(reply, "ret", 0);
                 xpc_dictionary_set_uint64(reply, "id", msgId);
             }
+
+            // kread32
+            if (msgId == JBD_MSG_KREAD32) {
+                uint64_t kaddr = xpc_dictionary_get_uint64(message, "kaddr");
+                xpc_dictionary_set_uint64(reply, "ret", kread32(kaddr));
+            }
+
+            // kread64
+            if (msgId == JBD_MSG_KREAD64) {
+                uint64_t kaddr = xpc_dictionary_get_uint64(message, "kaddr");
+                xpc_dictionary_set_uint64(reply, "ret", kread64(kaddr));
+            }
+
+            //  kwrite32
+            if (msgId == JBD_MSG_KWRITE32) {
+                uint64_t kaddr = xpc_dictionary_get_uint64(message, "kaddr");
+                uint32_t val = xpc_dictionary_get_uint64(message, "val");
+                kwrite32(kaddr, val);
+                xpc_dictionary_set_uint64(reply, "ret", kread32(kaddr) != val);
+            }
+
+            //  kwrite64
+            if (msgId == JBD_MSG_KWRITE64) {
+                uint64_t kaddr = xpc_dictionary_get_uint64(message, "kaddr");
+                uint64_t val = xpc_dictionary_get_uint64(message, "val");
+                kwrite64(kaddr, val);
+                xpc_dictionary_set_uint64(reply, "ret", kread64(kaddr) != val);
+            }
+
+            //  kalloc
+            if (msgId == JBD_MSG_KALLOC) {
+                uint64_t ksize = xpc_dictionary_get_uint64(message, "ksize");
+                uint64_t allocated_kmem = kalloc(ksize);
+                xpc_dictionary_set_uint64(reply, "ret", allocated_kmem);
+            }
+
+            //  kcall
+            if (msgId == JBD_MSG_KCALL) {
+                uint64_t kaddr = xpc_dictionary_get_uint64(message, "kaddr");
+                xpc_object_t args = xpc_dictionary_get_value(message, "args");
+                uint64_t argc = xpc_array_get_count(args);
+                uint64_t argv[7] = {0};
+                for (uint64_t i = 0; i < argc; i++) {
+                    @autoreleasepool {
+                        argv[i] = xpc_array_get_uint64(args, i);
+                    }
+                }
+                uint64_t kcall_ret = kcall(kaddr, argv[0], argv[1], argv[2],
+                                           argv[3], argv[4], argv[5]);
+                xpc_dictionary_set_uint64(reply, "ret", kcall_ret);
+            }
+
             if (reply) {
                 char *description = xpc_copy_description(reply);
                 JBLogDebug("[jailbreakd] responding to %s message %d with %s",

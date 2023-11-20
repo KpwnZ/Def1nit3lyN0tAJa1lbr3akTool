@@ -19,4 +19,11 @@ struct kinfo {
 
 BOOL setup_client();
 
+uint32_t kread32(uint64_t addr);
+uint64_t kread64(uint64_t addr);
+void kwrite32(uint64_t addr, uint32_t val);
+void kwrite64(uint64_t addr, uint64_t val);
+uint64_t kalloc(size_t ksize);
+uint64_t kcall(uint64_t addr, uint64_t x0, uint64_t x1, uint64_t x2, uint64_t x3, uint64_t x4, uint64_t x5);
+
 #endif
