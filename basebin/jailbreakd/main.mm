@@ -30,6 +30,13 @@ SInt32 CFUserNotificationDisplayAlert(
 
 static int log_to_stdout = 1;
 
+struct kinfo {
+    uint64_t kbase;
+    uint64_t kslide;
+};
+
+struct kinfo kernel_info = { 0 };
+
 void JBLogDebug(const char *format, ...) {
     va_list va;
     va_start(va, format);
@@ -95,6 +102,14 @@ void jailbreakd_received_message(mach_port_t machPort, bool systemwide) {
                     xpc_dictionary_set_uint64(reply, "clientport", (uint64_t)user_client);
                     xpc_dictionary_set_uint64(reply, "ret", 0);
                 }
+            } 
+            if (msgId == JBD_MSG_SETUP_KERNEL) {
+                kernel_info.kbase = xpc_dictionary_get_uint64(message, "kbase");
+                kernel_info.kslide = xpc_dictionary_get_uint64(message, "kslide");
+                JBLogDebug("[jailbreakd] received kernel info: kbase: 0x%llx, kslide: 0x%llx", kernel_info.kbase, kernel_info.kslide);
+                JBLogDebug("[+] setup kernel success");
+                xpc_dictionary_set_uint64(reply, "ret", 0);
+                xpc_dictionary_set_uint64(reply, "pid", getpid());
             }
             if (reply) {
                 char *description = xpc_copy_description(reply);
