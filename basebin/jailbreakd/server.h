@@ -23,5 +23,6 @@ typedef enum {
 
     JBD_MSG_PING = 0x100,
     JBD_MSG_SETUP_CLIENT = 0x101,
+    JBD_MSG_SETUP_KERNEL = 0x102,
 
 } JBD_MESSAGE_ID;
