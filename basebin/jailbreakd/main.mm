@@ -4,8 +4,9 @@
 #import <stdint.h>
 #import <utils.h>
 #import <xpc/xpc.h>
-#import "server.h"
 #import "kernel/kernel.h"
+#import "server.h"
+#import "trustcache.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -30,13 +31,13 @@ SInt32 CFUserNotificationDisplayAlert(
 
 static int log_to_stdout = 1;
 
-struct kinfo kernel_info = { 0 };
+struct kinfo kernel_info = {0};
 
 void JBLogDebug(const char *format, ...) {
     va_list va;
     va_start(va, format);
     char buf[0x1000];
-    
+
     FILE *launchdLog = fopen("/var/mobile/jailbreakd-xpc.log", "a");
     if (launchdLog) {
         vfprintf(launchdLog, format, va);
@@ -78,7 +79,7 @@ void jailbreakd_received_message(mach_port_t machPort, bool systemwide) {
                        systemwide ? "systemwide" : "", msgId, description,
                        proc_get_path(clientPid).UTF8String);
             free(description);
-  
+
             if (msgId == JBD_MSG_PING) {
                 uint64_t remote_pid = xpc_dictionary_get_uint64(message, "pid");
                 JBLogDebug("[jailbreakd] received ping from %d", remote_pid);
@@ -104,6 +105,7 @@ void jailbreakd_received_message(mach_port_t machPort, bool systemwide) {
                 kernel_info.kslide = xpc_dictionary_get_uint64(message, "kslide");
                 kernel_info.fake_userclient = xpc_dictionary_get_uint64(message, "fake_userclient");
                 kernel_info.fake_userclient_vtable = xpc_dictionary_get_uint64(message, "fake_userclient_vtable");
+                kernel_info.kproc = xpc_dictionary_get_uint64(message, "kproc");
 
                 JBLogDebug("[jailbreakd] received kernel info: kbase: 0x%llx, kslide: 0x%llx", kernel_info.kbase, kernel_info.kslide);
                 JBLogDebug("[jailbreakd] received kernel info: fake_userclient: 0x%llx, fake_userclient_vtable: 0x%llx", kernel_info.fake_userclient, kernel_info.fake_userclient_vtable);
@@ -163,6 +165,27 @@ void jailbreakd_received_message(mach_port_t machPort, bool systemwide) {
                 xpc_dictionary_set_uint64(reply, "ret", kcall_ret);
             }
 
+            //  load trustcache from bin
+            if (msgId == JBD_MSG_PROCESS_BINARY) {
+                int64_t ret = 0;
+                const char *filePath =
+                    xpc_dictionary_get_string(message, "filePath");
+                if (filePath) {
+                    NSString *nsFilePath = [NSString stringWithUTF8String:filePath];
+                    ret = processBinary(nsFilePath);
+                } else {
+                    ret = -1;
+                }
+                xpc_dictionary_set_int64(reply, "ret", ret);
+            }
+
+            //  rebuild trustcache, it does load all trustcache from /var/jb
+            if (msgId == JBD_MSG_REBUILD_TRUSTCACHE) {
+                int64_t ret = 0;
+                rebuildDynamicTrustCache();
+                xpc_dictionary_set_int64(reply, "ret", ret);
+            }
+
             if (reply) {
                 char *description = xpc_copy_description(reply);
                 JBLogDebug("[jailbreakd] responding to %s message %d with %s",
@@ -191,7 +214,7 @@ void setJetsamEnabled(bool enabled) {
 }
 
 // this is from Dopamine's jailbreakd
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     @autoreleasepool {
         JBLogDebug("Hello from the other side!");
 
