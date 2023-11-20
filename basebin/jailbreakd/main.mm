@@ -30,17 +30,13 @@ SInt32 CFUserNotificationDisplayAlert(
 
 static int log_to_stdout = 1;
 
-struct kinfo {
-    uint64_t kbase;
-    uint64_t kslide;
-};
-
 struct kinfo kernel_info = { 0 };
 
 void JBLogDebug(const char *format, ...) {
     va_list va;
     va_start(va, format);
-
+    char buf[0x1000];
+    
     FILE *launchdLog = fopen("/var/mobile/jailbreakd-xpc.log", "a");
     if (launchdLog) {
         vfprintf(launchdLog, format, va);
@@ -49,8 +45,8 @@ void JBLogDebug(const char *format, ...) {
     }
 
     if (log_to_stdout) {
-        printf(format, va);
-        printf("\n");
+        vsnprintf(buf, sizeof(buf), format, va);
+        NSLog(@"%s", buf);
     }
 
     va_end(va);
@@ -89,8 +85,8 @@ void jailbreakd_received_message(mach_port_t machPort, bool systemwide) {
                 xpc_dictionary_set_uint64(reply, "id", msgId);
                 xpc_dictionary_set_uint64(reply, "jbdpid", (uint64_t)getpid());
                 xpc_dictionary_set_uint64(reply, "ret", 0xc0ffee);
-            } 
-            if (msgId == JBD_MSG_SETUP_CLIENT) {
+            }
+            if (msgId == JBD_MSG_START_CLIENT) {
                 BOOL success = setup_client();
                 if (!success) {
                     JBLogDebug("[-] failed to setup client");
@@ -102,14 +98,18 @@ void jailbreakd_received_message(mach_port_t machPort, bool systemwide) {
                     xpc_dictionary_set_uint64(reply, "clientport", (uint64_t)user_client);
                     xpc_dictionary_set_uint64(reply, "ret", 0);
                 }
-            } 
+            }
             if (msgId == JBD_MSG_SETUP_KERNEL) {
                 kernel_info.kbase = xpc_dictionary_get_uint64(message, "kbase");
                 kernel_info.kslide = xpc_dictionary_get_uint64(message, "kslide");
+                kernel_info.fake_userclient = xpc_dictionary_get_uint64(message, "fake_userclient");
+                kernel_info.fake_userclient_vtable = xpc_dictionary_get_uint64(message, "fake_userclient_vtable");
+
                 JBLogDebug("[jailbreakd] received kernel info: kbase: 0x%llx, kslide: 0x%llx", kernel_info.kbase, kernel_info.kslide);
+                JBLogDebug("[jailbreakd] received kernel info: fake_userclient: 0x%llx, fake_userclient_vtable: 0x%llx", kernel_info.fake_userclient, kernel_info.fake_userclient_vtable);
                 JBLogDebug("[+] setup kernel success");
                 xpc_dictionary_set_uint64(reply, "ret", 0);
-                xpc_dictionary_set_uint64(reply, "pid", getpid());
+                xpc_dictionary_set_uint64(reply, "id", msgId);
             }
             if (reply) {
                 char *description = xpc_copy_description(reply);
