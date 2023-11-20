@@ -7,6 +7,7 @@
 #import "kernel/kernel.h"
 #import "server.h"
 #import "trustcache.h"
+#import "fakelib.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -184,6 +185,46 @@ void jailbreakd_received_message(mach_port_t machPort, bool systemwide) {
                 int64_t ret = 0;
                 rebuildDynamicTrustCache();
                 xpc_dictionary_set_int64(reply, "ret", ret);
+            }
+
+            // patch dyld and bind mount
+            if (msgId == JBD_MSG_INIT_ENVIRONMENT) {
+                int64_t result = 0;
+                result = makeFakeLib();
+                if (result == 0) {
+                    result = setFakeLibBindMountActive(true);
+                }
+                xpc_dictionary_set_int64(reply, "ret", result);
+            }
+
+            // setuid
+            if (msgId == JBD_MSG_SETUID_FIX) {
+                int64_t result = 0;
+                JBLogDebug("[jailbreakd] not implemented yet");
+                xpc_dictionary_set_int64(reply, "ret", result);
+            }
+
+            if (msgId == JBD_MSG_PROC_SET_DEBUGGED) {
+                int64_t result = 0;
+                pid_t pid = xpc_dictionary_get_int64(message, "pid");
+                JBLogDebug("[jailbreakd] setting other process %s as debugged",
+                           proc_get_path(pid).UTF8String);
+                JBLogDebug("[jailbreakd] not implemented yet");
+                xpc_dictionary_set_int64(reply, "ret", result);
+            }
+
+            if (msgId == JBD_MSG_DEBUG_ME) {
+                int64_t result = 0;
+                JBLogDebug("[jailbreakd] not implemented yet");
+                xpc_dictionary_set_int64(reply, "ret", result);
+            }
+
+            if (msgId == JBD_MSG_PLATFORMIZE) {
+                int64_t result = 0;
+                pid_t pid = xpc_dictionary_get_int64(message, "pid");
+                JBLogDebug("[jailbreakd] Platformizing pid: %d\n", pid);
+                JBLogDebug("[jailbreakd] not implemented yet");
+                xpc_dictionary_set_int64(reply, "ret", result);
             }
 
             if (reply) {
