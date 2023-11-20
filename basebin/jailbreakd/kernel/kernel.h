@@ -10,6 +10,13 @@
 
 extern io_connect_t user_client;
 
+struct kinfo {
+    uint64_t kbase;
+    uint64_t kslide;
+    uint64_t fake_userclient;
+    uint64_t fake_userclient_vtable;
+};
+
 BOOL setup_client();
 
 #endif
