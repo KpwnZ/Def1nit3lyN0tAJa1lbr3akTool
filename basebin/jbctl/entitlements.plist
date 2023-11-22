@@ -10,7 +10,7 @@
 	<true/>
 	<key>com.apple.security.exception.mach-lookup.global-name</key>
 	<array>
-		<string>kr.h4ck.jailbreakd</string>
+		<string>com.xia0o0o0o.jailbreakd</string>
 	</array>
 	<key>com.apple.private.xpc.launchd.userspace-reboot</key>
 	<true/>
