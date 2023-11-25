@@ -20,10 +20,10 @@ struct IOSurface {
 
 const struct IOSurface IOSurface_versions[] = {
     // iOS 16 is left to the educated reader to figure out (keep in mind it will only work on arm64)
-    { },
-    { },
-    { },
-    { },
+    { .isa = 0x0, .PixelFormat = 0xA4, .AllocSize = 0xAC, .UseCountPtr = 0xC0, .IndexedTimestampPtr = 0x368, .ReadDisplacement = 0x18 },
+    { .isa = 0x0, .PixelFormat = 0xA4, .AllocSize = 0xAC, .UseCountPtr = 0xC0, .IndexedTimestampPtr = 0x368, .ReadDisplacement = 0x18 },
+    { .isa = 0x0, .PixelFormat = 0xA4, .AllocSize = 0xAC, .UseCountPtr = 0xC0, .IndexedTimestampPtr = 0x368, .ReadDisplacement = 0x18 },
+    { .isa = 0x0, .PixelFormat = 0xA4, .AllocSize = 0xAC, .UseCountPtr = 0xC0, .IndexedTimestampPtr = 0x368, .ReadDisplacement = 0x18 },
     
     { .isa = 0x0, .PixelFormat = 0xA4, .AllocSize = 0xAC, .UseCountPtr = 0xC0, .IndexedTimestampPtr = 0x360, .ReadDisplacement = 0x14 }, // iOS 15.0 - 15.1.1 arm64
     { .isa = 0x0, .PixelFormat = 0xA4, .AllocSize = 0xAC, .UseCountPtr = 0xC0, .IndexedTimestampPtr = 0x360, .ReadDisplacement = 0x14 }, // iOS 15.0 - 15.1.1 arm64e
