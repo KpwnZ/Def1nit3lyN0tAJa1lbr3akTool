@@ -107,9 +107,12 @@ void jailbreakd_received_message(mach_port_t machPort, bool systemwide) {
                 kernel_info.fake_userclient = xpc_dictionary_get_uint64(message, "fake_userclient");
                 kernel_info.fake_userclient_vtable = xpc_dictionary_get_uint64(message, "fake_userclient_vtable");
                 kernel_info.kproc = xpc_dictionary_get_uint64(message, "kproc");
+                kernel_info.self_proc = xpc_dictionary_get_uint64(message, "self_proc");
+                kernel_info.kernel_functions.addr_proc_set_ucred = xpc_dictionary_get_uint64(message, "addr_proc_set_ucred");
 
                 JBLogDebug("[jailbreakd] received kernel info: kbase: 0x%llx, kslide: 0x%llx", kernel_info.kbase, kernel_info.kslide);
                 JBLogDebug("[jailbreakd] received kernel info: fake_userclient: 0x%llx, fake_userclient_vtable: 0x%llx", kernel_info.fake_userclient, kernel_info.fake_userclient_vtable);
+                JBLogDebug("[jailbreakd] received kernel info: kproc: 0x%llx", kernel_info.kproc);
                 JBLogDebug("[+] setup kernel success");
                 xpc_dictionary_set_uint64(reply, "ret", 0);
                 xpc_dictionary_set_uint64(reply, "id", msgId);
@@ -193,6 +196,11 @@ void jailbreakd_received_message(mach_port_t machPort, bool systemwide) {
                 result = makeFakeLib();
                 if (result == 0) {
                     result = setFakeLibBindMountActive(true);
+                    if (result) {
+                        JBLogDebug("[jailbreakd] failed to set fake lib bind mount active");
+                    }
+                } else {
+                    JBLogDebug("[jailbreakd] failed to make fake lib");
                 }
                 xpc_dictionary_set_int64(reply, "ret", result);
             }
