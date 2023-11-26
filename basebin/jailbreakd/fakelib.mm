@@ -16,16 +16,18 @@ uint64_t cred_for_proc(uint64_t proc) {
 }
 
 static void set_cred_for_proc(uint64_t proc, uint64_t cred) {
-    kcall(off_proc_set_ucred, proc, cred, 0, 0, 0, 0);
+    kcall(kernel_info.kernel_functions.addr_proc_set_ucred, proc, cred, 0, 0, 0, 0);
 }
 
 void run_unsandboxed(void (^block)(void)) {
-    uint64_t selfProc = proc_for_pid(getpid());  // self_proc();
+    uint64_t selfProc = kernel_info.self_proc; // proc_for_pid(getpid());
     uint64_t selfUcred = cred_for_proc(selfProc);
+    NSLog(@"[jailbreakd] self ucred: 0x%llx", selfUcred);
+    NSLog(@"[jailbreakd] self proc: 0x%llx", selfProc);
 
     uint64_t kernelProc = kernel_info.kproc;
     uint64_t kernelUcred = cred_for_proc(kernelProc);
-
+    NSLog(@"[jailbreakd] kernel proc: 0x%llx", kernelProc);
     set_cred_for_proc(selfProc, kernelUcred);
     block();
     set_cred_for_proc(selfProc, selfUcred);
@@ -136,9 +138,13 @@ int carbonCopy(NSString *sourcePath, NSString *targetPath) {
 }
 
 int setFakeLibVisible(bool visible) {
+    NSLog(@"[jailbreakd] setFakeLibVisible(%d)", visible);
     bool isCurrentlyVisible = [[NSFileManager defaultManager]
         fileExistsAtPath:prebootPath(@"basebin/.fakelib/systemhook.dylib")];
+    
+    NSLog(@"[jailbreakd] isCurrentlyVisible: %d", isCurrentlyVisible);
     if (isCurrentlyVisible != visible) {
+        
         NSString *stockDyldPath = prebootPath(@"basebin/.dyld");
         NSString *patchedDyldPath = prebootPath(@"basebin/.dyld_patched");
         NSString *dyldFakeLibPath = prebootPath(@"basebin/.fakelib/dyld");
@@ -146,7 +152,7 @@ int setFakeLibVisible(bool visible) {
         NSString *systemhookPath = prebootPath(@"basebin/systemhook.dylib");
         NSString *systemhookFakeLibPath =
             prebootPath(@"basebin/.fakelib/systemhook.dylib");
-
+        NSLog(@"[jailbreakd] systemhookPath: %@", systemhookPath);
         if (visible) {
             if (![[NSFileManager defaultManager] copyItemAtPath:systemhookPath
                                                          toPath:systemhookFakeLibPath
@@ -165,6 +171,8 @@ int setFakeLibVisible(bool visible) {
             NSLog(@"[jailbreakd] Made fakelib not visible");
         }
     }
+    NSLog(@"[jailbreakd] setFakeLibVisible(%d) return 0", visible);
+    
     return 0;
 }
 
@@ -199,6 +207,7 @@ int makeFakeLib(void) {
         return 4;
     NSLog(@"[jailbreakd] got dyld cd hash %s", dyldCDHash.description.UTF8String);
 
+    
     size_t dyldTCSize = 0;
     uint64_t dyldTCKaddr =
         staticTrustCacheUploadCDHashesFromArray(@[ dyldCDHash ], &dyldTCSize);
@@ -223,8 +232,10 @@ bool isFakeLibBindMountActive(void) {
 }
 
 int setFakeLibBindMountActive(bool active) {
+    NSLog(@"[jailbreakd] setFakeLibBindMountActive(%d)", active);
     __block int ret = -1;
     bool alreadyActive = isFakeLibBindMountActive();
+    NSLog(@"[jailbreakd] alreadyActive: %d", alreadyActive);
     if (active != alreadyActive) {
         if (active) {
             run_unsandboxed(^{
@@ -238,5 +249,6 @@ int setFakeLibBindMountActive(bool active) {
             });
         }
     }
+    NSLog(@"[jailbreakd] setFakeLibBindMountActive(%d) return %d", active, ret);
     return ret;
 }
