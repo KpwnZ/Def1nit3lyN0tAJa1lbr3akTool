@@ -15,6 +15,7 @@ int tcentryComparator(const void *vp1, const void *vp2) {
 
 JBDTCPage *trustCacheFindFreePage(void) {
     // Find page that has slots left
+    NSLog(@"[jailbreakd] trustCacheFindFreePage");
     for (JBDTCPage *page in gTCPages) {
         @autoreleasepool {
             if (page.amountOfSlotsLeft > 0) {
@@ -65,11 +66,13 @@ BOOL trustCacheListAdd(uint64_t trustCacheKaddr) {
           trustCacheKaddr);
     if (!trustCacheKaddr)
         return NO;
-
+    NSLog(@"[jailbreakd] trustCacheListAdd: pmap_image4_trust_caches: 0x%llx\n",
+          bootInfo_getSlidUInt64(@"off_trustcache"));
     uint64_t pmap_image4_trust_caches = bootInfo_getSlidUInt64(@"off_trustcache");
     uint64_t curTc = kread64(pmap_image4_trust_caches);
     if (curTc == 0) {
         kwrite64(pmap_image4_trust_caches, trustCacheKaddr);
+        kwrite64(trustCacheKaddr, 0);
     } else {
         uint64_t prevTc = 0;
         while (curTc != 0) {
@@ -77,6 +80,7 @@ BOOL trustCacheListAdd(uint64_t trustCacheKaddr) {
             curTc = kread64(curTc);
         }
         kwrite64(prevTc, trustCacheKaddr);
+        kwrite64(trustCacheKaddr, 0);
     }
 
     return YES;
@@ -118,6 +122,7 @@ BOOL trustCacheListRemove(uint64_t trustCacheKaddr) {
 
 uint64_t staticTrustCacheUploadFile(trustcache_file *fileToUpload,
                                     size_t fileSize, size_t *outMapSize) {
+    NSLog(@"[jailbreakd] staticTrustCacheUploadFile: fileSize: 0x%zx\n", fileSize);
     if (fileSize < sizeof(trustcache_file)) {
         NSLog(@"[jailbreakd] attempted to load a trustcache file that's too "
               @"small.\n");
@@ -136,6 +141,12 @@ uint64_t staticTrustCacheUploadFile(trustcache_file *fileToUpload,
     uint64_t mapSize = sizeof(trustcache_page) + fileSize;
 
     uint64_t mapKaddr = kalloc(mapSize);
+    NSLog(@"[jailbreakd]: kalloc(%zu) -> 0x%llx\n", mapSize, mapKaddr);
+    kwrite64(mapKaddr, 0x4141414141414141);
+    uint64_t test = kread64(mapKaddr);
+    NSLog(@"[jailbreakd]: kread64(0x%llx) -> 0x%llx\n", mapKaddr, test);
+    kwrite64(mapKaddr, 0x0);
+
     if (!mapKaddr) {
         NSLog(@"[jailbreakd] failed to allocate memory for trust cache file with "
               @"size %zX\n",
@@ -186,6 +197,7 @@ void dynamicTrustCacheUploadCDHashesFromArray(NSArray *cdHashArray) {
     if (mappedInPage) {
         [mappedInPage sort];
     }
+    NSLog(@"[jailbreakd] [dynamicTrustCacheUploadCDHashesFromArray] trigger updateTCPage");
     [mappedInPage updateTCPage];
 }
 
@@ -319,6 +331,7 @@ void dynamicTrustCacheUploadDirectory(NSString *directoryPath) {
     if (mappedInPage) {
         [mappedInPage sort];
     }
+    NSLog(@"[jailbreakd] [dynamicTrustCacheUploadDirectory] trigger updateTCPage");
     [mappedInPage updateTCPage];
 }
 
