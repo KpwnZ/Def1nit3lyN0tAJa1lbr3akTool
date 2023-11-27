@@ -6,7 +6,6 @@
 //
 
 #import <stdint.h>
-#import <stdio.h>
 
 extern uint32_t off_p_list_le_prev;
 extern uint32_t off_p_name;
@@ -64,5 +63,10 @@ extern uint64_t off_ml_phys_write_data;
 extern uint64_t off_add_x0_x0_0x40_ret;
 extern uint64_t off_proc_set_ucred;
 extern uint64_t off_zm_fix_alloc;
+extern uint64_t off_container_init;
+// csflag
+extern uint64_t off_proc_updatecsflags;
 
+// zone ro
+extern uint64_t off_proc_proc_ro;
 void _offsets_init(void);
