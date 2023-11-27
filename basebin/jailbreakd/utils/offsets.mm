@@ -71,9 +71,6 @@ uint64_t off_zm_fix_alloc = 0;
 
 void _offsets_init(void) {
     if (SYSTEM_VERSION_EQUAL_TO(@"15.7")) {
-        // LOG(@"[*] init offset for iOS 15.7");
-        // iPhone 6s 15.1 offsets
-
         // https://github.com/apple-oss-distributions/xnu/blob/xnu-8019.41.5/bsd/sys/proc_internal.h#L227
         off_p_list_le_prev = 0x8;
         off_p_name = 0x381;

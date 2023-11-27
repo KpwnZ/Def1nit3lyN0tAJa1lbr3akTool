@@ -8,6 +8,12 @@
 #import "utils/proc.h"
 
 int tcentryComparator(const void *vp1, const void *vp2) {
+    if (@available(iOS 16.0, *)) {
+        trustcache_entry2 *tc1 = (trustcache_entry2 *)vp1;
+        trustcache_entry2 *tc2 = (trustcache_entry2 *)vp2;
+        return memcmp(tc1->hash, tc2->hash, CS_CDHASH_LEN);
+    }
+
     trustcache_entry *tc1 = (trustcache_entry *)vp1;
     trustcache_entry *tc2 = (trustcache_entry *)vp2;
     return memcmp(tc1->hash, tc2->hash, CS_CDHASH_LEN);
@@ -79,8 +85,14 @@ BOOL trustCacheListAdd(uint64_t trustCacheKaddr) {
             prevTc = curTc;
             curTc = kread64(curTc);
         }
-        kwrite64(prevTc, trustCacheKaddr);
-        kwrite64(trustCacheKaddr, 0);
+        if (@available(iOS 16.0, *)) {
+            kwrite64(prevTc, trustCacheKaddr);
+            kwrite64(trustCacheKaddr, 0);
+            kwrite64(trustCacheKaddr + 8, prevTc);
+        } else {
+            kwrite64(prevTc, trustCacheKaddr);
+            kwrite64(trustCacheKaddr, 0);
+        }
     }
 
     return YES;
@@ -131,6 +143,10 @@ uint64_t staticTrustCacheUploadFile(trustcache_file *fileToUpload,
 
     size_t expectedSize =
         sizeof(trustcache_file) + fileToUpload->length * sizeof(trustcache_entry);
+    if (@available(iOS 16.0, *)) {
+        expectedSize = sizeof(trustcache_file2) +
+                       fileToUpload->length * sizeof(trustcache_entry2);
+    }
     if (expectedSize != fileSize) {
         NSLog(@"[jailbreakd] attempted to load a trustcache file with an invalid "
               @"size (0x%zX vs 0x%zX)\n",
@@ -139,6 +155,9 @@ uint64_t staticTrustCacheUploadFile(trustcache_file *fileToUpload,
     }
 
     uint64_t mapSize = sizeof(trustcache_page) + fileSize;
+    if (@available(iOS 16.0, *)) {
+        mapSize = sizeof(trustcache_module) + fileSize;
+    }
 
     uint64_t mapKaddr = kalloc(mapSize);
     NSLog(@"[jailbreakd]: kalloc(%zu) -> 0x%llx\n", mapSize, mapKaddr);
@@ -156,6 +175,16 @@ uint64_t staticTrustCacheUploadFile(trustcache_file *fileToUpload,
 
     if (outMapSize)
         *outMapSize = mapSize;
+
+    if (@available(iOS 16.0, *)) {
+        uint64_t module_size_ptr = mapKaddr + offsetof(trustcache_module, module_size);
+        kwrite64(module_size_ptr, fileSize);
+        uint64_t module_fileptr_ptr = mapKaddr + offsetof(trustcache_module, fileptr);
+        kwrite64(module_fileptr_ptr, mapKaddr + 0x28);
+        kwritebuf(mapKaddr + 0x28, fileToUpload, fileSize);
+        trustCacheListAdd(mapKaddr);
+        return mapKaddr;
+    }
 
     uint64_t mapSelfPtrPtr = mapKaddr + offsetof(trustcache_page, selfPtr);
     uint64_t mapSelfPtr = mapKaddr + offsetof(trustcache_page, file);
@@ -181,6 +210,18 @@ void dynamicTrustCacheUploadCDHashesFromArray(NSArray *cdHashArray) {
                 mappedInPage = trustCacheFindFreePage();
                 NSLog(@"[jailbreakd] mappedInPage self: %@, kaddr: 0x%llx\n",
                       mappedInPage, mappedInPage.kaddr);
+            }
+
+            if (@available(iOS 16.0, *)) {
+                trustcache_entry2 entry;
+                memcpy(&entry.hash, cdHash.bytes, CS_CDHASH_LEN);
+                entry.hash_type = 0x2;
+                entry.flags = 0x0;
+                NSLog(@"[jailbreakd] [dynamicTrustCacheUploadCDHashesFromArray] "
+                      @"uploading %s",
+                      cdHash.description.UTF8String);
+                [mappedInPage addEntry2:entry];
+                continue;
             }
 
             trustcache_entry entry;
@@ -322,7 +363,15 @@ void dynamicTrustCacheUploadDirectory(NSString *directoryPath) {
                   NSLog(@"[jailbreakd] [dynamicTrustCacheUploadDirectory %s] Uploading "
                         @"cdhash of %s",
                         directoryPath.UTF8String, enumURL.path.UTF8String);
-                  [mappedInPage addEntry:entry];
+                  if (@available(iOS 16.0, *)) {
+                      trustcache_entry2 entry2;
+                      memcpy(&entry2.hash, entry.hash, CS_CDHASH_LEN);
+                      entry2.hash_type = entry.hash_type;
+                      entry2.flags = entry.flags;
+                      [mappedInPage addEntry2:entry2];
+                  } else {
+                      [mappedInPage addEntry:entry];
+                  }
                 });
             }
         }
@@ -354,9 +403,18 @@ uint64_t staticTrustCacheUploadCDHashesFromArray(NSArray *cdHashArray,
         sizeof(trustcache_file) + cdHashArray.count * sizeof(trustcache_entry);
     trustcache_file *fileToUpload = (trustcache_file *)malloc(fileSize);
 
-    uuid_generate(fileToUpload->uuid);
-    fileToUpload->version = 1;
-    fileToUpload->length = cdHashArray.count;
+    if (@available(iOS 16.0, *)) {
+        fileSize = sizeof(trustcache_file2) +
+                   cdHashArray.count * sizeof(trustcache_entry2);
+        fileToUpload = (trustcache_file *)malloc(fileSize);
+        uuid_generate(((trustcache_file2 *)fileToUpload)->uuid);
+        ((trustcache_file2 *)fileToUpload)->version = 2;
+        ((trustcache_file2 *)fileToUpload)->length = cdHashArray.count;
+    } else {
+        uuid_generate(fileToUpload->uuid);
+        fileToUpload->version = 1;
+        fileToUpload->length = cdHashArray.count;
+    }
 
     [cdHashArray
         enumerateObjectsUsingBlock:^(NSData *cdHash, NSUInteger idx, BOOL *stop) {
@@ -364,14 +422,27 @@ uint64_t staticTrustCacheUploadCDHashesFromArray(NSArray *cdHashArray,
               return;
           if (cdHash.length != CS_CDHASH_LEN)
               return;
-
-          memcpy(&fileToUpload->entries[idx].hash, cdHash.bytes, cdHash.length);
-          fileToUpload->entries[idx].hash_type = 0x2;
-          fileToUpload->entries[idx].flags = 0x0;
+          if (@available(iOS 16.0, *)) {
+              trustcache_entry2 entry;
+              memcpy(&entry.hash, cdHash.bytes, CS_CDHASH_LEN);
+              entry.hash_type = 0x2;
+              entry.flags = 0x0;
+              ((trustcache_file2 *)fileToUpload)->entries[idx] = entry;
+              return;
+          } else {
+              memcpy(&fileToUpload->entries[idx].hash, cdHash.bytes, cdHash.length);
+              fileToUpload->entries[idx].hash_type = 0x2;
+              fileToUpload->entries[idx].flags = 0x0;
+          }
         }];
 
-    qsort(fileToUpload->entries, cdHashArray.count, sizeof(trustcache_entry),
-          tcentryComparator);
+    if (@available(iOS 16.0, *)) {
+        qsort(((trustcache_file2 *)fileToUpload)->entries, cdHashArray.count, sizeof(trustcache_entry2),
+            tcentryComparator);
+    } else {
+        qsort(fileToUpload->entries, cdHashArray.count, sizeof(trustcache_entry),
+            tcentryComparator);
+    }
 
     uint64_t mapKaddr =
         staticTrustCacheUploadFile(fileToUpload, fileSize, outMapSize);

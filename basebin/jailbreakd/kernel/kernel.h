@@ -14,17 +14,25 @@ struct kinfo {
     uint64_t kbase;
     uint64_t kslide;
     uint64_t kproc;
+    uint64_t self_proc;
     uint64_t fake_userclient;
     uint64_t fake_userclient_vtable;
+
+    struct {
+        uint64_t addr_proc_set_ucred;
+    } kernel_functions;
+    
 };
 
 extern struct kinfo kernel_info;
 
 BOOL setup_client();
 
+uint8_t kread8(uint64_t addr);
 uint32_t kread32(uint64_t addr);
 uint64_t kread64(uint64_t addr);
 void kread_string(uint64_t addr, char *out);
+void kwrite8(uint64_t addr, uint8_t data);
 void kwrite32(uint64_t addr, uint32_t val);
 void kwrite64(uint64_t addr, uint64_t val);
 uint64_t kalloc(size_t ksize);

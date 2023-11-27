@@ -28,7 +28,9 @@ void tcPagesChanged(void);
 - (void)sort;
 - (uint32_t)amountOfSlotsLeft;
 - (BOOL)addEntry:(trustcache_entry)entry;
+- (BOOL)addEntry2:(trustcache_entry2)entry;
 - (BOOL)removeEntry:(trustcache_entry)entry;
+- (BOOL)removeEntry2:(trustcache_entry2)entry;
 
 - (void)unlinkAndFree;
 
