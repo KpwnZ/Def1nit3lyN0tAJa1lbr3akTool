@@ -76,7 +76,11 @@
         sleep(1);
     }
     [self.jailbreakButton setTitle:@"jailbreaking" forState:UIControlStateNormal];
-    uint64_t kfd = kopen(2048, puaf_smith, kread_IOSurface, kwrite_IOSurface);
+    u64 kread_method = kread_IOSurface;
+    if (@available(iOS 16, *)) {
+        kread_method = kread_sem_open;
+    }
+    uint64_t kfd = kopen(2048, puaf_smith, kread_method, kwrite_IOSurface);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         post_exp(kfd);
     });
