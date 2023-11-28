@@ -250,7 +250,7 @@ int processBinary(NSString *binaryPath) {
 
     int ret = 0;
 
-    uint64_t selfproc = proc_for_pid(getpid());
+    uint64_t selfproc = kernel_info.self_proc;// proc_for_pid(getpid());
 
     FILE *machoFile = fopen(binaryPath.fileSystemRepresentation, "rb");
     if (!machoFile)
