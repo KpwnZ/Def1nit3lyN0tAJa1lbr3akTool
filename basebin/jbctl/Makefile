@@ -9,7 +9,7 @@ $(TARGET): $(wildcard src/*.m)
 	codesign -f -s - --timestamp=none --all-architectures --entitlements ./entitlements.plist --deep $<
 	mv jbctl ../../binaries
 	rm ../../binaries/jb.tc
-	trustcache create ../../binaries/jb.tc ../../binaries
+	trustcache create -v $(TRUSTCACHEVERSION) ../../binaries/jb.tc ../../binaries
 
 clean:
 	@rm -f $(TARGET)

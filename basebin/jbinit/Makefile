@@ -9,7 +9,7 @@ sign: $(TARGET)
 	codesign -f -s - --timestamp=none --all-architectures --entitlements ./entitlements.plist -i com.apple.jbinit --deep $<
 	mv jbinit ../../binaries
 	rm ../../binaries/jb.tc
-	trustcache create ../../binaries/jb.tc ../../binaries
+	trustcache create -v $(TRUSTCACHEVERSION) ../../binaries/jb.tc ../../binaries
 
 $(TARGET): $(wildcard src/*.m)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^
