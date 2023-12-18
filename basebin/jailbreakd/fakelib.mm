@@ -10,7 +10,7 @@
 #import "utils/offsets.h"
 
 uint64_t cred_for_proc(uint64_t proc) {
-    uint64_t proc_ro = kread64(proc + 0x20);
+    uint64_t proc_ro = kread64(proc + off_proc_proc_ro);
     uint64_t proc_cred_ro = kread64(proc_ro + 0x20);
     return proc_cred_ro;
 }
@@ -242,6 +242,7 @@ int setFakeLibBindMountActive(bool active) {
               ret = mount(
                   "bindfs", "/usr/lib", MNT_RDONLY,
                   (void *)prebootPath(@"basebin/.fakelib").fileSystemRepresentation);
+              perror("mount");
             });
         } else {
             run_unsandboxed(^{
