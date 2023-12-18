@@ -55,4 +55,4 @@ binaries
 # Ignore test binaries
 binaries/jailbreakd_tester
 escape/deb
-
+basebin/mytweak
