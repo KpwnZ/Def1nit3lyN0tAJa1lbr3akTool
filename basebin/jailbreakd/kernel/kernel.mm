@@ -7,6 +7,10 @@ io_connect_t user_client = 0;
 extern struct kinfo kernel_info;
 
 BOOL setup_client() {
+    static bool offset_init = false;
+    if (!offset_init)
+        _offsets_init();
+    offset_init = true;
     JBLogDebug("[*] setup kcall");
 
     io_service_t service = IOServiceGetMatchingService(
