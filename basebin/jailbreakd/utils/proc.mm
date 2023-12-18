@@ -1,6 +1,7 @@
 #import "proc.h"
 #import "kernel/kernel.h"
 #import "offsets.h"
+#import <libproc.h>
 
 uint64_t proc_for_pid(pid_t pid) {
     uint64_t proc = kernel_info.kproc;
@@ -22,8 +23,8 @@ uint64_t proc_for_name(char *nm) {
     uint64_t proc = kernel_info.kproc;
     char name[0x100];
     while (true) {
-        uint64_t nameptr = proc + off_p_name;
-        kread_string(nameptr, name);
+        pid_t pid = kread32(proc + off_p_pid);
+        proc_name(pid, name, 0x100);
         if (strcmp(name, nm) == 0) {
             return proc;
         }
@@ -36,7 +37,7 @@ uint64_t proc_for_name(char *nm) {
     return 0;
 }
 
-pid_t pid_by_name(char *nm) {
+pid_t pid_for_name(char *nm) {
     uint64_t proc = proc_for_name(nm);
     if (proc == -1)
         return -1;
@@ -44,12 +45,12 @@ pid_t pid_by_name(char *nm) {
 }
 
 uint64_t taskptr_for_pid(pid_t pid) {
-    uint64_t proc_ro = kread64(proc_for_pid(pid) + 0x20);
+    uint64_t proc_ro = kread64(proc_for_pid(pid) + off_proc_proc_ro);
     return kread64(proc_ro + 0x8);
 }
 
 uint64_t proc_get_task(uint64_t proc) {
-    uint64_t proc_ro = kread64(proc + 0x20);
+    uint64_t proc_ro = kread64(proc + off_proc_proc_ro);
     return kread64(proc_ro + 0x8);
 }
 

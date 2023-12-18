@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-pid_t pid_by_name(char* nm);
+pid_t pid_for_name(char* nm);
 uint64_t proc_for_name(char* nm);
 uint64_t proc_for_pid(pid_t pid);
 uint64_t proc_get_task(uint64_t proc);
