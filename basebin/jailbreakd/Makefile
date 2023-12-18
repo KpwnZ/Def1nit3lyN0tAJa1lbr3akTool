@@ -11,7 +11,8 @@ CFLAGS += -DVERSION_COMMIT_SHA='" "'
 sign: $(TARGET)
 	codesign -f -s - --timestamp=none --all-architectures --entitlements ./entitlements.plist --deep $<
 	mv $< ../../binaries
-	rm ../../binaries/jb.tc; trustcache create -v $(TRUSTCACHEVERSION) ../../binaries/jb.tc ../../binaries
+	rm ../../binaries/jb.tc || true
+	trustcache create -v $(TRUSTCACHEVERSION) ../../binaries/jb.tc ../../binaries
 
 $(TARGET): $(wildcard *.mm ./utils/*.mm ./kernel/*.mm)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^
