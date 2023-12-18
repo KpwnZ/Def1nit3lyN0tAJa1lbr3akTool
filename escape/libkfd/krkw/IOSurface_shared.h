@@ -108,7 +108,9 @@ typedef struct {
 
 #include <IOSurface/IOSurfaceRef.h>
 
-#define IOSurfaceLockResultSize 0xF60
+static uint64_t kernel_version = 0;
+
+#define IOSurfaceLockResultSize ((kernel_version != 0x0000003636463032) ? 0xF60 : 0xA68)
 
 #define kOSSerializeBinarySignature        0x000000D3
 #define kOSSerializeIndexedBinarySignature 0x000000D4
@@ -151,6 +153,8 @@ io_connect_t iokit_get_connection(const char *name,unsigned int type)
 
 io_connect_t get_surface_client(void)
 {
+        size_t size = sizeof(uint64_t);
+        assert_bsd(sysctlbyname("kern.osversion", &kernel_version, &size, NULL, 0));
         return iokit_get_connection("IOSurfaceRoot",0);
 }
 
@@ -159,9 +163,10 @@ io_connect_t create_surface_fast_path(io_connect_t surface,uint32_t *surface_id,
 {
         io_connect_t conn = surface;
         kern_return_t kr = KERN_SUCCESS;
-
-        char output[IOSurfaceLockResultSize] = {0};
-        size_t output_cnt = IOSurfaceLockResultSize;
+        
+        const uint64_t lock_result_size = IOSurfaceLockResultSize;
+        char *output = malloc(lock_result_size);
+        size_t output_cnt = lock_result_size;
 
         if (surface == 0) {
                 conn = get_surface_client();
@@ -190,7 +195,7 @@ io_connect_t release_surface(io_connect_t surface,uint32_t surface_id)
                                  NULL,0,
                                  NULL, NULL, NULL, NULL);
         CHECK_IOKIT_ERR(kr, "release_surface");
-        assert(kr == KERN_SUCCESS);
+        // assert(kr == KERN_SUCCESS);
 
         return conn;
 }
