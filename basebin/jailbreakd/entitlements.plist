@@ -18,6 +18,7 @@
 	<array>
 		<string>AppleMobileFileIntegrityUserClient</string>
 		<string>IOSurfaceRootUserClient</string>
+		<string>IOHDIXControllerUserClient</string>
 	</array>
 	<key>com.apple.private.bindfs-allow</key>
 	<true/>
@@ -36,6 +37,40 @@
 	<key>com.apple.system-task-ports.control</key>
 	<true/>
 	<key>com.apple.private.thread-set-state</key>
+	<true/>
+	<key>com.apple.private.record_system_event</key>
+	<true/>
+	<key>com.apple.private.roots-installed-read-write</key>
+	<true/>
+	<key>com.apple.private.security.storage.driverkitd</key>
+	<true/>
+	<key>com.apple.private.security.storage.launchd</key>
+	<true/>
+	<key>com.apple.private.security.system-mount-authority</key>
+	<true/>
+	<key>com.apple.private.set-atm-diagnostic-flag</key>
+	<true/>
+	<key>com.apple.private.spawn-panic-crash-behavior</key>
+	<true/>
+	<key>com.apple.private.spawn-subsystem-root</key>
+	<true/>
+	<key>com.apple.private.vfs.allow-low-space-writes</key>
+	<true/>
+	<key>com.apple.private.vfs.graftdmg</key>
+	<true/>
+	<key>com.apple.private.vfs.pivot-root</key>
+	<true/>
+	<key>com.apple.rootless.restricted-block-devices</key>
+	<true/>
+	<key>com.apple.rootless.storage.early_boot_mount</key>
+	<true/>
+	<key>com.apple.rootless.volume.Preboot</key>
+	<true/>
+	<key>com.apple.security.network.client</key>
+	<true/>
+	<key>com.apple.security.network.server</key>
+	<true/>
+	<key>com.apple.private.diskimages.kext.user-client-access</key>
 	<true/>
 </dict>
 </plist>
