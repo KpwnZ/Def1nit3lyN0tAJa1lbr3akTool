@@ -56,3 +56,6 @@ binaries
 binaries/jailbreakd_tester
 escape/deb
 basebin/mytweak
+*.deb
+/deb.tar
+basebin/libkrw
