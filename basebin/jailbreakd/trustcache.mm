@@ -239,6 +239,7 @@ void dynamicTrustCacheUploadCDHashesFromArray(NSArray *cdHashArray) {
         [mappedInPage sort];
     }
     NSLog(@"[jailbreakd] [dynamicTrustCacheUploadCDHashesFromArray] trigger updateTCPage");
+    usleep(10000);
     [mappedInPage updateTCPage];
 }
 
