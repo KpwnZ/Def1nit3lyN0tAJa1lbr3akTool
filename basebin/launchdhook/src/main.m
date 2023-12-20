@@ -15,55 +15,45 @@ int gLaunchdImageIndex = -1;
 NSString *generateSystemWideSandboxExtensions(void) {
     NSMutableString *extensionString = [NSMutableString new];
 
-    // Make /var/jb readable
-    [extensionString
-        appendString:[NSString
-                         stringWithUTF8String:sandbox_extension_issue_file(
-                                                  "com.apple.app-sandbox.read",
-                                                  prebootPath(nil)
-                                                      .fileSystemRepresentation,
-                                                  0)]];
+    const char *readble = sandbox_extension_issue_file("com.apple.app-sandbox.read",
+                                                       prebootPath(nil).fileSystemRepresentation,
+                                                       0);
+    if (readble) [extensionString appendString:[NSString stringWithUTF8String:readble]];
+    else NSLog(@"[launchdhook] Failed to generate sandbox extension for com.apple.app-sandbox.read");
     [extensionString appendString:@"|"];
 
-    // Make binaries in /var/jb executable
-    [extensionString
-        appendString:[NSString
-                         stringWithUTF8String:sandbox_extension_issue_file(
-                                                  "com.apple.sandbox.executable",
-                                                  prebootPath(nil)
-                                                      .fileSystemRepresentation,
-                                                  0)]];
+    const char *executable = sandbox_extension_issue_file("com.apple.sandbox.executable",
+                                                          prebootPath(nil).fileSystemRepresentation,
+                                                          0);
+    if (executable) [extensionString appendString:[NSString stringWithUTF8String:executable]];
+    else NSLog(@"[launchdhook] Failed to generate sandbox extension for com.apple.sandbox.executable");
     [extensionString appendString:@"|"];
 
-    [extensionString
-        appendString:[NSString
-                         stringWithUTF8String:sandbox_extension_issue_mach(
-                                                  "com.apple.app-sandbox.mach",
-                                                  "com.xia0o0o0o.jailbreakd.systemwide",
-                                                  0)]];
+    const char *mach = sandbox_extension_issue_mach("com.apple.app-sandbox.mach",
+                                                    "com.xia0o0o0o.jailbreakd.systemwide",
+                                                    0);
+    if (mach) [extensionString appendString:[NSString stringWithUTF8String:mach]];
+    else NSLog(@"[launchdhook] Failed to generate sandbox extension for com.apple.app-sandbox.mach");
     [extensionString appendString:@"|"];
-    [extensionString
-        appendString:[NSString
-                         stringWithUTF8String:sandbox_extension_issue_mach(
-                                                  "com.apple.security.exception."
-                                                  "mach-lookup.global-name",
-                                                  "com.xia0o0o0o.jailbreakd.systemwide",
-                                                  0)]];
+
+    const char *machLookup = sandbox_extension_issue_mach("com.apple.security.exception.mach-lookup.global-name",
+                                                          "com.xia0o0o0o.jailbreakd.systemwide",
+                                                          0);
+    if (machLookup) [extensionString appendString:[NSString stringWithUTF8String:machLookup]];
+    else NSLog(@"[launchdhook] Failed to generate sandbox extension for com.apple.security.exception.mach-lookup.global-name");
+    [extensionString appendString:[NSString stringWithUTF8String:machLookup]];
 
     return extensionString;
 }
 
 __attribute__((constructor)) static void initializer(void) {
-    // Launchd hook loaded for first time, get primitives from jailbreakd
-    // jbdInitPPLRW();
-    // recoverPACPrimitives();
-
     for (int i = 0; i < _dyld_image_count(); i++) {
         if (!strcmp(_dyld_get_image_name(i), "/sbin/launchd")) {
             gLaunchdImageIndex = i;
             break;
         }
     }
+    
     // System wide sandbox extensions and root path
     setenv("JB_SANDBOX_EXTENSIONS",
            generateSystemWideSandboxExtensions().UTF8String, 1);
@@ -79,12 +69,6 @@ __attribute__((constructor)) static void initializer(void) {
 
     NSLog(@"[launchdhook] Hello World");
 
-    //   proc_set_debugged_pid(getpid(), false);
-    // jbdDebugMe(); // XXX BROKEN, when hook launchd, it just panic :(
-    //   jbdPlatformize(getpid());	<- implemented in kfd app instead, idk
-    //   why stuck here?
-
-    //   initXPCHooks(void)	//XXX NOT IMPLEMENETED
     initDaemonHooks();
     initSpawnHooks();
     initIPCHooks();
