@@ -26,4 +26,6 @@ typedef enum {
     JBD_MSG_SETUP_KERNEL = 0x102,
     JBD_MSG_SETUP_CLIENT = 0x103,
 
+    JBD_MSG_KRW_LIB_KINFO_KBASE = 0x200,
+    
 } JBD_MESSAGE_ID;

@@ -8,6 +8,11 @@
 #import "server.h"
 #import "trustcache.h"
 #import "fakelib.h"
+#import <pthread.h>
+#import <sys/socket.h>
+#import <netinet/in.h>
+#import <spawn.h>
+#import "utils/proc.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -24,7 +29,7 @@ SInt32 CFUserNotificationDisplayAlert(
     CFURLRef soundURL, CFURLRef localizationURL, CFStringRef alertHeader,
     CFStringRef alertMessage, CFStringRef defaultButtonTitle,
     CFStringRef alternateButtonTitle, CFStringRef otherButtonTitle,
-    CFOptionFlags *responseFlags) API_AVAILABLE(ios(3.0));
+    CFOptionFlags *responseFlags);
 
 #ifdef __cplusplus
 }
@@ -53,6 +58,95 @@ void JBLogDebug(const char *format, ...) {
 
     va_end(va);
 }
+extern char **environ;
+int runCommandv(const char *cmd, int argc, const char *const *argv, void (^unrestrict)(pid_t)) {
+    pid_t pid;
+    posix_spawn_file_actions_t *actions = NULL;
+    posix_spawn_file_actions_t actionsStruct;
+    int out_pipe[2];
+    bool valid_pipe = false;
+    posix_spawnattr_t *attr = NULL;
+    posix_spawnattr_t attrStruct;
+
+    valid_pipe = pipe(out_pipe) == 0;
+    if (valid_pipe && posix_spawn_file_actions_init(&actionsStruct) == 0) {
+        actions = &actionsStruct;
+        posix_spawn_file_actions_adddup2(actions, out_pipe[1], 1);
+        posix_spawn_file_actions_adddup2(actions, out_pipe[1], 2);
+        posix_spawn_file_actions_addclose(actions, out_pipe[0]);
+        posix_spawn_file_actions_addclose(actions, out_pipe[1]);
+    }
+
+    if (unrestrict && posix_spawnattr_init(&attrStruct) == 0) {
+        attr = &attrStruct;
+        posix_spawnattr_setflags(attr, POSIX_SPAWN_START_SUSPENDED);
+    }
+
+    int rv = posix_spawn(&pid, cmd, actions, attr, (char *const *)argv, environ);
+
+    if (unrestrict) {
+        unrestrict(pid);
+        kill(pid, SIGCONT);
+    }
+
+    if (valid_pipe) {
+        close(out_pipe[1]);
+    }
+
+    if (rv == 0) {
+        if (valid_pipe) {
+            char buf[256];
+            ssize_t len;
+            while (1) {
+                len = read(out_pipe[0], buf, sizeof(buf) - 1);
+                if (len == 0) {
+                    break;
+                } else if (len == -1) {
+                    perror("posix_spawn, read pipe\n");
+                }
+                buf[len] = 0;
+                NSLog(@"%s\n", buf);
+            }
+        }
+        if (waitpid(pid, &rv, 0) == -1) {
+            NSLog(@"ERROR: Waitpid failed\n");
+        } else {
+            NSLog(@"%s(%d) completed with exit status %d\n", __FUNCTION__, pid, WEXITSTATUS(rv));
+        }
+
+    } else {
+        NSLog(@"%s(%d): ERROR posix_spawn failed (%d): %s\n", __FUNCTION__, pid, rv, strerror(rv));
+        rv <<= 8;  // Put error into WEXITSTATUS
+    }
+    if (valid_pipe) {
+        close(out_pipe[0]);
+    }
+    return rv;
+}
+
+int util_runCommand(const char *cmd, ...) {
+    va_list ap, ap2;
+    int argc = 1;
+
+    va_start(ap, cmd);
+    va_copy(ap2, ap);
+
+    while (va_arg(ap, const char *) != NULL) {
+        argc++;
+    }
+    va_end(ap);
+
+    const char *argv[argc + 1];
+    argv[0] = cmd;
+    for (int i = 1; i < argc; i++) {
+        argv[i] = va_arg(ap2, const char *);
+    }
+    va_end(ap2);
+    argv[argc] = NULL;
+
+    int rv = runCommandv(cmd, argc, argv, NULL);
+    return WEXITSTATUS(rv);
+}
 
 void jailbreakd_received_message(mach_port_t machPort, bool systemwide) {
     @autoreleasepool {
@@ -69,7 +163,6 @@ void jailbreakd_received_message(mach_port_t machPort, bool systemwide) {
         if (messageType == XPC_TYPE_DICTIONARY) {
             audit_token_t auditToken = {};
             xpc_dictionary_get_audit_token(message, &auditToken);
-            uid_t clientUid = audit_token_to_euid(auditToken);
             pid_t clientPid = audit_token_to_pid(auditToken);
 
             msgId = xpc_dictionary_get_uint64(message, "id");
@@ -116,6 +209,12 @@ void jailbreakd_received_message(mach_port_t machPort, bool systemwide) {
                 JBLogDebug("[+] setup kernel success");
                 xpc_dictionary_set_uint64(reply, "ret", 0);
                 xpc_dictionary_set_uint64(reply, "id", msgId);
+            }
+
+            // kbase
+            if (msgId == JBD_MSG_KRW_LIB_KINFO_KBASE) {
+                xpc_dictionary_set_uint64(reply, "kbase", kernel_info.kbase);
+                xpc_dictionary_set_uint64(reply, "ret", 0);
             }
 
             // kread32
