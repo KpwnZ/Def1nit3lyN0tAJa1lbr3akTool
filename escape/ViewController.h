@@ -9,6 +9,7 @@
 
 @interface ViewController : UIViewController
 
+- (BOOL)pingJBD;
 
 @end
 

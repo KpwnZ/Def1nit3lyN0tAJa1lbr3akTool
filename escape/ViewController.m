@@ -11,6 +11,9 @@
 #import "libkfd/libkfd.h"
 #import "post_exploitation/post_exp.h"
 #import <sys/utsname.h>
+#import <xpc/xpc.h>
+#import "jailbreakd.h"
+#import "utils.h"
 
 @interface ViewController ()
 
@@ -84,7 +87,18 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         post_exp(kfd);
         kclose(kfd);
+        util_runCommand("/var/jb/usr/bin/killall", "-9", "backboardd", NULL);
     });
+}
+
+- (BOOL)pingJBD {
+    xpc_object_t message = xpc_dictionary_create_empty();
+    xpc_dictionary_set_uint64(message, "id", 0x100);
+    xpc_dictionary_set_uint64(message, "pid", (uint64_t)getpid());
+
+    xpc_object_t reply = sendJBDMessage(message);
+    if (!reply) return NO;
+    return YES;
 }
 
 - (void)logMessage:(NSString *)message {
