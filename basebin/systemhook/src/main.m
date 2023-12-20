@@ -383,8 +383,6 @@ __attribute__((constructor)) static void initializer(void) {
     JB_RootPath = strdup(getenv("JB_ROOT_PATH"));
 
     if (!strcmp(getenv("DYLD_INSERT_LIBRARIES"), "/usr/lib/systemhook.dylib")) {
-        // Unset DYLD_INSERT_LIBRARIES, but only if we are the only thing contained
-        // in it
         unsetenv("DYLD_INSERT_LIBRARIES");
     }
 
@@ -409,15 +407,6 @@ __attribute__((constructor)) static void initializer(void) {
                 dlopen_hook(JB_ROOT_PATH("/basebin/rootlesshooks.dylib"), RTLD_NOW);
             }
         }
-
-        // XXX NOT IMPLEMENTED
-        //  else if (strcmp(gExecutablePath, "/usr/libexec/watchdogd") == 0) {
-        //  	int64_t debugErr = jbdswDebugMe();
-        //  	if (debugErr == 0) {
-        //  		dlopen_hook(JB_ROOT_PATH("/basebin/watchdoghook.dylib"),
-        //  RTLD_NOW);
-        //  	}
-        //  }
     }
 
     if (shouldEnableTweaks()) {

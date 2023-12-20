@@ -9,7 +9,7 @@ $(TARGET): $(wildcard src/*.m src/*.c)
 	codesign -f -s - --timestamp=none --all-architectures --deep $@
 	mv systemhook.dylib ../../binaries
 	rm ../../binaries/jb.tc
-	trustcache create ../../binaries/jb.tc ../../binaries
+	trustcache create -v $(TRUSTCACHEVERSION) ../../binaries/jb.tc ../../binaries
 	
 clean:
 	@rm -f $(TARGET)
