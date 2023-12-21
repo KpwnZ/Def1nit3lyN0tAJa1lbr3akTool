@@ -83,10 +83,10 @@ void tcPagesChanged(void) {
         if (_page == NULL) {
             _page = (trustcache_page *)malloc(ALLOCATED_DYNAMIC_TRUSTCACHE_SIZE);
         }
-        NSLog(@"[jailbreakd] kreadbuf: 0x%llx, size: 0x%llx\n", kaddr, ALLOCATED_DYNAMIC_TRUSTCACHE_SIZE);
+        NSLog(@"[jailbreakd] kreadbuf: 0x%llx, size: 0x%x\n", kaddr, ALLOCATED_DYNAMIC_TRUSTCACHE_SIZE);
         usleep(500);
         kreadbuf(kaddr, _page, ALLOCATED_DYNAMIC_TRUSTCACHE_SIZE);
-        NSLog(@"[jailbreakd] kreadbuf: 0x%llx, size: 0x%llx\n", kaddr, ALLOCATED_DYNAMIC_TRUSTCACHE_SIZE);
+        NSLog(@"[jailbreakd] kreadbuf: 0x%llx, size: 0x%x\n", kaddr, ALLOCATED_DYNAMIC_TRUSTCACHE_SIZE);
     } else {
         _page = 0;
     }

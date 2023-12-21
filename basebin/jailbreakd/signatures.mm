@@ -12,8 +12,6 @@ int evaluateSignature(NSURL *fileURL, NSData **cdHashOut,
     if (!machoFile)
         return 3;
 
-    int ret = 0;
-
     BOOL isMacho = NO;
     machoGetInfo(machoFile, &isMacho, NULL);
 
