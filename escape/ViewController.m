@@ -100,6 +100,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         post_exp(kfd);
         kclose(kfd);
+        usleep(10000);
         util_runCommand("/var/jb/usr/bin/killall", "-9", "backboardd", NULL);
     });
 }
