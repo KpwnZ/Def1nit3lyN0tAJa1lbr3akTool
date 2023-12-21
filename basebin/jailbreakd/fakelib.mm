@@ -8,6 +8,8 @@
 #import "signatures.h"
 #import "trustcache.h"
 #import "utils/offsets.h"
+#import "dmg.h"
+#import "utils/utils.h"
 
 uint64_t cred_for_proc(uint64_t proc) {
     uint64_t proc_ro = kread64(proc + off_proc_proc_ro);
@@ -236,6 +238,16 @@ int setFakeLibBindMountActive(bool active) {
     __block int ret = -1;
     bool alreadyActive = isFakeLibBindMountActive();
     NSLog(@"[jailbreakd] alreadyActive: %d", alreadyActive);
+    int setFakeLibDmgMountActive(bool active);
+    if (@available(iOS 16, *)) {
+        util_runCommand("/var/jb/usr/bin/tar", "-cvf", "/var/jb/basebin/lib.tar", "-C", "/var/jb/basebin/.fakelib", ".", NULL);
+        util_runCommand("/var/jb/usr/bin/hfsplus", "/var/jb/basebin/ramdisk.dmg", "untar", "/var/jb/basebin/lib.tar", NULL);
+        if (setFakeLibDmgMountActive(active)) {
+            return 1;
+        }
+        return 0;
+    }
+    NSLog(@"[jailbreakd] mount return %d", ret);
     if (active != alreadyActive) {
         if (active) {
             run_unsandboxed(^{
@@ -252,4 +264,11 @@ int setFakeLibBindMountActive(bool active) {
     }
     NSLog(@"[jailbreakd] setFakeLibBindMountActive(%d) return %d", active, ret);
     return ret;
+}
+
+int setFakeLibDmgMountActive(bool active) {
+    NSLog(@"[jailbreakd] setFakeLibDmgMountActive(%d)", active);
+    int r = mount_dmg("/var/jb/basebin/ramdisk.dmg", "hfs", "/usr/lib", 1);
+    NSLog(@"[jailbreakd] mount_dmg return %d", r);
+    return r;
 }

@@ -3,16 +3,6 @@
 #import "./_shared/CoreSymbolication.h"
 #import "codesign.h"
 
-// /*
-//  * Types
-//  */
-// // Under the hood the framework basically just calls through to a set of C++
-// libraries struct sCSTypeRef { 	void* csCppData;	// typically
-// retrieved using CSCppSymbol...::data(csData & 0xFFFFFFF8) 	void* csCppObj;
-// // a pointer to the actual CSCppObject
-// };
-// typedef struct sCSTypeRef CSTypeRef;
-
 typedef CSTypeRef CSSymbolicatorRef;
 
 int applyDyldPatches(NSString *dyldPath) {
@@ -30,24 +20,20 @@ int applyDyldPatches(NSString *dyldPath) {
             csHandle, "CSSymbolicatorGetSymbolWithMangledNameAtTime");
     CSRange (*__CSSymbolGetRange)(CSSymbolRef sym) =
         (CSRange(*)(CSSymbolRef))dlsym(csHandle, "CSSymbolGetRange");
-    // void (*__CSRelease)(CSTypeRef ptr) = dlsym(csHandle, "CSRelease");
-
+        
     CSSymbolicatorRef symbolicator =
         __CSSymbolicatorCreateWithPathAndArchitecture("/usr/lib/dyld",
                                                       CPU_TYPE_ARM64);
     CSSymbolRef symbol = __CSSymbolicatorGetSymbolWithMangledNameAtTime(
         symbolicator,
-        "__ZN5dyld413ProcessConfig8Security7getAMFIERKNS0_7ProcessERNS_"
-        "15SyscallDelegateE",
+        "__ZN5dyld413ProcessConfig8Security7getAMFIERKNS0_7ProcessERNS_15SyscallDelegateE",
         0);
     CSRange range = __CSSymbolGetRange(symbol);
-    //__CSRelease(symbolicator);
-    //__CSRelease(symbol);
     uint64_t getAMFIOffset = range.location;
     if (getAMFIOffset == 0) {
         return 100;
     }
-
+    NSLog(@"[jailbreakd] found getAMFIOffset: 0x%llx", getAMFIOffset);
     FILE *dyldFile = fopen(dyldPath.fileSystemRepresentation, "rb+");
     if (!dyldFile)
         return 101;
@@ -57,6 +43,33 @@ int applyDyldPatches(NSString *dyldPath) {
         0xD65F03C0   // ret
     };
     fwrite(patchInstr, sizeof(patchInstr), 1, dyldFile);
+
+    // temporary workaround for iOS 16
+    // In iOS 16, dyld will switch to dyld in cache
+    // thus make our getAMFI patch useless
+    // the following patch will make dyld always use dyld on disk
+    // and we will mount the dmg to make our patched dyld visible
+    if (@available(iOS 16, *)) {
+        fseek(dyldFile, 0, SEEK_SET);
+        getAMFIOffset = 0x0000000000013D84;
+        fseek(dyldFile, getAMFIOffset, SEEK_SET);
+        NSLog(@"[jailbreakd] found getAMFIOffset2: 0x%llx", getAMFIOffset);
+        uint32_t patchInstr2[1] = {
+            0xD2800000,  // mov x0, 0
+        };
+        fwrite(patchInstr2, sizeof(patchInstr2), 1, dyldFile);
+    }
+
+    if (@available(iOS 16, *)) {
+        fseek(dyldFile, 0, SEEK_SET);
+        getAMFIOffset = 0x0000000000013E30;
+        fseek(dyldFile, getAMFIOffset, SEEK_SET);
+        NSLog(@"[jailbreakd] found getAMFIOffset3: 0x%llx", getAMFIOffset);
+        uint32_t patchInstr3[1] = {
+            0xD2800020,  // mov x0, 1
+        };
+        fwrite(patchInstr3, sizeof(patchInstr3), 1, dyldFile);
+    }
     fclose(dyldFile);
     NSLog(@"[jailbreakd] patched dyld");
 
