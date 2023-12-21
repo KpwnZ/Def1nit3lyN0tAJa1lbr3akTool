@@ -197,6 +197,7 @@ void jailbreakd_received_message(mach_port_t machPort, bool systemwide) {
             if (msgId == JBD_MSG_SETUP_KERNEL) {
                 kernel_info.kbase = xpc_dictionary_get_uint64(message, "kbase");
                 kernel_info.kslide = xpc_dictionary_get_uint64(message, "kslide");
+                kernel_info.pmap_image4_trust_caches = xpc_dictionary_get_uint64(message, "pmap_image4_trust_caches");
                 kernel_info.fake_userclient = xpc_dictionary_get_uint64(message, "fake_userclient");
                 kernel_info.fake_userclient_vtable = xpc_dictionary_get_uint64(message, "fake_userclient_vtable");
                 kernel_info.kproc = xpc_dictionary_get_uint64(message, "kproc");

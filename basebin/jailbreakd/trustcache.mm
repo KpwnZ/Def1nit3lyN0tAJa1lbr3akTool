@@ -7,6 +7,8 @@
 #import "signatures.h"
 #import "utils/proc.h"
 
+extern struct kinfo kernel_info;
+
 int tcentryComparator(const void *vp1, const void *vp2) {
     if (@available(iOS 16.0, *)) {
         trustcache_entry2 *tc1 = (trustcache_entry2 *)vp1;
@@ -73,8 +75,8 @@ BOOL trustCacheListAdd(uint64_t trustCacheKaddr) {
     if (!trustCacheKaddr)
         return NO;
     NSLog(@"[jailbreakd] trustCacheListAdd: pmap_image4_trust_caches: 0x%llx\n",
-          bootInfo_getSlidUInt64(@"off_trustcache"));
-    uint64_t pmap_image4_trust_caches = bootInfo_getSlidUInt64(@"off_trustcache");
+          kernel_info.pmap_image4_trust_caches);
+    uint64_t pmap_image4_trust_caches = kernel_info.pmap_image4_trust_caches;
     uint64_t curTc = kread64(pmap_image4_trust_caches);
     if (curTc == 0) {
         kwrite64(pmap_image4_trust_caches, trustCacheKaddr);
@@ -105,7 +107,7 @@ BOOL trustCacheListRemove(uint64_t trustCacheKaddr) {
     uint64_t nextPtr =
         kread64(trustCacheKaddr + offsetof(trustcache_page, nextPtr));
 
-    uint64_t pmap_image4_trust_caches = bootInfo_getSlidUInt64(@"off_trustcache");
+    uint64_t pmap_image4_trust_caches = kernel_info.pmap_image4_trust_caches;
     uint64_t curTc = kread64(pmap_image4_trust_caches);
     if (curTc == 0) {
         NSLog(@"[jailbreakd] WARNING: Tried to unlink trust cache page 0x%llX but "
@@ -160,7 +162,7 @@ uint64_t staticTrustCacheUploadFile(trustcache_file *fileToUpload,
     }
 
     uint64_t mapKaddr = kalloc(mapSize);
-    NSLog(@"[jailbreakd]: kalloc(%zu) -> 0x%llx\n", mapSize, mapKaddr);
+    NSLog(@"[jailbreakd]: kalloc(%llu) -> 0x%llx\n", mapSize, mapKaddr);
     kwrite64(mapKaddr, 0x4141414141414141);
     uint64_t test = kread64(mapKaddr);
     NSLog(@"[jailbreakd]: kread64(0x%llx) -> 0x%llx\n", mapKaddr, test);
@@ -251,14 +253,11 @@ int processBinary(NSString *binaryPath) {
 
     int ret = 0;
 
-    uint64_t selfproc = kernel_info.self_proc;// proc_for_pid(getpid());
-
     FILE *machoFile = fopen(binaryPath.fileSystemRepresentation, "rb");
     if (!machoFile)
         return 1;
 
     if (machoFile) {
-        int fd = fileno(machoFile);
 
         bool isMacho = NO;
         bool isLibrary = NO;
