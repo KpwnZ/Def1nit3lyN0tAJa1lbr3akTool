@@ -6,5 +6,6 @@
 
 NSString *proc_get_path(pid_t pid);
 void JBLogDebug(const char *format, ...);
+int util_runCommand(const char *cmd, ...);
 
 #endif
