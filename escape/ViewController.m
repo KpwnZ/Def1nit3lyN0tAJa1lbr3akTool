@@ -42,25 +42,38 @@
     self.logView.font = [UIFont monospacedSystemFontOfSize:10 weight:1];
     [self.view addSubview:self.logView];
     
+    UILabel *label = [[UILabel alloc] init];
+    label.text = @"By xia0o0o0o";
+    [label sizeToFit];
+    label.font = [UIFont systemFontOfSize:15];
+    [self.view addSubview:label];
+    
     // Set up constraints
+    label.translatesAutoresizingMaskIntoConstraints = NO;
+    [NSLayoutConstraint activateConstraints:@[
+        [label.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor]
+    ]];
+    
     self.jailbreakButton.translatesAutoresizingMaskIntoConstraints = NO;
     [NSLayoutConstraint activateConstraints:@[
         [self.jailbreakButton.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor],
-        [self.jailbreakButton.topAnchor constraintEqualToAnchor:self.view.topAnchor constant:50]
+        [self.jailbreakButton.topAnchor constraintEqualToAnchor:self.view.topAnchor constant:50],
+        [label.topAnchor constraintEqualToAnchor:self.jailbreakButton.bottomAnchor constant:15],
     ]];
     
     self.logView.translatesAutoresizingMaskIntoConstraints = NO;
     [NSLayoutConstraint activateConstraints:@[
         [self.logView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:20],
         [self.logView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:-20],
-        [self.logView.topAnchor constraintEqualToAnchor:self.jailbreakButton.bottomAnchor constant:20],
-        [self.logView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:-20]
+        [self.logView.topAnchor constraintEqualToAnchor:label.bottomAnchor constant:20],
+        [self.logView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:0]
     ]];
     
     [[LogHelper sharedInstance] setLogView:self.logView];
     
     // Log a message to the log view
     [[LogHelper sharedInstance] logMessage:@"[*] ready to start"];
+    [[LogHelper sharedInstance] logMessage:@"[*] Post exploitation by xia0o0o0o"];
 
     // get uname and log with format
     struct utsname u = { 0 };
