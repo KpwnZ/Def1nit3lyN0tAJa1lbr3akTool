@@ -17,7 +17,7 @@ struct kinfo {
     uint64_t self_proc;
     uint64_t fake_userclient;
     uint64_t fake_userclient_vtable;
-
+    uint64_t pmap_image4_trust_caches;
     struct {
         uint64_t addr_proc_set_ucred;
     } kernel_functions;
