@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1100C2772B17D875005F1DDD /* deb.tar in Resources */ = {isa = PBXBuildFile; fileRef = 1100C2762B17D875005F1DDD /* deb.tar */; };
-		1100C27B2B17D8E9005F1DDD /* CydiaSubstrate.framework in Resources */ = {isa = PBXBuildFile; fileRef = 1100C2792B17D8C2005F1DDD /* CydiaSubstrate.framework */; };
 		1101D0902B311E2600684BD5 /* ramdisk.dmg in Resources */ = {isa = PBXBuildFile; fileRef = 1101D08F2B311E1000684BD5 /* ramdisk.dmg */; };
 		1153AF032B089809000F4721 /* iosbinpack.tc in Resources */ = {isa = PBXBuildFile; fileRef = 1153AEFD2B089809000F4721 /* iosbinpack.tc */; };
 		1153AF042B089809000F4721 /* tar.tc in Resources */ = {isa = PBXBuildFile; fileRef = 1153AEFE2B089809000F4721 /* tar.tc */; };
@@ -36,17 +35,11 @@
 		11AA8B4C2B05CA84002AE1E5 /* krw.m in Sources */ = {isa = PBXBuildFile; fileRef = 11AA8B4B2B05CA84002AE1E5 /* krw.m */; };
 		11AA8B4F2B05CC04002AE1E5 /* ipc.m in Sources */ = {isa = PBXBuildFile; fileRef = 11AA8B4E2B05CC04002AE1E5 /* ipc.m */; };
 		11AA8D1B2B063E0E002AE1E5 /* kpf.m in Sources */ = {isa = PBXBuildFile; fileRef = 11AA8D1A2B063E0D002AE1E5 /* kpf.m */; };
-		11E67AF02B0A7F7900F1A291 /* jbctl in Resources */ = {isa = PBXBuildFile; fileRef = 11E67AED2B0A7F7900F1A291 /* jbctl */; platformFilter = ios; };
-		11E67AF12B0A7F7900F1A291 /* jailbreakd in Resources */ = {isa = PBXBuildFile; fileRef = 11E67AEE2B0A7F7900F1A291 /* jailbreakd */; platformFilter = ios; };
-		11E67AF52B0A87D000F1A291 /* jbinit in Resources */ = {isa = PBXBuildFile; fileRef = 11E67AF42B0A87D000F1A291 /* jbinit */; platformFilter = ios; };
-		11E67AF92B0A89FE00F1A291 /* opainject in Resources */ = {isa = PBXBuildFile; fileRef = 11E67AF82B0A89FE00F1A291 /* opainject */; platformFilter = ios; };
-		11E67AFE2B0A8AF800F1A291 /* systemhook.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 11E67AFC2B0A8A0600F1A291 /* systemhook.dylib */; };
-		11E67AFF2B0A8AFF00F1A291 /* rootlesshooks.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 11E67AFA2B0A8A0100F1A291 /* rootlesshooks.dylib */; };
-		11E67B002B0A8B0200F1A291 /* launchdhook.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 11E67AF62B0A89FA00F1A291 /* launchdhook.dylib */; };
-		11E67B012B0A8CBC00F1A291 /* jb.tc in Resources */ = {isa = PBXBuildFile; fileRef = 11E67AF32B0A812500F1A291 /* jb.tc */; };
 		11E67B032B0A8F8400F1A291 /* com.xia0o0o0o.jailbreakd.plist in Resources */ = {isa = PBXBuildFile; fileRef = 11E67B022B0A8F8400F1A291 /* com.xia0o0o0o.jailbreakd.plist */; };
 		11E67BDC2B0B4BA900F1A291 /* jailbreakd.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E67BDB2B0B4BA900F1A291 /* jailbreakd.m */; };
 		11F9D5462B34E0C300C9CB35 /* IOKit.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 11F9D5442B34E0AC00C9CB35 /* IOKit.tbd */; };
+		11F9D54A2B3514EF00C9CB35 /* launchctl.tar in Resources */ = {isa = PBXBuildFile; fileRef = 11F9D5492B3514EF00C9CB35 /* launchctl.tar */; };
+		11F9D54C2B35168200C9CB35 /* binaries.tar in Resources */ = {isa = PBXBuildFile; fileRef = 11F9D54B2B35168200C9CB35 /* binaries.tar */; };
 		11FC3DDF2AFE099300964702 /* post_exp.m in Sources */ = {isa = PBXBuildFile; fileRef = 11FC3DDE2AFE099300964702 /* post_exp.m */; };
 		11FC3DE52AFE0F6E00964702 /* offsets.m in Sources */ = {isa = PBXBuildFile; fileRef = 11FC3DE32AFE0F6E00964702 /* offsets.m */; };
 		11FC3DE72AFE115600964702 /* libkfd.m in Sources */ = {isa = PBXBuildFile; fileRef = 11FC3DE62AFE115600964702 /* libkfd.m */; };
@@ -72,7 +65,6 @@
 
 /* Begin PBXFileReference section */
 		1100C2762B17D875005F1DDD /* deb.tar */ = {isa = PBXFileReference; lastKnownFileType = archive.tar; path = deb.tar; sourceTree = "<group>"; };
-		1100C2792B17D8C2005F1DDD /* CydiaSubstrate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CydiaSubstrate.framework; sourceTree = "<group>"; };
 		1101D08F2B311E1000684BD5 /* ramdisk.dmg */ = {isa = PBXFileReference; lastKnownFileType = file; path = ramdisk.dmg; sourceTree = "<group>"; };
 		1153AEFD2B089809000F4721 /* iosbinpack.tc */ = {isa = PBXFileReference; lastKnownFileType = file; path = iosbinpack.tc; sourceTree = "<group>"; };
 		1153AEFE2B089809000F4721 /* tar.tc */ = {isa = PBXFileReference; lastKnownFileType = file; path = tar.tc; sourceTree = "<group>"; };
@@ -302,14 +294,6 @@
 		11AA8D192B05CE38002AE1E5 /* IOSerialKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOSerialKeys.h; sourceTree = "<group>"; };
 		11AA8D1A2B063E0D002AE1E5 /* kpf.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = kpf.m; sourceTree = "<group>"; };
 		11AA8D1C2B063E1C002AE1E5 /* kpf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = kpf.h; sourceTree = "<group>"; };
-		11E67AED2B0A7F7900F1A291 /* jbctl */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = jbctl; sourceTree = "<group>"; };
-		11E67AEE2B0A7F7900F1A291 /* jailbreakd */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = jailbreakd; sourceTree = "<group>"; };
-		11E67AF32B0A812500F1A291 /* jb.tc */ = {isa = PBXFileReference; lastKnownFileType = file; path = jb.tc; sourceTree = "<group>"; };
-		11E67AF42B0A87D000F1A291 /* jbinit */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = jbinit; sourceTree = "<group>"; };
-		11E67AF62B0A89FA00F1A291 /* launchdhook.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = launchdhook.dylib; sourceTree = "<group>"; };
-		11E67AF82B0A89FE00F1A291 /* opainject */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = opainject; sourceTree = "<group>"; };
-		11E67AFA2B0A8A0100F1A291 /* rootlesshooks.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = rootlesshooks.dylib; sourceTree = "<group>"; };
-		11E67AFC2B0A8A0600F1A291 /* systemhook.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = systemhook.dylib; sourceTree = "<group>"; };
 		11E67B022B0A8F8400F1A291 /* com.xia0o0o0o.jailbreakd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = com.xia0o0o0o.jailbreakd.plist; sourceTree = "<group>"; };
 		11E67B0C2B0AA7A200F1A291 /* CoreSymbolication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreSymbolication.h; sourceTree = "<group>"; };
 		11E67B0D2B0AA7A200F1A291 /* libellekit.tbd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.text-based-dylib-definition"; path = libellekit.tbd; sourceTree = "<group>"; };
@@ -490,6 +474,8 @@
 		11E67BDA2B0B4BA900F1A291 /* jailbreakd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jailbreakd.h; sourceTree = "<group>"; };
 		11E67BDB2B0B4BA900F1A291 /* jailbreakd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = jailbreakd.m; sourceTree = "<group>"; };
 		11F9D5442B34E0AC00C9CB35 /* IOKit.tbd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.text-based-dylib-definition"; path = IOKit.tbd; sourceTree = "<group>"; };
+		11F9D5492B3514EF00C9CB35 /* launchctl.tar */ = {isa = PBXFileReference; lastKnownFileType = archive.tar; path = launchctl.tar; sourceTree = "<group>"; };
+		11F9D54B2B35168200C9CB35 /* binaries.tar */ = {isa = PBXFileReference; lastKnownFileType = archive.tar; path = binaries.tar; sourceTree = SOURCE_ROOT; };
 		11FC3DDC2AFE04C300964702 /* objcLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = objcLogger.h; sourceTree = "<group>"; };
 		11FC3DDD2AFE098200964702 /* post_exp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = post_exp.h; sourceTree = "<group>"; };
 		11FC3DDE2AFE099300964702 /* post_exp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = post_exp.m; sourceTree = "<group>"; };
@@ -526,19 +512,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1100C2782B17D8C2005F1DDD /* fallback */ = {
-			isa = PBXGroup;
-			children = (
-				1100C2792B17D8C2005F1DDD /* CydiaSubstrate.framework */,
-			);
-			path = fallback;
-			sourceTree = "<group>";
-		};
 		1153AEFC2B089809000F4721 /* iosbinpack */ = {
 			isa = PBXGroup;
 			children = (
 				11803AC52B15135500513794 /* launchctl.tc */,
 				11803AC12B15131000513794 /* launchctl */,
+				11F9D5492B3514EF00C9CB35 /* launchctl.tar */,
 				11E67B022B0A8F8400F1A291 /* com.xia0o0o0o.jailbreakd.plist */,
 				1153AEFD2B089809000F4721 /* iosbinpack.tc */,
 				1153AEFE2B089809000F4721 /* tar.tc */,
@@ -576,8 +555,8 @@
 			isa = PBXGroup;
 			children = (
 				11FC3DDC2AFE04C300964702 /* objcLogger.h */,
+				11F9D54B2B35168200C9CB35 /* binaries.tar */,
 				1100C2762B17D875005F1DDD /* deb.tar */,
-				11E67AEC2B0A7F7900F1A291 /* binaries */,
 				1153AEFC2B089809000F4721 /* iosbinpack */,
 				11AA8C6E2B05CE37002AE1E5 /* IOKit */,
 				11E67B0B2B0AA7A200F1A291 /* _shared */,
@@ -751,7 +730,6 @@
 			isa = PBXGroup;
 			children = (
 				11FFB7422B13C85C00DDDC52 /* UIKit.framework */,
-				116E529A2AFE02B600E79E59 /* IOKit.tbd */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1095,22 +1073,6 @@
 			);
 			path = serial;
 			sourceTree = "<group>";
-		};
-		11E67AEC2B0A7F7900F1A291 /* binaries */ = {
-			isa = PBXGroup;
-			children = (
-				11E67AF62B0A89FA00F1A291 /* launchdhook.dylib */,
-				11E67AFA2B0A8A0100F1A291 /* rootlesshooks.dylib */,
-				11E67AFC2B0A8A0600F1A291 /* systemhook.dylib */,
-				11E67AF82B0A89FE00F1A291 /* opainject */,
-				11E67AF42B0A87D000F1A291 /* jbinit */,
-				11E67AED2B0A7F7900F1A291 /* jbctl */,
-				1100C2782B17D8C2005F1DDD /* fallback */,
-				11E67AF32B0A812500F1A291 /* jb.tc */,
-				11E67AEE2B0A7F7900F1A291 /* jailbreakd */,
-			);
-			path = binaries;
-			sourceTree = SOURCE_ROOT;
 		};
 		11E67B0B2B0AA7A200F1A291 /* _shared */ = {
 			isa = PBXGroup;
@@ -1624,27 +1586,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				1101D0902B311E2600684BD5 /* ramdisk.dmg in Resources */,
-				11E67AF52B0A87D000F1A291 /* jbinit in Resources */,
-				11E67AF02B0A7F7900F1A291 /* jbctl in Resources */,
-				11E67AFE2B0A8AF800F1A291 /* systemhook.dylib in Resources */,
-				11E67B002B0A8B0200F1A291 /* launchdhook.dylib in Resources */,
-				11E67B012B0A8CBC00F1A291 /* jb.tc in Resources */,
-				11E67AFF2B0A8AFF00F1A291 /* rootlesshooks.dylib in Resources */,
 				1153AF082B089809000F4721 /* tar in Resources */,
+				11F9D54A2B3514EF00C9CB35 /* launchctl.tar in Resources */,
 				1100C2772B17D875005F1DDD /* deb.tar in Resources */,
 				1153AF072B089809000F4721 /* bootstrap-iphoneos-arm64.tar in Resources */,
 				1153AF042B089809000F4721 /* tar.tc in Resources */,
 				1153AF052B089809000F4721 /* binaries.tc in Resources */,
 				1153AF062B089809000F4721 /* iosbinpack.tar in Resources */,
-				11E67AF92B0A89FE00F1A291 /* opainject in Resources */,
-				1100C27B2B17D8E9005F1DDD /* CydiaSubstrate.framework in Resources */,
-				11E67AF12B0A7F7900F1A291 /* jailbreakd in Resources */,
 				11E67B032B0A8F8400F1A291 /* com.xia0o0o0o.jailbreakd.plist in Resources */,
 				11803AC62B15145300513794 /* launchctl.tc in Resources */,
 				116E52262AFDD99500E79E59 /* LaunchScreen.storyboard in Resources */,
 				1153AF032B089809000F4721 /* iosbinpack.tc in Resources */,
 				116E52232AFDD99500E79E59 /* Assets.xcassets in Resources */,
 				116E52212AFDD99300E79E59 /* Main.storyboard in Resources */,
+				11F9D54C2B35168200C9CB35 /* binaries.tar in Resources */,
 				11803AC22B15131100513794 /* launchctl in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
