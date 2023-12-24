@@ -203,7 +203,7 @@ void jailbreakd_received_message(mach_port_t machPort, bool systemwide) {
                 kernel_info.kproc = xpc_dictionary_get_uint64(message, "kproc");
                 kernel_info.self_proc = xpc_dictionary_get_uint64(message, "self_proc");
                 kernel_info.kernel_functions.addr_proc_set_ucred = xpc_dictionary_get_uint64(message, "addr_proc_set_ucred");
-                kernel_info.kernel_functions.osarray_init = xpc_dictionary_get_uint64(message, "off_container_init");
+                kernel_info.kernel_functions.container_init = xpc_dictionary_get_uint64(message, "off_container_init");
 
                 JBLogDebug("[jailbreakd] received kernel info: kbase: 0x%llx, kslide: 0x%llx", kernel_info.kbase, kernel_info.kslide);
                 JBLogDebug("[jailbreakd] received kernel info: fake_userclient: 0x%llx, fake_userclient_vtable: 0x%llx", kernel_info.fake_userclient, kernel_info.fake_userclient_vtable);
