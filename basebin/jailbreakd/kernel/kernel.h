@@ -20,6 +20,7 @@ struct kinfo {
     uint64_t pmap_image4_trust_caches;
     struct {
         uint64_t addr_proc_set_ucred;
+        uint64_t osarray_init;
     } kernel_functions;
     
 };

@@ -98,7 +98,7 @@ void kread_string(uint64_t addr, char *out) {
 
 uint64_t kalloc(size_t ksize) {
     // kalloc slightly more
-    uint64_t r = kcall(off_container_init + get_kernel_slide(), kernel_info.fake_userclient + 0x200, ksize / 8 + 8, 0, 0, 0, 0);
+    uint64_t r = kcall(off_container_init, kernel_info.fake_userclient + 0x200, ksize / 8 + 8, 0, 0, 0, 0);
     if (r == 0) return 0;
     uint32_t low32 = kread32(kernel_info.fake_userclient + 0x200 + 0x20);
     uint32_t high32 = kread32(kernel_info.fake_userclient + 0x200 + 0x20 + 0x4);
