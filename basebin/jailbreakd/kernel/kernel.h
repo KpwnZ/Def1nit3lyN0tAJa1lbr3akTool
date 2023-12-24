@@ -21,6 +21,9 @@ struct kinfo {
     struct {
         uint64_t addr_proc_set_ucred;
         uint64_t container_init;
+        uint64_t kcall_gadget;
+        uint64_t kread_gadget;
+        uint64_t kwrite_gadget;
     } kernel_functions;
     
 };

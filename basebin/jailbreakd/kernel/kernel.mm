@@ -66,7 +66,7 @@ uint64_t kcall(uint64_t addr, uint64_t x0, uint64_t x1, uint64_t x2, uint64_t x3
 
 uint32_t kread32(uint64_t addr) {
     if (@available(iOS 16, *)) {
-        return (uint32_t)kcall(0xfffffff0072136cc + get_kernel_slide(), addr, 0, 0, 0, 0, 0);
+        return (uint32_t)kcall(kernel_info.kernel_functions.kread_gadget, addr, 0, 0, 0, 0, 0);
     }
 
     return (uint32_t)kcall(0xFFFFFFF009446D08 + get_kernel_slide(), 0, addr, 0, 0, 0, 0);
@@ -108,7 +108,7 @@ uint64_t kalloc(size_t ksize) {
 
 void kwrite64(uint64_t addr, uint64_t data) {
     if (@available(iOS 16, *)) {
-        kcall(0xfffffff007213788 + get_kernel_slide(), addr, data, 0, 0, 0, 0);
+        kcall(kernel_info.kernel_functions.kwrite_gadget, addr, data, 0, 0, 0, 0);
         return;
     }
 
