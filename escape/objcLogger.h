@@ -15,5 +15,11 @@
     [[LogHelper sharedInstance] logWithFormat:fmt, __VA_ARGS__]
 #define LOG(msg) \
     [[LogHelper sharedInstance] logMessage:msg]
+#define LOG_FMT_CONSOLE(fmt, ...) \
+do { \
+    usleep(500); \
+    [[LogHelper sharedInstance] logWithFormat:fmt, __VA_ARGS__]; \
+    NSLog(fmt, __VA_ARGS__); \
+} while(0)
 
 #endif /* objcLogger_h */
