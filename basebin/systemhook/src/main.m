@@ -224,8 +224,8 @@ int execvP_hook(const char *file, const char *search_path, char *const argv[]) {
 
 void *dlopen_hook(const char *path, int mode) {
     if (path) {
-        jbdswProcessLibrary(path);
-    }
+                jbdswProcessLibrary(path);
+            }
 
     void *callerAddress = __builtin_return_address(0);
     return dlopen_from(path, mode, callerAddress);
@@ -356,9 +356,7 @@ bool shouldEnableTweaks(void) {
         // System binaries
         "/usr/libexec/xpcproxy",
         "WebContent",
-        // Dopamine app itself (jailbreak detection bypass tweaks can break it)
-        // "Dopamine.app/Dopamine",
-        "kfd.app/kfd",
+        "escape"
     };
     for (size_t i = 0;
          i < sizeof(tweaksDisabledPathSuffixes) / sizeof(const char *); i++) {
