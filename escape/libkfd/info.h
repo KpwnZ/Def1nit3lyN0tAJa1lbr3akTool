@@ -210,7 +210,9 @@ void info_init(struct kfd* kfd)
                 break;
             }
             default: {
-                assert_false("unsupported osversion");
+                kfd->info.env.vid = 0;
+                kfd->info.env.ios = true;
+                break;
             }
         }
     }
