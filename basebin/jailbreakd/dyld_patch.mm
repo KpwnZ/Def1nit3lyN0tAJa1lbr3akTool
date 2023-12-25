@@ -49,11 +49,19 @@ int applyDyldPatches(NSString *dyldPath) {
     // thus make our getAMFI patch useless
     // the following patch will make dyld always use dyld on disk
     // and we will mount the dmg to make our patched dyld visible
+    // the following offsets might be different
+    CSSymbolRef start_symbol = __CSSymbolicatorGetSymbolWithMangledNameAtTime(
+        symbolicator,
+        "start",
+        0);
+    uint64_t start_addr = __CSSymbolGetRange(start_symbol).location;
+    if (start_addr == 0) {
+        return 102;
+    }
     if (@available(iOS 16, *)) {
         fseek(dyldFile, 0, SEEK_SET);
-        getAMFIOffset = 0x0000000000013D84;
-        fseek(dyldFile, getAMFIOffset, SEEK_SET);
-        NSLog(@"[jailbreakd] found getAMFIOffset2: 0x%llx", getAMFIOffset);
+        fseek(dyldFile, start_addr + 0x184, SEEK_SET);
+        NSLog(@"[jailbreakd] found patch addr: 0x%llx", start_addr + 0x184);
         uint32_t patchInstr2[1] = {
             0xD2800000,  // mov x0, 0
         };
@@ -62,9 +70,8 @@ int applyDyldPatches(NSString *dyldPath) {
 
     if (@available(iOS 16, *)) {
         fseek(dyldFile, 0, SEEK_SET);
-        getAMFIOffset = 0x0000000000013E30;
-        fseek(dyldFile, getAMFIOffset, SEEK_SET);
-        NSLog(@"[jailbreakd] found getAMFIOffset3: 0x%llx", getAMFIOffset);
+        fseek(dyldFile, start_addr + 0x230, SEEK_SET);
+        NSLog(@"[jailbreakd] found patch addr: 0x%llx", start_addr + 0x230);
         uint32_t patchInstr3[1] = {
             0xD2800020,  // mov x0, 1
         };
