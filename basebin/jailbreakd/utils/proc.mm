@@ -65,3 +65,25 @@ uint64_t vm_map_get_pmap(uint64_t vm_map) {
 uint64_t pmap_get_ttep(uint64_t pmap) {
     return kread64(pmap + off_pmap_ttep);
 }
+
+void proc_updatecsflags(uint64_t proc, uint32_t csflags) {
+    kcall(kernel_info.kernel_functions.proc_updatecsflags, proc, csflags, 0, 0, 0, 0);
+}
+
+void pid_set_csflags(pid_t pid, uint32_t csflags) {
+    uint64_t proc = proc_for_pid(pid);
+    if (proc == 0) {
+        return;
+    }
+    proc_updatecsflags(proc, csflags);
+}
+
+uint32_t proc_get_csflags(uint64_t proc) {
+    uint64_t proc_ro = kread64(proc + off_proc_proc_ro);
+    if (@available(iOS 16, *)) {
+        uint64_t p_csflags_with_p_idversion = kread64(proc_ro + 0x1c);
+        return p_csflags_with_p_idversion & 0xFFFFFFFF;
+    }
+    uint64_t p_csflags_with_p_idversion = kread64(proc_ro + 0x1c);
+    return p_csflags_with_p_idversion & 0xFFFFFFFF;
+}
