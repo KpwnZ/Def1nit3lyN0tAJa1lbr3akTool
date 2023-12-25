@@ -12,3 +12,10 @@ It can not be done without kfd, kfund, Dopamine and jailbreak community.
 ## Current status
 
 - tweak injection on iOS 15.7 and iOS 16.5
+
+## Known issues
+
+- Sideloading would break something, please build with Xcode or use Trollstore.
+- Userspace reboot is not supported now.
+- Probably won’t work for several iOS 16 versions such as iOS 16.0 to iOS 16.3.
+- Watchdog problem on iPhone 8
