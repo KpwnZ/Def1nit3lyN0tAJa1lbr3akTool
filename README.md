@@ -11,7 +11,9 @@ It can not be done without kfd, kfund, Dopamine and jailbreak community.
 
 ## Current status
 
-- tweak injection on iOS 15.7 and iOS 16.5
+Tested on: 
+- iPhone X, iOS 16.5
+- iPhone 8, iOS 16.5
 
 ## Known issues
 
