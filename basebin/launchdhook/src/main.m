@@ -41,7 +41,6 @@ NSString *generateSystemWideSandboxExtensions(void) {
                                                           0);
     if (machLookup) [extensionString appendString:[NSString stringWithUTF8String:machLookup]];
     else NSLog(@"[launchdhook] Failed to generate sandbox extension for com.apple.security.exception.mach-lookup.global-name");
-    [extensionString appendString:[NSString stringWithUTF8String:machLookup]];
 
     return extensionString;
 }
