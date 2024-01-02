@@ -13,8 +13,6 @@
 		1153AF042B089809000F4721 /* tar.tc in Resources */ = {isa = PBXBuildFile; fileRef = 1153AEFE2B089809000F4721 /* tar.tc */; };
 		1153AF052B089809000F4721 /* binaries.tc in Resources */ = {isa = PBXBuildFile; fileRef = 1153AEFF2B089809000F4721 /* binaries.tc */; };
 		1153AF062B089809000F4721 /* iosbinpack.tar in Resources */ = {isa = PBXBuildFile; fileRef = 1153AF002B089809000F4721 /* iosbinpack.tar */; };
-		1153AF072B089809000F4721 /* bootstrap-iphoneos-arm64.tar in Resources */ = {isa = PBXBuildFile; fileRef = 1153AF012B089809000F4721 /* bootstrap-iphoneos-arm64.tar */; };
-		1153AF082B089809000F4721 /* tar in Resources */ = {isa = PBXBuildFile; fileRef = 1153AF022B089809000F4721 /* tar */; platformFilter = ios; };
 		1153AF0A2B0986C9000F4721 /* utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1153AF092B0986C8000F4721 /* utils.m */; };
 		116E52182AFDD99300E79E59 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 116E52172AFDD99300E79E59 /* AppDelegate.m */; };
 		116E521B2AFDD99300E79E59 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 116E521A2AFDD99300E79E59 /* SceneDelegate.m */; };
@@ -27,7 +25,6 @@
 		116E523D2AFDD99600E79E59 /* escapeUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 116E523C2AFDD99600E79E59 /* escapeUITests.m */; };
 		116E523F2AFDD99600E79E59 /* escapeUITestsLaunchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 116E523E2AFDD99600E79E59 /* escapeUITestsLaunchTests.m */; };
 		116E52502AFDDC9E00E79E59 /* LogHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 116E524F2AFDDC9E00E79E59 /* LogHelper.m */; };
-		11803AC22B15131100513794 /* launchctl in Resources */ = {isa = PBXBuildFile; fileRef = 11803AC12B15131000513794 /* launchctl */; };
 		11803AC62B15145300513794 /* launchctl.tc in Resources */ = {isa = PBXBuildFile; fileRef = 11803AC52B15135500513794 /* launchctl.tc */; };
 		1199BD512B0E870000250879 /* kerncs.m in Sources */ = {isa = PBXBuildFile; fileRef = 1199BD502B0E870000250879 /* kerncs.m */; };
 		11AA8B462B05C65C002AE1E5 /* trustcache.m in Sources */ = {isa = PBXBuildFile; fileRef = 11AA8B452B05C65C002AE1E5 /* trustcache.m */; };
@@ -44,6 +41,10 @@
 		11FC3DE52AFE0F6E00964702 /* offsets.m in Sources */ = {isa = PBXBuildFile; fileRef = 11FC3DE32AFE0F6E00964702 /* offsets.m */; };
 		11FC3DE72AFE115600964702 /* libkfd.m in Sources */ = {isa = PBXBuildFile; fileRef = 11FC3DE62AFE115600964702 /* libkfd.m */; };
 		11FFB7432B13C85C00DDDC52 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11FFB7422B13C85C00DDDC52 /* UIKit.framework */; };
+		EB84AC062B4385AB003A29BC /* NSData+GZip.m in Sources */ = {isa = PBXBuildFile; fileRef = EB84AC022B4385AB003A29BC /* NSData+GZip.m */; };
+		EB84AC072B4385AB003A29BC /* NSString+SHA256.m in Sources */ = {isa = PBXBuildFile; fileRef = EB84AC042B4385AB003A29BC /* NSString+SHA256.m */; };
+		EB84AC092B4387AC003A29BC /* tar.gz in Resources */ = {isa = PBXBuildFile; fileRef = EB84AC082B4387AC003A29BC /* tar.gz */; };
+		EB84AC0B2B438A1D003A29BC /* bootstrap-iphoneos-arm64.tar.gz in Resources */ = {isa = PBXBuildFile; fileRef = EB84AC0A2B438A1D003A29BC /* bootstrap-iphoneos-arm64.tar.gz */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,8 +71,6 @@
 		1153AEFE2B089809000F4721 /* tar.tc */ = {isa = PBXFileReference; lastKnownFileType = file; path = tar.tc; sourceTree = "<group>"; };
 		1153AEFF2B089809000F4721 /* binaries.tc */ = {isa = PBXFileReference; lastKnownFileType = file; path = binaries.tc; sourceTree = "<group>"; };
 		1153AF002B089809000F4721 /* iosbinpack.tar */ = {isa = PBXFileReference; lastKnownFileType = archive.tar; path = iosbinpack.tar; sourceTree = "<group>"; };
-		1153AF012B089809000F4721 /* bootstrap-iphoneos-arm64.tar */ = {isa = PBXFileReference; lastKnownFileType = archive.tar; path = "bootstrap-iphoneos-arm64.tar"; sourceTree = "<group>"; };
-		1153AF022B089809000F4721 /* tar */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = tar; sourceTree = "<group>"; };
 		1153AF092B0986C8000F4721 /* utils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = utils.m; sourceTree = "<group>"; };
 		1153AF0B2B098713000F4721 /* utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
 		116E52132AFDD99300E79E59 /* escape.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = escape.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -132,7 +131,6 @@
 		116E527D2AFDE65600E79E59 /* perf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = perf.h; sourceTree = "<group>"; };
 		116E527E2AFDE65600E79E59 /* info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = info.h; sourceTree = "<group>"; };
 		116E527F2AFDE65600E79E59 /* libkfd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libkfd.h; sourceTree = "<group>"; };
-		11803AC12B15131000513794 /* launchctl */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = launchctl; sourceTree = "<group>"; };
 		11803AC52B15135500513794 /* launchctl.tc */ = {isa = PBXFileReference; lastKnownFileType = file; path = launchctl.tc; sourceTree = "<group>"; };
 		1199BD502B0E870000250879 /* kerncs.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = kerncs.m; sourceTree = "<group>"; };
 		1199BD562B0E88A500250879 /* kerncs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = kerncs.h; sourceTree = "<group>"; };
@@ -483,6 +481,12 @@
 		11FC3DE42AFE0F6E00964702 /* offsets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = offsets.h; sourceTree = "<group>"; };
 		11FC3DE62AFE115600964702 /* libkfd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = libkfd.m; sourceTree = "<group>"; };
 		11FFB7422B13C85C00DDDC52 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		EB84AC012B4385AB003A29BC /* NSData+GZip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+GZip.h"; sourceTree = "<group>"; };
+		EB84AC022B4385AB003A29BC /* NSData+GZip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+GZip.m"; sourceTree = "<group>"; };
+		EB84AC042B4385AB003A29BC /* NSString+SHA256.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SHA256.m"; sourceTree = "<group>"; };
+		EB84AC052B4385AB003A29BC /* NSString+SHA256.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SHA256.h"; sourceTree = "<group>"; };
+		EB84AC082B4387AC003A29BC /* tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = tar.gz; sourceTree = "<group>"; };
+		EB84AC0A2B438A1D003A29BC /* bootstrap-iphoneos-arm64.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "bootstrap-iphoneos-arm64.tar.gz"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -516,7 +520,6 @@
 			isa = PBXGroup;
 			children = (
 				11803AC52B15135500513794 /* launchctl.tc */,
-				11803AC12B15131000513794 /* launchctl */,
 				11F9D5492B3514EF00C9CB35 /* launchctl.tar */,
 				11E67B022B0A8F8400F1A291 /* com.xia0o0o0o.jailbreakd.plist */,
 				1153AEFD2B089809000F4721 /* iosbinpack.tc */,
@@ -524,8 +527,6 @@
 				1101D08F2B311E1000684BD5 /* ramdisk.dmg */,
 				1153AEFF2B089809000F4721 /* binaries.tc */,
 				1153AF002B089809000F4721 /* iosbinpack.tar */,
-				1153AF012B089809000F4721 /* bootstrap-iphoneos-arm64.tar */,
-				1153AF022B089809000F4721 /* tar */,
 			);
 			path = iosbinpack;
 			sourceTree = "<group>";
@@ -568,6 +569,8 @@
 				116E521A2AFDD99300E79E59 /* SceneDelegate.m */,
 				116E521C2AFDD99300E79E59 /* ViewController.h */,
 				116E521D2AFDD99300E79E59 /* ViewController.m */,
+				EB84AC0A2B438A1D003A29BC /* bootstrap-iphoneos-arm64.tar.gz */,
+				EB84AC082B4387AC003A29BC /* tar.gz */,
 				116E521F2AFDD99300E79E59 /* Main.storyboard */,
 				116E52222AFDD99500E79E59 /* Assets.xcassets */,
 				116E52242AFDD99500E79E59 /* LaunchScreen.storyboard */,
@@ -1077,6 +1080,7 @@
 		11E67B0B2B0AA7A200F1A291 /* _shared */ = {
 			isa = PBXGroup;
 			children = (
+				EB84ABFF2B4385AB003A29BC /* libs */,
 				11E67B0C2B0AA7A200F1A291 /* CoreSymbolication.h */,
 				11E67B0D2B0AA7A200F1A291 /* libellekit.tbd */,
 				11E67B0E2B0AA7A200F1A291 /* CoreServices */,
@@ -1482,6 +1486,33 @@
 			path = xpc;
 			sourceTree = "<group>";
 		};
+		EB84ABFF2B4385AB003A29BC /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				EB84AC002B4385AB003A29BC /* NSData */,
+				EB84AC032B4385AB003A29BC /* NSString */,
+			);
+			path = libs;
+			sourceTree = "<group>";
+		};
+		EB84AC002B4385AB003A29BC /* NSData */ = {
+			isa = PBXGroup;
+			children = (
+				EB84AC012B4385AB003A29BC /* NSData+GZip.h */,
+				EB84AC022B4385AB003A29BC /* NSData+GZip.m */,
+			);
+			path = NSData;
+			sourceTree = "<group>";
+		};
+		EB84AC032B4385AB003A29BC /* NSString */ = {
+			isa = PBXGroup;
+			children = (
+				EB84AC042B4385AB003A29BC /* NSString+SHA256.m */,
+				EB84AC052B4385AB003A29BC /* NSString+SHA256.h */,
+			);
+			path = NSString;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1586,13 +1617,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				1101D0902B311E2600684BD5 /* ramdisk.dmg in Resources */,
-				1153AF082B089809000F4721 /* tar in Resources */,
 				11F9D54A2B3514EF00C9CB35 /* launchctl.tar in Resources */,
 				1100C2772B17D875005F1DDD /* deb.tar in Resources */,
-				1153AF072B089809000F4721 /* bootstrap-iphoneos-arm64.tar in Resources */,
 				1153AF042B089809000F4721 /* tar.tc in Resources */,
 				1153AF052B089809000F4721 /* binaries.tc in Resources */,
 				1153AF062B089809000F4721 /* iosbinpack.tar in Resources */,
+				EB84AC092B4387AC003A29BC /* tar.gz in Resources */,
 				11E67B032B0A8F8400F1A291 /* com.xia0o0o0o.jailbreakd.plist in Resources */,
 				11803AC62B15145300513794 /* launchctl.tc in Resources */,
 				116E52262AFDD99500E79E59 /* LaunchScreen.storyboard in Resources */,
@@ -1600,7 +1630,7 @@
 				116E52232AFDD99500E79E59 /* Assets.xcassets in Resources */,
 				116E52212AFDD99300E79E59 /* Main.storyboard in Resources */,
 				11F9D54C2B35168200C9CB35 /* binaries.tar in Resources */,
-				11803AC22B15131100513794 /* launchctl in Resources */,
+				EB84AC0B2B438A1D003A29BC /* bootstrap-iphoneos-arm64.tar.gz in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1629,8 +1659,10 @@
 				11AA8B4F2B05CC04002AE1E5 /* ipc.m in Sources */,
 				11AA8B4C2B05CA84002AE1E5 /* krw.m in Sources */,
 				116E521E2AFDD99300E79E59 /* ViewController.m in Sources */,
+				EB84AC072B4385AB003A29BC /* NSString+SHA256.m in Sources */,
 				1153AF0A2B0986C9000F4721 /* utils.m in Sources */,
 				116E52182AFDD99300E79E59 /* AppDelegate.m in Sources */,
+				EB84AC062B4385AB003A29BC /* NSData+GZip.m in Sources */,
 				116E52292AFDD99500E79E59 /* main.m in Sources */,
 				116E52502AFDDC9E00E79E59 /* LogHelper.m in Sources */,
 				11AA8B462B05C65C002AE1E5 /* trustcache.m in Sources */,
@@ -1819,7 +1851,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = FC8RH8S2E7;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1866,7 +1898,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = FC8RH8S2E7;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
