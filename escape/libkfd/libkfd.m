@@ -46,7 +46,7 @@ u64 kopen(u64 puaf_pages, u64 puaf_method, u64 kread_method, u64 kwrite_method)
     assert(kwrite_method <= kwrite_IOSurface);
 */
     
-    struct kfd* kfd = kfd_init(puaf_pages, puaf_physpuppet, kread_IOSurface, kwrite_IOSurface);
+    struct kfd* kfd = kfd_init(puaf_pages, puaf_method, kread_IOSurface, kwrite_IOSurface);
     puaf_run(kfd);
     krkw_run(kfd);
     info_run(kfd);
