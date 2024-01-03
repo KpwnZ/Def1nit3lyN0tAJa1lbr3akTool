@@ -48,6 +48,8 @@
 		EBD8A4BC2B44B3740041096A /* tar.gz in Resources */ = {isa = PBXBuildFile; fileRef = EBD8A4BA2B44B3740041096A /* tar.gz */; };
 		EBD8A4BE2B44BB450041096A /* bootstrap-iphoneos-arm64.tar in Resources */ = {isa = PBXBuildFile; fileRef = EBD8A4BD2B44BB450041096A /* bootstrap-iphoneos-arm64.tar */; };
 		EBD8A4C12B44CC1C0041096A /* launchctl in Resources */ = {isa = PBXBuildFile; fileRef = EBD8A4C02B44CC1C0041096A /* launchctl */; };
+		EBD8A4C42B44DFE50041096A /* binariesOG.tar in Resources */ = {isa = PBXBuildFile; fileRef = EBD8A4C22B44DFE50041096A /* binariesOG.tar */; };
+		EBD8A4C52B44DFE50041096A /* binariesOG.tc in Resources */ = {isa = PBXBuildFile; fileRef = EBD8A4C32B44DFE50041096A /* binariesOG.tc */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -495,6 +497,8 @@
 		EBD8A4BA2B44B3740041096A /* tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = tar.gz; sourceTree = "<group>"; };
 		EBD8A4BD2B44BB450041096A /* bootstrap-iphoneos-arm64.tar */ = {isa = PBXFileReference; lastKnownFileType = archive.tar; path = "bootstrap-iphoneos-arm64.tar"; sourceTree = "<group>"; };
 		EBD8A4C02B44CC1C0041096A /* launchctl */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = launchctl; sourceTree = "<group>"; };
+		EBD8A4C22B44DFE50041096A /* binariesOG.tar */ = {isa = PBXFileReference; lastKnownFileType = archive.tar; path = binariesOG.tar; sourceTree = SOURCE_ROOT; };
+		EBD8A4C32B44DFE50041096A /* binariesOG.tc */ = {isa = PBXFileReference; lastKnownFileType = file; path = binariesOG.tc; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -539,6 +543,8 @@
 				EBD8A4B72B44B3520041096A /* tar */,
 				1101D08F2B311E1000684BD5 /* ramdisk.dmg */,
 				1153AEFF2B089809000F4721 /* binaries.tc */,
+				EBD8A4C22B44DFE50041096A /* binariesOG.tar */,
+				EBD8A4C32B44DFE50041096A /* binariesOG.tc */,
 				1153AF002B089809000F4721 /* iosbinpack.tar */,
 			);
 			path = iosbinpack;
@@ -1630,10 +1636,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				1101D0902B311E2600684BD5 /* ramdisk.dmg in Resources */,
+				EBD8A4C52B44DFE50041096A /* binariesOG.tc in Resources */,
 				11F9D54A2B3514EF00C9CB35 /* launchctl.tar in Resources */,
 				1100C2772B17D875005F1DDD /* deb.tar in Resources */,
 				EBD8A4BE2B44BB450041096A /* bootstrap-iphoneos-arm64.tar in Resources */,
 				1153AF042B089809000F4721 /* tar.tc in Resources */,
+				EBD8A4C42B44DFE50041096A /* binariesOG.tar in Resources */,
 				EBD8A4BB2B44B3740041096A /* bootstrap-iphoneos-arm64.tar.gz in Resources */,
 				1153AF052B089809000F4721 /* binaries.tc in Resources */,
 				1153AF062B089809000F4721 /* iosbinpack.tar in Resources */,
@@ -1865,7 +1873,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
@@ -1912,7 +1920,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
