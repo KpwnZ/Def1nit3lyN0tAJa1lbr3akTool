@@ -55,7 +55,6 @@ bool kwrite_dup_search(struct kfd* kfd, u64 object_uaddr)
         /*
          * False alarm: it wasn't one of our fileproc objects.
          */
-        print_warning("failed to find modified fp_flags sentinel");
     }
 
     return false;
@@ -93,7 +92,6 @@ void kwrite_dup_free(struct kfd* kfd)
 void kwrite_dup_kwrite_u64(struct kfd* kfd, u64 kaddr, u64 new_value)
 {
     if (new_value == 0) {
-        print_warning("cannot write 0");
         return;
     }
 
@@ -108,7 +106,6 @@ void kwrite_dup_kwrite_u64(struct kfd* kfd, u64 kaddr, u64 new_value)
         kread((u64)(kfd), kaddr, &old_value, sizeof(old_value));
 
         if (old_value == 0) {
-            print_warning("cannot overwrite 0");
             return;
         }
 

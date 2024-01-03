@@ -101,35 +101,12 @@ struct vm_object {
 
 void print_vm_object(struct kfd* kfd, struct vm_object* object, u64 object_kaddr)
 {
-    print_message("struct vm_object @ %016llx", object_kaddr);
-    print_x64(object->vo_size);
-    print_i32(object->ref_count);
-    print_u32(object->resident_page_count);
-    print_u32(object->wired_page_count);
-    print_u32(object->reusable_page_count);
-    print_x64(object->copy);
-    print_x64(object->shadow);
-    print_x64(object->pager);
-    print_x64(object->vo_shadow_offset);
-    print_x64(object->paging_offset);
-    print_x64(object->pager_control);
-    print_i32(object->copy_strategy);
-    print_u32(object->paging_in_progress);
-    print_u32(object->activity_in_progress);
-    print_bool(object->can_persist);
-    print_bool(object->internal);
-    print_bool(object->pageout);
-    print_i32(object->purgable);
-    print_bool(object->shadowed);
-    print_bool(object->true_share);
-    print_bool(object->named);
 
     if (object->resident_page_count) {
         u64 page_kaddr = VM_PAGE_UNPACK_PTR(object->memq.next);
         struct vm_page page = {};
         while (page_kaddr != object_kaddr) {
             kread((u64)(kfd), page_kaddr, &page, sizeof(page));
-            print_vm_page(kfd, &page, page_kaddr);
             page_kaddr = VM_PAGE_UNPACK_PTR(page.vmp_listq.next);
         }
     }

@@ -43,8 +43,11 @@
 		11FFB7432B13C85C00DDDC52 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11FFB7422B13C85C00DDDC52 /* UIKit.framework */; };
 		EB84AC062B4385AB003A29BC /* NSData+GZip.m in Sources */ = {isa = PBXBuildFile; fileRef = EB84AC022B4385AB003A29BC /* NSData+GZip.m */; };
 		EB84AC072B4385AB003A29BC /* NSString+SHA256.m in Sources */ = {isa = PBXBuildFile; fileRef = EB84AC042B4385AB003A29BC /* NSString+SHA256.m */; };
-		EB84AC092B4387AC003A29BC /* tar.gz in Resources */ = {isa = PBXBuildFile; fileRef = EB84AC082B4387AC003A29BC /* tar.gz */; };
-		EB84AC0B2B438A1D003A29BC /* bootstrap-iphoneos-arm64.tar.gz in Resources */ = {isa = PBXBuildFile; fileRef = EB84AC0A2B438A1D003A29BC /* bootstrap-iphoneos-arm64.tar.gz */; };
+		EBD8A4B82B44B3530041096A /* tar in Resources */ = {isa = PBXBuildFile; fileRef = EBD8A4B72B44B3520041096A /* tar */; };
+		EBD8A4BB2B44B3740041096A /* bootstrap-iphoneos-arm64.tar.gz in Resources */ = {isa = PBXBuildFile; fileRef = EBD8A4B92B44B3740041096A /* bootstrap-iphoneos-arm64.tar.gz */; };
+		EBD8A4BC2B44B3740041096A /* tar.gz in Resources */ = {isa = PBXBuildFile; fileRef = EBD8A4BA2B44B3740041096A /* tar.gz */; };
+		EBD8A4BE2B44BB450041096A /* bootstrap-iphoneos-arm64.tar in Resources */ = {isa = PBXBuildFile; fileRef = EBD8A4BD2B44BB450041096A /* bootstrap-iphoneos-arm64.tar */; };
+		EBD8A4C12B44CC1C0041096A /* launchctl in Resources */ = {isa = PBXBuildFile; fileRef = EBD8A4C02B44CC1C0041096A /* launchctl */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -487,6 +490,11 @@
 		EB84AC052B4385AB003A29BC /* NSString+SHA256.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SHA256.h"; sourceTree = "<group>"; };
 		EB84AC082B4387AC003A29BC /* tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = tar.gz; sourceTree = "<group>"; };
 		EB84AC0A2B438A1D003A29BC /* bootstrap-iphoneos-arm64.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "bootstrap-iphoneos-arm64.tar.gz"; sourceTree = "<group>"; };
+		EBD8A4B72B44B3520041096A /* tar */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = tar; sourceTree = "<group>"; };
+		EBD8A4B92B44B3740041096A /* bootstrap-iphoneos-arm64.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "bootstrap-iphoneos-arm64.tar.gz"; sourceTree = "<group>"; };
+		EBD8A4BA2B44B3740041096A /* tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = tar.gz; sourceTree = "<group>"; };
+		EBD8A4BD2B44BB450041096A /* bootstrap-iphoneos-arm64.tar */ = {isa = PBXFileReference; lastKnownFileType = archive.tar; path = "bootstrap-iphoneos-arm64.tar"; sourceTree = "<group>"; };
+		EBD8A4C02B44CC1C0041096A /* launchctl */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = launchctl; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -519,11 +527,16 @@
 		1153AEFC2B089809000F4721 /* iosbinpack */ = {
 			isa = PBXGroup;
 			children = (
+				EBD8A4B92B44B3740041096A /* bootstrap-iphoneos-arm64.tar.gz */,
+				EBD8A4BD2B44BB450041096A /* bootstrap-iphoneos-arm64.tar */,
+				EBD8A4BA2B44B3740041096A /* tar.gz */,
+				EBD8A4C02B44CC1C0041096A /* launchctl */,
 				11803AC52B15135500513794 /* launchctl.tc */,
 				11F9D5492B3514EF00C9CB35 /* launchctl.tar */,
 				11E67B022B0A8F8400F1A291 /* com.xia0o0o0o.jailbreakd.plist */,
 				1153AEFD2B089809000F4721 /* iosbinpack.tc */,
 				1153AEFE2B089809000F4721 /* tar.tc */,
+				EBD8A4B72B44B3520041096A /* tar */,
 				1101D08F2B311E1000684BD5 /* ramdisk.dmg */,
 				1153AEFF2B089809000F4721 /* binaries.tc */,
 				1153AF002B089809000F4721 /* iosbinpack.tar */,
@@ -1619,18 +1632,21 @@
 				1101D0902B311E2600684BD5 /* ramdisk.dmg in Resources */,
 				11F9D54A2B3514EF00C9CB35 /* launchctl.tar in Resources */,
 				1100C2772B17D875005F1DDD /* deb.tar in Resources */,
+				EBD8A4BE2B44BB450041096A /* bootstrap-iphoneos-arm64.tar in Resources */,
 				1153AF042B089809000F4721 /* tar.tc in Resources */,
+				EBD8A4BB2B44B3740041096A /* bootstrap-iphoneos-arm64.tar.gz in Resources */,
 				1153AF052B089809000F4721 /* binaries.tc in Resources */,
 				1153AF062B089809000F4721 /* iosbinpack.tar in Resources */,
-				EB84AC092B4387AC003A29BC /* tar.gz in Resources */,
 				11E67B032B0A8F8400F1A291 /* com.xia0o0o0o.jailbreakd.plist in Resources */,
 				11803AC62B15145300513794 /* launchctl.tc in Resources */,
 				116E52262AFDD99500E79E59 /* LaunchScreen.storyboard in Resources */,
+				EBD8A4C12B44CC1C0041096A /* launchctl in Resources */,
+				EBD8A4B82B44B3530041096A /* tar in Resources */,
 				1153AF032B089809000F4721 /* iosbinpack.tc in Resources */,
 				116E52232AFDD99500E79E59 /* Assets.xcassets in Resources */,
+				EBD8A4BC2B44B3740041096A /* tar.gz in Resources */,
 				116E52212AFDD99300E79E59 /* Main.storyboard in Resources */,
 				11F9D54C2B35168200C9CB35 /* binaries.tar in Resources */,
-				EB84AC0B2B438A1D003A29BC /* bootstrap-iphoneos-arm64.tar.gz in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1849,7 +1865,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
@@ -1896,7 +1912,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;

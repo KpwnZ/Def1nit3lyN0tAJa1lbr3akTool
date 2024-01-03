@@ -159,40 +159,7 @@ void print_vm_page(struct kfd* kfd, struct vm_page* page, u64 page_kaddr)
     assert(vm_page_array_ending_addr);
     assert(vm_first_phys_ppnum);
 
-    print_message("struct vm_page @ %016llx", page_kaddr);
     struct vm_page* p = (struct vm_page*)(page_kaddr);
-    print_x32(VM_PAGE_GET_PHYS_PAGE(p));
-    print_x64(VM_PAGE_OBJECT(page));
-    print_x64(page->vmp_offset);
-    print_u32(page->vmp_q_state);
-    print_u32(page->vmp_on_specialq);
-    print_bool(page->vmp_gobbled);
-    print_bool(page->vmp_laundry);
-    print_bool(page->vmp_no_cache);
-    print_bool(page->vmp_private);
-    print_bool(page->vmp_reference);
-    print_bool(page->vmp_lopage);
-    print_bool(page->vmp_realtime);
-    print_bool(page->vmp_busy);
-    print_bool(page->vmp_wanted);
-    print_bool(page->vmp_tabled);
-    print_bool(page->vmp_hashed);
-    print_bool(page->vmp_fictitious);
-    print_bool(page->vmp_clustered);
-    print_bool(page->vmp_pmapped);
-    print_bool(page->vmp_xpmapped);
-    print_bool(page->vmp_wpmapped);
-    print_bool(page->vmp_free_when_done);
-    print_bool(page->vmp_absent);
-    print_bool(page->vmp_error);
-    print_bool(page->vmp_dirty);
-    print_bool(page->vmp_cleaning);
-    print_bool(page->vmp_precious);
-    print_bool(page->vmp_overwriting);
-    print_bool(page->vmp_restart);
-    print_bool(page->vmp_unusual);
-    print_bool(page->vmp_reusable);
-    print_bool(page->vmp_written_by_kernel);
 }
 
 #endif /* vm_page_h */

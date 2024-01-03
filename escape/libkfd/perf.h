@@ -138,7 +138,7 @@ void perf_init(struct kfd* kfd)
     char hw_model[16] = {};
     usize size = sizeof(hw_model);
     assert_bsd(sysctlbyname("hw.model", hw_model, &size, NULL, 0));
-    print_string(hw_model);
+   // print_string(hw_model);
 
     const char iphone_14_pro_max[] = "D74AP";
     if (memcmp(hw_model, iphone_14_pro_max, sizeof(iphone_14_pro_max))) {
@@ -214,7 +214,6 @@ void perf_run(struct kfd* kfd)
     u64 kernel_slide = vn_kqfilter - kc->vn_kqfilter;
     u64 kernel_base = kc->kernel_base + kernel_slide;
     kfd->info.kernel.kernel_slide = kernel_slide;
-    print_x64(kfd->info.kernel.kernel_slide);
 
     u32 mh_header[2] = {};
     mh_header[0] = kread_sem_open_kread_u32(kfd, kernel_base);
@@ -277,15 +276,12 @@ void perf_run(struct kfd* kfd)
 
     u64 gVirtBase_kaddr = kc->gVirtBase + kernel_slide;
     kread((u64)(kfd), gVirtBase_kaddr, &kfd->info.kernel.gVirtBase, sizeof(kfd->info.kernel.gVirtBase));
-    print_x64(kfd->info.kernel.gVirtBase);
 
     u64 gPhysBase_kaddr = kc->gPhysBase + kernel_slide;
     kread((u64)(kfd), gPhysBase_kaddr, &kfd->info.kernel.gPhysBase, sizeof(kfd->info.kernel.gPhysBase));
-    print_x64(kfd->info.kernel.gPhysBase);
 
     u64 gPhysSize_kaddr = kc->gPhysSize + kernel_slide;
     kread((u64)(kfd), gPhysSize_kaddr, &kfd->info.kernel.gPhysSize, sizeof(kfd->info.kernel.gPhysSize));
-    print_x64(kfd->info.kernel.gPhysSize);
 
     assert(kfd->info.kernel.current_pmap);
     u64 ttbr0_va_kaddr = kfd->info.kernel.current_pmap + static_offsetof(pmap, tte);
