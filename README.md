@@ -14,6 +14,7 @@ It can not be done without kfd, kfund, Dopamine and jailbreak community.
 Tested on: 
 - iPhone X, iOS 16.5
 - iPhone 8, iOS 16.5
+- iPhone 8, iOS 16.0
 
 ## Known issues
 
