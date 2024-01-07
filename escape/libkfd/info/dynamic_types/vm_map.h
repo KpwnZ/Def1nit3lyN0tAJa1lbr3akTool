@@ -263,6 +263,47 @@ struct _vm_map {
 
 void print_vm_map(struct kfd* kfd, struct _vm_map* map, u64 map_kaddr)
 {
+    print_message("struct _vm_map @ %016llx", map_kaddr);
+    print_x64(map->hdr.links.prev);
+    print_x64(map->hdr.links.next);
+    print_x64(map->hdr.links.start);
+    print_x64(map->hdr.links.end);
+    print_i32(map->hdr.nentries);
+    print_u16(map->hdr.page_shift);
+    print_bool(map->hdr.entries_pageable);
+    print_x64(map->hdr.rb_head_store.rbh_root);
+    print_x64(map->pmap);
+    print_x64(map->size);
+    print_x64(map->size_limit);
+    print_x64(map->data_limit);
+    print_x64(map->user_wire_limit);
+    print_x64(map->user_wire_size);
+    print_x64(map->vmu1.vmu1_lowest_unnestable_start);
+    print_x64(map->hint);
+    print_x64(map->vmmap_u_1.vmmap_hole_hint);
+    print_x64(map->f_s._holes);
+    print_u32(map->map_refcnt);
+    print_bool(map->wait_for_space);
+    print_bool(map->wiring_required);
+    print_bool(map->no_zero_fill);
+    print_bool(map->mapped_in_other_pmaps);
+    print_bool(map->switch_protect);
+    print_bool(map->disable_vmentry_reuse);
+    print_bool(map->map_disallow_data_exec);
+    print_bool(map->holelistenabled);
+    print_bool(map->is_nested_map);
+    print_bool(map->map_disallow_new_exec);
+    print_bool(map->jit_entry_exists);
+    print_bool(map->has_corpse_footprint);
+    print_bool(map->terminated);
+    print_bool(map->is_alien);
+    print_bool(map->cs_enforcement);
+    print_bool(map->cs_debugged);
+    print_bool(map->reserved_regions);
+    print_bool(map->single_jit);
+    print_bool(map->never_faults);
+    print_bool(map->uses_user_ranges);
+    print_u32(map->timestamp);
 }
 
 #endif /* vm_map_h */

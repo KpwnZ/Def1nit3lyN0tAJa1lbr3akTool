@@ -2,7 +2,7 @@ TARGET = jailbreakd
 
 CC = clang++
 
-CFLAGS = -Wall -std=c++11 -framework Foundation -framework CoreServices -framework Security -framework IOKit -framework UIKit -I./_shared -I./ -I./utils -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -arch arm64 -miphoneos-version-min=15 -fobjc-arc -Wno-nullability-completeness-on-arrays -O3
+CFLAGS = -Wall -std=c++11 -framework Foundation -framework CoreServices -framework Security -framework IOKit -framework UIKit -I./_shared -I./ -I./utils -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -arch arm64 -miphoneos-version-min=15.4 -fobjc-arc -Wno-nullability-completeness-on-arrays -O3
 LDFLAGS = -lbsm
 
 CFLAGS += -DVERSION_COMMIT_COUNT='" "'

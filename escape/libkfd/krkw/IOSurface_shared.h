@@ -30,6 +30,8 @@ extern "C" {
 
 #define CHECK_IOKIT_ERR(kr,name)  do {                          \
                 if (kr != KERN_SUCCESS) {                       \
+                        printf("%s : %s (0x%x)\n",              \
+                               name,mach_error_string(kr),kr);  \
                 }                                               \
         }while(0);
         typedef uint64_t u64;
@@ -134,14 +136,14 @@ io_connect_t iokit_get_connection(const char *name,unsigned int type)
         io_service_t service  = IOServiceGetMatchingService(kIOMasterPortDefault,
                                                             IOServiceMatching(name));
         if (service == IO_OBJECT_NULL) {
-//                printf("unable to find service \n");
+                printf("unable to find service \n");
                 exit(-1);
         }
 
         io_connect_t conn = MACH_PORT_NULL;
         kern_return_t kr = IOServiceOpen(service, mach_task_self(), type, &conn);
         if(kr != KERN_SUCCESS) {
-  //              printf("[x] Could not open %s: %s\n",name,mach_error_string(kr));
+                printf("[x] Could not open %s: %s\n",name,mach_error_string(kr));
                 exit(-1);
 
         }

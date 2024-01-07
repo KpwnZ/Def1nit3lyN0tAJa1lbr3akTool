@@ -16,6 +16,7 @@ void puaf_helper_give_ppl_pages(void);
 #define puaf_method_case(method)                                 \
     case puaf_##method: {                                        \
         const char* method_name = #method;                       \
+        print_string(method_name);                               \
         kfd->puaf.puaf_method_ops.init = method##_init;          \
         kfd->puaf.puaf_method_ops.run = method##_run;            \
         kfd->puaf.puaf_method_ops.cleanup = method##_cleanup;    \
@@ -40,12 +41,16 @@ void puaf_run(struct kfd* kfd)
 {
     puaf_helper_give_ppl_pages();
 
+    timer_start();
     kfd->puaf.puaf_method_ops.run(kfd);
+    timer_end();
 }
 
 void puaf_cleanup(struct kfd* kfd)
 {
+    timer_start();
     kfd->puaf.puaf_method_ops.cleanup(kfd);
+    timer_end();
 }
 
 void puaf_free(struct kfd* kfd)
@@ -109,8 +114,9 @@ void puaf_helper_get_vm_map_min_and_max(u64* min_out, u64* max_out)
 
 void puaf_helper_give_ppl_pages(void)
 {
+    timer_start();
 
-    const u64 given_ppl_pages_max = 10000;//2500;//10000;
+    const u64 given_ppl_pages_max = 10000;
     const u64 l2_block_size = (1ull << 25);
 
     vm_address_t addresses[given_ppl_pages_max] = {};
@@ -144,6 +150,8 @@ void puaf_helper_give_ppl_pages(void)
         assert_mach(vm_deallocate(mach_task_self(), addresses[i], pages(1)));
     }
 
+    print_u64(given_ppl_pages);
+    timer_end();
 }
 
 #endif /* puaf_h */

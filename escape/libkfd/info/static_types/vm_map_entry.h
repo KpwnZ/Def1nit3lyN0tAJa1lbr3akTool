@@ -102,15 +102,54 @@ static inline u64 VME_OFFSET(struct vm_map_entry* entry)
 
 void print_vm_map_entry(struct kfd* kfd, struct vm_map_entry* entry, u64 entry_kaddr)
 {
+    print_message("struct vm_map_entry @ %016llx", entry_kaddr);
+    print_x64(entry->vme_prev);
+    print_x64(entry->vme_next);
+    print_x64(entry->vme_start);
+    print_x64(entry->vme_end);
+    print_x64(entry->store.entry.rbe_left);
+    print_x64(entry->store.entry.rbe_right);
+    print_x64(entry->store.entry.rbe_parent);
+    print_bool(entry->is_sub_map);
 
     u64 object_kaddr = 0;
     if (!entry->is_sub_map) {
         object_kaddr = VME_OBJECT(entry);
+        print_x64(VME_OBJECT(entry));
+        print_x64(VME_OFFSET(entry));
     }
+
+    print_i32(entry->vme_alias);
+    print_bool(entry->is_shared);
+    print_bool(entry->in_transition);
+    print_bool(entry->needs_wakeup);
+    print_i32(entry->behavior);
+    print_bool(entry->needs_copy);
+    print_i32(entry->protection);
+    print_bool(entry->used_for_tpro);
+    print_i32(entry->max_protection);
+    print_i32(entry->inheritance);
+    print_bool(entry->use_pmap);
+    print_bool(entry->no_cache);
+    print_bool(entry->vme_permanent);
+    print_bool(entry->superpage_size);
+    print_bool(entry->map_aligned);
+    print_bool(entry->zero_wired_pages);
+    print_bool(entry->used_for_jit);
+    print_bool(entry->pmap_cs_associated);
+    print_bool(entry->iokit_acct);
+    print_bool(entry->vme_resilient_codesign);
+    print_bool(entry->vme_resilient_media);
+    print_bool(entry->vme_no_copy_on_read);
+    print_bool(entry->translated_allow_execute);
+    print_bool(entry->vme_kernel_object);
+    print_u16(entry->wired_count);
+    print_u16(entry->user_wired_count);
 
     if (object_kaddr) {
         struct vm_object object = {};
         kread((u64)(kfd), object_kaddr, &object, sizeof(object));
+        print_vm_object(kfd, &object, object_kaddr);
     }
 }
 

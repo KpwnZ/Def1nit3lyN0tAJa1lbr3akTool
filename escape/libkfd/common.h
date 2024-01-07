@@ -118,7 +118,10 @@ typedef uintptr_t usize;
 #define assert(condition)                                               \
     do {                                                                \
         if (!(condition)) {                                             \
-            sleep(3);                                                  \
+            print_failure("assertion failed: (%s)", #condition);        \
+            print_failure("file: %s, line: %d", __FILE__, __LINE__);    \
+            print_failure("... sleep(30) before exit(1) ...");          \
+            sleep(30);                                                  \
             exit(1);                                                    \
         }                                                               \
     } while (0)

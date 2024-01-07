@@ -1,1 +1,0 @@
-void initDaemonHooks(void);

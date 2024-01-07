@@ -88,18 +88,15 @@
 - (void)logButtonTapped {
     [[LogHelper sharedInstance] logMessage:@"[*] start kfd"];
     self.jailbreakButton.enabled = NO;
-   /* for (int i = 0; i < 0x10; ++i) {
+    for (int i = 0; i < 0x10; ++i) {
         sleep(1);
     }
-   */
     [self.jailbreakButton setTitle:@"jailbreaking" forState:UIControlStateNormal];
     u64 kread_method = kread_IOSurface;
     if (@available(iOS 16, *)) {
         kread_method = kread_sem_open;
     }
-    uint64_t kfd = kopen(0x780, puaf_smith, kread_method, kwrite_IOSurface);
-    //    uint64_t kfd = kopen(0x780, puaf_physpuppet, kread_method, kwrite_IOSurface);
-
+    uint64_t kfd = kopen(2048, puaf_smith, kread_method, kwrite_IOSurface);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         post_exp(kfd);
         kclose(kfd);

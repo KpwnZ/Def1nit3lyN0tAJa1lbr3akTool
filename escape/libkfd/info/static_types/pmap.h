@@ -53,6 +53,49 @@ struct pmap {
 
 void print_pmap(struct kfd* kfd, struct pmap* pmap, u64 pmap_kaddr)
 {
+    print_message("struct pmap @ %016llx", pmap_kaddr);
+    print_x64(pmap->tte);
+    print_x64(pmap->ttep);
+    print_x64(pmap->min);
+    print_x64(pmap->max);
+    print_x64(pmap->pmap_pt_attr);
+    print_x64(pmap->ledger);
+    print_x64(pmap->rwlock[0]);
+    print_x64(pmap->rwlock[1]);
+    print_x64(pmap->pmaps.next);
+    print_x64(pmap->pmaps.prev);
+    print_x64(pmap->tt_entry_free);
+    print_x64(pmap->nested_pmap);
+    print_x64(pmap->nested_region_addr);
+    print_x64(pmap->nested_region_size);
+    print_x64(pmap->nested_region_true_start);
+    print_x64(pmap->nested_region_true_end);
+    print_x64(pmap->nested_region_asid_bitmap);
+    print_x32(pmap->nested_region_asid_bitmap_size);
+    print_x64(pmap->reserved0);
+    print_x64(pmap->reserved1);
+    print_x64(pmap->reserved2);
+    print_x64(pmap->reserved3);
+    print_i32(pmap->ref_count);
+    print_i32(pmap->nested_count);
+    print_x32(pmap->nested_no_bounds_refcnt);
+    print_x16(pmap->hw_asid);
+    print_x8(pmap->sw_asid);
+    print_bool(pmap->reserved4);
+    print_bool(pmap->pmap_vm_map_cs_enforced);
+    print_bool(pmap->reserved5);
+    print_x32(pmap->reserved6);
+    print_x32(pmap->reserved7);
+    print_bool(pmap->reserved8);
+    print_bool(pmap->reserved9);
+    print_bool(pmap->is_rosetta);
+    print_bool(pmap->nx_enabled);
+    print_bool(pmap->is_64bit);
+    print_bool(pmap->nested_has_no_bounds_ref);
+    print_bool(pmap->nested_bounds_set);
+    print_bool(pmap->disable_jop);
+    print_bool(pmap->reserved11);
+    print_x8(pmap->type);
 }
 
 #endif /* pmap_h */
