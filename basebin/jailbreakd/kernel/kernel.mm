@@ -14,7 +14,7 @@ BOOL setup_client() {
     JBLogDebug("[*] setup kcall");
 
     io_service_t service = IOServiceGetMatchingService(
-        kIOMasterPortDefault, IOServiceMatching("IOSurfaceRoot"));
+        kIOMasterPortDefault, IOServiceMatching("AppleKeyStore"));
 
     if (service == IO_OBJECT_NULL) {
         JBLogDebug("[-] Failed to get IOSurfaceRoot service");
