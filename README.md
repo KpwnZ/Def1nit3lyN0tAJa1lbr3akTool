@@ -19,5 +19,3 @@ Tested on:
 
 - Sideloading would break something, please build with Xcode or use Trollstore.
 - Userspace reboot is not supported now.
-- Probably won’t work for several iOS 16 versions such as iOS 16.0 to iOS 16.3.
-- Watchdog problem on iPhone 8
