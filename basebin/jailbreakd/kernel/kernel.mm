@@ -17,14 +17,14 @@ BOOL setup_client() {
         kIOMasterPortDefault, IOServiceMatching("AppleKeyStore"));
 
     if (service == IO_OBJECT_NULL) {
-        JBLogDebug("[-] Failed to get IOSurfaceRoot service");
+        JBLogDebug("[-] Failed to get AppleKeyStore service");
         return NO;
     }
 
     io_connect_t conn = MACH_PORT_NULL;
     kern_return_t kr = IOServiceOpen(service, mach_task_self(), 0, &conn);
     if (kr != KERN_SUCCESS) {
-        JBLogDebug("[-] Failed to open IOSurfaceRoot service");
+        JBLogDebug("[-] Failed to open AppleKeyStore service");
         return NO;
     }
     user_client = conn;
