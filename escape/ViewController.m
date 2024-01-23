@@ -45,7 +45,7 @@
     UILabel *label = [[UILabel alloc] init];
     label.text = @"By xia0o0o0o";
     [label sizeToFit];
-    label.font = [UIFont systemFontOfSize:15];
+    label.font = [UIFont monospacedSystemFontOfSize:15 weight:1];
     [self.view addSubview:label];
     
     // Set up constraints
@@ -83,6 +83,22 @@
     [[LogHelper sharedInstance] logWithFormat:@"[*] release: %s", u.release];
     [[LogHelper sharedInstance] logWithFormat:@"[*] version: %s", u.version];
     [[LogHelper sharedInstance] logWithFormat:@"[*] machine: %s", u.machine];
+    
+    // Get iOS Version
+    NSOperatingSystemVersion version = [[NSProcessInfo processInfo] operatingSystemVersion];
+    [[LogHelper sharedInstance] logWithFormat:@"[*] iOS Version: %@.%@.%@", @(version.majorVersion), @(version.minorVersion), @(version.patchVersion)];
+    NSString *unsupportedMessage = @"[*] !!! Only iOS 15.7-16.5 is supported !!!";
+    if (version.majorVersion < 15 || (version.majorVersion == 15 && version.minorVersion < 7)) {
+        [[LogHelper sharedInstance] logMessage:unsupportedMessage];
+    } else if (version.majorVersion > 16) {
+        [[LogHelper sharedInstance] logMessage:unsupportedMessage];
+    } else if (version.majorVersion == 16 && version.minorVersion > 5) {
+        if (version.minorVersion == 6) {
+            [[LogHelper sharedInstance] logMessage:@"[*] !!! iOS 16.6 support is experimental, you may encounter issues !!!"];
+        } else {
+            [[LogHelper sharedInstance] logMessage:unsupportedMessage];
+        }
+    }
 }
 
 - (void)logButtonTapped {
