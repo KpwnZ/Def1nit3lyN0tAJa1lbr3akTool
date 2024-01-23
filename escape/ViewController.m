@@ -87,14 +87,14 @@
     // Get iOS Version
     NSOperatingSystemVersion version = [[NSProcessInfo processInfo] operatingSystemVersion];
     [[LogHelper sharedInstance] logWithFormat:@"[*] iOS Version: %@.%@.%@", @(version.majorVersion), @(version.minorVersion), @(version.patchVersion)];
-    NSString *unsupportedMessage = @"[*] !!! Only iOS 15.7-16.5 is supported !!!";
+    NSString *unsupportedMessage = @"[!] !!! Only iOS 15.7-16.5 is supported !!!";
     if (version.majorVersion < 15 || (version.majorVersion == 15 && version.minorVersion < 7)) {
         [[LogHelper sharedInstance] logMessage:unsupportedMessage];
     } else if (version.majorVersion > 16) {
         [[LogHelper sharedInstance] logMessage:unsupportedMessage];
     } else if (version.majorVersion == 16 && version.minorVersion > 5) {
         if (version.minorVersion == 6) {
-            [[LogHelper sharedInstance] logMessage:@"[*] !!! iOS 16.6 support is experimental, you may encounter issues !!!"];
+            [[LogHelper sharedInstance] logMessage:@"[!] !!! iOS 16.6 support is experimental, you may encounter issues !!!"];
         } else {
             [[LogHelper sharedInstance] logMessage:unsupportedMessage];
         }
@@ -112,7 +112,20 @@
     if (@available(iOS 16, *)) {
         kread_method = kread_sem_open;
     }
-    uint64_t kfd = kopen(2048, puaf_smith, kread_method, kwrite_IOSurface);
+    u64 puaf_method = puaf_smith;
+    u64 puaf_pages = 2048;
+
+    // check if we are on 16.1.x
+    NSOperatingSystemVersion currentVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
+    BOOL is_on_16_5_1_and_above =
+        (currentVersion.majorVersion == 16 && currentVersion.minorVersion == 5 && currentVersion.patchVersion == 1) ||
+        (currentVersion.majorVersion == 16 && currentVersion.minorVersion > 5);
+    if (is_on_16_5_1_and_above) {
+        puaf_method = puaf_landa;
+        puaf_pages = 512;
+    }
+    sleep(1);
+    uint64_t kfd = kopen(puaf_pages, puaf_method, kread_method, kwrite_sem_open);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         post_exp(kfd);
         kclose(kfd);
