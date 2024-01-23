@@ -66,3 +66,4 @@ uint64_t pmap_get_ttep(uint64_t pmap);
 
 void proc_updatecsflags(uint64_t proc, uint32_t csflags);
 uint32_t proc_get_csflags(uint64_t proc);
+void task_set_flags(uint64_t task, uint64_t flags);

@@ -13,7 +13,7 @@ sign: $(TARGET)
 	mv $< ../../binaries
 	rm ../../binaries/jb.tc || true
 	trustcache create -v $(TRUSTCACHEVERSION) ../../binaries/jb.tc ../../binaries
-
+	cd ../../binaries && tar -cvf ../binaries.tar ./
 $(TARGET): $(wildcard *.mm ./utils/*.mm ./kernel/*.mm)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^
 

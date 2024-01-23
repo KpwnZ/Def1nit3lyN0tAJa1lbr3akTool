@@ -87,3 +87,11 @@ uint32_t proc_get_csflags(uint64_t proc) {
     uint64_t p_csflags_with_p_idversion = kread64(proc_ro + 0x1c);
     return p_csflags_with_p_idversion & 0xFFFFFFFF;
 }
+
+void task_set_flags(uint64_t task, uint64_t flags) {
+    // todo: set flags
+}
+
+void proc_fix_setuid(uint64_t proc) {
+    // todo: fix setuid
+}
