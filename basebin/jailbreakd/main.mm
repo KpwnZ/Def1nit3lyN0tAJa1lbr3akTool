@@ -208,6 +208,7 @@ void jailbreakd_received_message(mach_port_t machPort, bool systemwide) {
                 kernel_info.kernel_functions.kread_gadget = xpc_dictionary_get_uint64(message, "kread_gadget");
                 kernel_info.kernel_functions.kwrite_gadget = xpc_dictionary_get_uint64(message, "kwrite_gadget");
                 kernel_info.kernel_functions.proc_updatecsflags = xpc_dictionary_get_uint64(message, "proc_updatecsflags");
+                kernel_info.kernel_functions.task_set_flags = xpc_dictionary_get_uint64(message, "task_set_flags");
                 
                 JBLogDebug("[jailbreakd] received kernel info: kbase: 0x%llx, kslide: 0x%llx", kernel_info.kbase, kernel_info.kslide);
                 JBLogDebug("[jailbreakd] received kernel info: fake_userclient: 0x%llx, fake_userclient_vtable: 0x%llx", kernel_info.fake_userclient, kernel_info.fake_userclient_vtable);
@@ -320,15 +321,15 @@ void jailbreakd_received_message(mach_port_t machPort, bool systemwide) {
             if (msgId == JBD_MSG_PROC_SET_DEBUGGED) {
                 int64_t result = 0;
                 pid_t pid = xpc_dictionary_get_int64(message, "pid");
-                JBLogDebug("[jailbreakd] setting other process %s as debugged",
+                JBLogDebug("[jailbreakd] JBD_MSG_PROC_SET_DEBUGGED setting other process %s as debugged",
                            proc_get_path(pid).UTF8String);
                 uint64_t proc = proc_for_pid(pid);
                 if (proc == 0) {
-                    JBLogDebug("[-] Failed to find proc for pid %d", clientPid);
+                    JBLogDebug("[jailbreakd] JBD_MSG_PROC_SET_DEBUGGED Failed to find proc for pid %d", clientPid);
                     result = -1;
                 } else {
                     uint32_t csflags = proc_get_csflags(proc);
-                    JBLogDebug("[jailbreakd] orig_csflags: 0x%x", csflags);
+                    JBLogDebug("[jailbreakd] JBD_MSG_PROC_SET_DEBUGGED orig_csflags: 0x%x", csflags);
                     csflags = csflags | CS_DEBUGGED | CS_PLATFORM_BINARY | CS_INSTALLER | CS_GET_TASK_ALLOW;
                     csflags &= ~(CS_RESTRICT | CS_HARD | CS_KILL);
                     proc_updatecsflags(proc, csflags);
@@ -366,6 +367,10 @@ void jailbreakd_received_message(mach_port_t machPort, bool systemwide) {
                     csflags = csflags | CS_DEBUGGED | CS_PLATFORM_BINARY | CS_INSTALLER | CS_GET_TASK_ALLOW;
                     csflags &= ~(CS_RESTRICT | CS_HARD | CS_KILL);
                     proc_updatecsflags(proc, csflags);
+
+                    // get task
+                    uint64_t task = proc_get_task(proc);
+                    task_set_flags(task, 1);
                 }
                 xpc_dictionary_set_int64(reply, "ret", result);
             }
