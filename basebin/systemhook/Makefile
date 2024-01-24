@@ -10,6 +10,6 @@ $(TARGET): $(wildcard src/*.m src/*.c)
 	mv systemhook.dylib ../../binaries
 	rm ../../binaries/jb.tc
 	trustcache create -v $(TRUSTCACHEVERSION) ../../binaries/jb.tc ../../binaries
-	
+	cd ../../binaries && tar -cvf ../binaries.tar ./
 clean:
 	@rm -f $(TARGET)
