@@ -12,6 +12,7 @@ void puaf_helper_give_ppl_pages(void);
 
 #include "puaf/physpuppet.h"
 #include "puaf/smith.h"
+#include "puaf/landa.h"
 
 #define puaf_method_case(method)                                 \
     case puaf_##method: {                                        \
@@ -32,6 +33,7 @@ void puaf_init(struct kfd* kfd, u64 puaf_pages, u64 puaf_method)
     switch (puaf_method) {
         puaf_method_case(physpuppet)
         puaf_method_case(smith)
+        puaf_method_case(landa)
     }
 
     kfd->puaf.puaf_method_ops.init(kfd);

