@@ -2,6 +2,8 @@
  * Copyright (c) 2023 Félix Poulin-Bélanger. All rights reserved.
  */
 
+#import "objcLogger.h"
+
 #ifndef landa_h
 #define landa_h
 
@@ -28,7 +30,7 @@ void landa_init(struct kfd* kfd)
 
 void landa_run(struct kfd* kfd)
 {
-    NSLog(@"[DEBUG] landa start");
+    LOG(@"[DEBUG] landa start");
     struct landa_data* landa = (struct landa_data*)(kfd->puaf.puaf_method_data);
 
     /*

