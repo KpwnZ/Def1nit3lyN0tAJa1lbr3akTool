@@ -1,6 +1,6 @@
 # Def1nit3lyN0tAJa1lbr3akTool
 
-An incomplete jailbreak tool for iOS 15.7 to iOS 16.5 with experimental support for iOS 16.6; iPhone X. I built it just for fun.
+An incomplete jailbreak tool for iOS 15.7 to iOS 16.5 with experimental support for iOS 16.6 (up to Beta 1); iPhone X. I built it just for fun.
 
 This could not have been possible without kfd, kfund, Dopamine and the jailbreak community.
 
@@ -12,9 +12,22 @@ This could not have been possible without kfd, kfund, Dopamine and the jailbreak
 ## Current status
 
 Tested on: 
-- iPhone X, iOS 16.5, iOS 16.4.1, iOS 16.3.1, iOS 16.1.2, iOS 16.1.1, iOS 16.1, iOS 16.0.2
-- iPhone 8, iOS 16.5, iOS 16.4, iOS 16.1.2, iOS 16.0
-- iPad 6, iOS 16.5
+- iPhone X:
+  - iOS 16.6 Beta 1 (20G5026e)
+  - iOS 16.5
+  - iOS 16.4.1
+  - iOS 16.3.1
+  - iOS 16.1.2
+  - iOS 16.1.1
+  - iOS 16.1
+  - iOS 16.0.2
+- iPhone 8
+  - iOS 16.5
+  - iOS 16.4
+  - iOS 16.1.2
+  - iOS 16.0
+- iPad 6
+  - iOS 16.5
 
 ## Known issues
 
