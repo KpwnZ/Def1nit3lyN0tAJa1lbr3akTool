@@ -223,7 +223,21 @@ int execvP_hook(const char *file, const char *search_path, char *const argv[]) {
 }
 
 void *dlopen_hook(const char *path, int mode) {
-    if (path) {
+    char thread_path[1024] = {0};
+    uint32_t bufsize = 1024;
+    _NSGetExecutablePath(thread_path, &bufsize);
+    char *thread_path_real = realpath(thread_path, NULL);
+    int is_in_webkit = 0;
+    if (thread_path_real != NULL) {
+        if (strstr(thread_path_real, "WebKit") != NULL) {
+            is_in_webkit = 1;
+        }        
+        if (strstr(thread_path_real, "WebContent") != NULL) {
+            is_in_webkit = 1;
+        }
+        free(thread_path_real);
+    }
+    if (path && !is_in_webkit) {
         jbdswProcessLibrary(path);
     }
 
@@ -391,6 +405,7 @@ __attribute__((constructor)) static void initializer(void) {
     if (stat(gExecutablePath, &sb) == 0) {
         if (S_ISREG(sb.st_mode) && (sb.st_mode & (S_ISUID | S_ISGID))) {
             jbdswFixSetuid();
+            jbdswPlatformize(getpid());
         }
     }
 
