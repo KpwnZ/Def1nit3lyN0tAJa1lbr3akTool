@@ -21,7 +21,8 @@ Tested on:
   - iOS 16.1.1
   - iOS 16.1
   - iOS 16.0.2
-- iPhone 8
+- iPhone 8  
+  - iOS 16.6 Beta 1 (Build 20G5026e)
   - iOS 16.5
   - iOS 16.4
   - iOS 16.1.2
