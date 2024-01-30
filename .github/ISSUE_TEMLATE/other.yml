@@ -1,0 +1,55 @@
+name: Bug Report
+description: For any other issues with Def1nit3lyN0tAJa1lbr3akTool
+title: "[Other]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please make sure there isn't already an issue for your problem, check the closed issues as well.
+  - type: input
+    id: ios-version
+    attributes:
+      label: iOS Version
+      description: What version of iOS are you running?
+      placeholder: "16.5.0"
+    validations:
+      required: true
+  - type: input
+    id: ios-version
+    attributes:
+      label: Def1nit3lyN0tAJa1lbr3ak Version
+      description: What version of Def1nit3lyN0tAJa1lbr3akTool are you running?
+      placeholder: "1.0.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: jb-status
+    attributes:
+      label: Jailbreak Status
+      description: Have you already jailbroken your device?
+      options:
+        - Yes (with notajailbreak)
+        - Yes (with other rootless jailbreak)
+        - Yes (with other rootfull jailbreak)
+        - No
+    validations:
+      required: true
+  - type: dropdown
+    id: jb-when-crash
+    attributes:
+      label: Were you jailbroken when the crash happened?
+      options:
+        - Yes
+        - No
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: When did the crash happen? What were you doing?
+      placeholder: Tell us what you see!
+      value: "A bug happened!"
+    validations:
+      required: true
