@@ -1,0 +1,31 @@
+name: Feature Request
+description: For feature requests or changes to Def1nit3lyN0tAJa1lbr3akTool
+title: "[Request a Feature/Change]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please make sure there isn't already an issue for your idea, check the closed issues as well.
+  - type: textarea
+    id: what-do-you-want
+    attributes:
+      label: Description
+      description: What do you want to see in Def1nit3lyN0tAJa1lbr3akTool?
+  - type: textarea
+    id: why-do-you-want-it
+    attributes:
+      label: Why do you want it?
+      description: Why do you want this feature? What would it help you with?
+  - type: textarea
+    id: implementation
+    attributes:
+      label: Implementation
+      description: How would you like to see this feature implemented?
+  - type: dropdown
+    id: pr
+    attributes:
+      label: Are you willing to make a PR?
+      options:
+        - Yes
+        - No
