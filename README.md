@@ -1,6 +1,6 @@
 # Def1nit3lyN0tAJa1lbr3akTool
 
-A jailbreak tool for iOS 15.7 and iOS 16.0 to iOS 16.6.1. I built it just for fun.
+A jailbreak tool for iOS 16.0 to iOS 16.6.1. I built it just for fun.
 
 This could not have been possible without kfd, kfund, Dopamine and the jailbreak community.
 
