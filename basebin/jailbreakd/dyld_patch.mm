@@ -22,8 +22,7 @@ int applyDyldPatches(NSString *dyldPath) {
         (CSRange(*)(CSSymbolRef))dlsym(csHandle, "CSSymbolGetRange");
         
     CSSymbolicatorRef symbolicator =
-        __CSSymbolicatorCreateWithPathAndArchitecture("/usr/lib/dyld",
-                                                      CPU_TYPE_ARM64);
+        __CSSymbolicatorCreateWithPathAndArchitecture("/usr/lib/dyld", CPU_TYPE_ARM64);
     CSSymbolRef symbol = __CSSymbolicatorGetSymbolWithMangledNameAtTime(
         symbolicator,
         "__ZN5dyld413ProcessConfig8Security7getAMFIERKNS0_7ProcessERNS_15SyscallDelegateE",
@@ -44,7 +43,7 @@ int applyDyldPatches(NSString *dyldPath) {
     };
     fwrite(patchInstr, sizeof(patchInstr), 1, dyldFile);
 
-    // temporary workaround for iOS 16
+    // Def1nit3lyN0tAJa1lbr3akTool temporary workaround for iOS 16
     // In iOS 16, dyld will switch to dyld in cache
     // thus make our getAMFI patch useless
     // the following patch will make dyld always use dyld on disk
