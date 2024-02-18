@@ -32,6 +32,8 @@ Tested on:
   - iOS 16.4
   - iOS 16.1.2
   - iOS 16.0
+- iPhone SE 2nd Gen (2020)
+  - iOS 16.6 Beta 1 (Build 20G5026e)
 - iPad 6
   - iOS 16.5
 
@@ -39,3 +41,4 @@ Tested on:
 
 - Sideloading would break something, please build with Xcode or use Trollstore.
 - Userspace reboot is not supported now.
+- On iPhone SE 2nd Gen (2020) you may have to enable airplane mode to get it to be successful. Also must install Trollstore with TrollStar (installed via altstore then use trollstore to install bootstrap and this tool)
